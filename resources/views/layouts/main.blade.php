@@ -68,14 +68,9 @@
 				<message-notify></message-notify>
 
 			</el-header>
-			<el-main id="container">
-				<div>
-					<h3> @yield('title','') </h3>
-				</div>
-				<div >
-					@yield('content')
-
-				</div>
+			<el-main id="container" style="padding:0">
+				<bread-crumb></bread-crumb>
+				<div id="body_content">@yield('content')</div>
 			</el-main>
 		</el-container>
 	</el-container>
@@ -125,16 +120,33 @@
 	.float_r {
 		float: right;
 	}
-	.el-main {
-		padding:20px
-	}
+
 	.app-name {
 		padding: 10px;
 	}
 	.user-name {
 		padding: 20px;
 	}
+	#container{
+		background-color:#f0f3f4;
+	}
+	#body_content{
+		margin: 44px 30px;
+		position: relative;
+	}
+	.my_breadcrumb{
+		display: flex;
+		position:fixed;
+		width: 100%;
+		height: 34px;
+		z-index: 9;
+		background-color: #f0f3f4;
+		box-shadow: 0 1px 4px rgba(0,21,41,.08);
+	}
 
+	.el-breadcrumb{
+		line-height: 34px;
+	}
 	input[type="hidden"] {
 		display: none !important;
 	}

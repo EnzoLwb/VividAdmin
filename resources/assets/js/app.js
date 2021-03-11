@@ -3,6 +3,7 @@ import Vue from 'vue';
 import _global from './components/Global.js';
 /*组件*/
 import BasicPaginator from './components/BasicPaginator'//分页
+import BreadCrumb from './components/common/BreadCrumb'//面包屑
 import MenuCollapse from './components/MenuCollapse'//左侧菜单
 import SearchTags from './components/common/SearchTags'//搜索标签
 import MessageNotify from './components/common/MessageNotify'
@@ -24,6 +25,7 @@ Vue.component('search-tags', SearchTags);
 Vue.component('role-form',AdminUserRoleForm );
 Vue.component('admin-form',AdminForm );
 Vue.component('menu-collapse',MenuCollapse );
+Vue.component('bread-crumb',BreadCrumb );
 
 Vue.filter('TimeSubstr', function (value) {
     if (!value) return ''
