@@ -1,0 +1,23 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Bootstrap
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import 'node_modules/element-ui/lib/theme-chalk/index';
+
+$bg-color: rgb(255, 208, 75);
+.app-name {
+  display: inline-block;
+  float: left;
+  padding: 20px;
+}
+
+.user-name {
+  display: inline-block;
+  float: right;
+  padding: 15px;
+}
+// 加载完成前不显示
+[v-cloak] { display: none; }

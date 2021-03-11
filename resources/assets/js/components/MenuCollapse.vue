@@ -1,0 +1,92 @@
+<template>
+	<div style="height: 100%">
+		<div style="padding: 15px;background-color:#ffd04b;font-size: 24px;">
+			<i class="el-icon-s-fold" v-if="isCollapse==false" @click="change_collapse"></i>
+			<i class="el-icon-s-unfold" v-else  @click="change_collapse"></i>
+		</div>
+		<el-menu
+						:default-active="menu_index"
+						class="el-menu-vertical-demo"
+						:unique-opened="true"
+						:collapse="isCollapse"
+						background-color="#545c64"
+						text-color="#ddd"
+						active-text-color="#ffd04b"
+		>
+			<el-submenu :index="menu.name" v-for="(menu,key) in menus" :key="key"><!--导航一-->
+				<template slot="title">
+					<i :class="menu.icon"></i>
+					<span slot="title">{{menu.name}}</span>
+				</template>
+				<el-menu-item-group  v-if="submenus.submenus.length ==0" v-for="(submenus,sub_key) in menu.submenus" :key="sub_key">
+					<a :href="submenus.uri">
+						<el-menu-item :index="submenus.uri"><i :class="submenus.icon =='' ? 'el-icon-sort-up':submenus.icon"></i>{{submenus.name}}</el-menu-item>
+					</a>
+				</el-menu-item-group>
+
+				<el-submenu :index="submenus.name"  v-if="submenus.submenus.length>0" v-for="(submenus,sub_key) in menu.submenus" :key="sub_key">
+					<template slot="title">
+						<i :class="submenus.icon =='' ? 'el-icon-sort-up':submenus.icon">	</i>
+						<span slot="title">{{submenus.name}}</span>
+					</template>
+					<el-menu-item @click="href(submenu.uri)" :index="submenu.uri" v-for="(submenu,sub_child_key) in submenus.submenus" :key="sub_child_key">
+						{{submenu.name}}
+					</el-menu-item>
+				</el-submenu>
+			</el-submenu>
+		</el-menu>
+	</div>
+</template>
+<script>
+		import './css/admin.scss'
+		export default
+		{
+				data: function() {
+						return {
+								isCollapse : JSON.parse( window.localStorage.getItem("isCollapse") ),
+								loading:true,
+								menus:[],
+								// menu_index:window.location.pathname+window.location.search
+								menu_index:window.location.pathname
+						}
+				},
+				/*created(){
+						this.$store.dispatch( 'loadMenu' );//获取vuex state中的action 方法
+				},*/
+				created() {
+						// 获取 菜单
+						// storage.removeItem('menus')
+						let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
+						if (!menus){
+								axios.post('/admin/getMenu')
+										.then(response => {
+												menus = response.data.data
+												window.sessionStorage.setItem("menus",JSON.stringify( menus))
+												this.menus =  menus;
+										})
+										.catch( function(){
+												console.log('error')
+										});
+						}
+						this.menus =  menus;
+
+				},
+				methods:{
+						href(uri) {
+								window.location.href = uri
+						},
+						change_collapse() {
+								this.isCollapse = !this.isCollapse
+								window.localStorage.setItem('isCollapse',this.isCollapse)
+						},
+						handleClose(key, keyPath) {
+								console.log(key, keyPath);
+						}
+				},
+		}
+</script>
+<style>
+	.el-menu-vertical-demo:not(.el-menu--collapse) {
+		min-width: 200px;
+	}
+</style>
