@@ -21,9 +21,9 @@
 			<el-header style="background: #222834;">
 				<div class="app-name">
 					<a href="/" style="color: #c0c4cc">
-						<h4>
+						<h5>
 							{{config('app.name')}}
-						</h4>
+						</h5>
 					</a>
 				</div>
 				<div class="user-name">
@@ -114,6 +114,9 @@
 	.el-dropdown {
 		color: #ffd04b;
 	}
+	.margin_top {
+		margin-top: 15px;
+	}
 	.margin_tb {
 		margin: 15px 0px;
 	}
@@ -131,7 +134,7 @@
 		background-color:#f0f3f4;
 	}
 	#body_content{
-		margin: 44px 30px;
+		margin: 54px 30px;
 		position: relative;
 	}
 	.my_breadcrumb{
@@ -140,7 +143,7 @@
 		width: 100%;
 		height: 34px;
 		z-index: 9;
-		background-color: #f0f3f4;
+		background-color: white;
 		box-shadow: 0 1px 4px rgba(0,21,41,.08);
 	}
 

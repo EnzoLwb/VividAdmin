@@ -1,114 +1,119 @@
 <template>
-  <div v-loading="loading">
-    <div style="margin:30px 0;">
-      <el-button  icon="el-icon-document-add" type="primary" size="small" @click="showForm('add')">新增用户</el-button>
-    </div>
-    <el-form :inline="true"  class="demo-form-inline" style="width: 100%;margin: 15px 0" size="mini">
-      <el-form-item label="权限组" >
-        <el-select  placeholder="请选择" v-model="search_form.role_id" clearable>
-          <el-option
-                  v-for="item in roles"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-          </el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="职务">
-        <el-select v-model="search_form.group" size="mini">
-          <el-option label="高新区总工会" :value="1" ></el-option>
-          <el-option label="基层工会" :value="2" ></el-option>
-          <el-option label="基层团组织" :value="3" ></el-option>
-          <el-option label="基层妇联" :value="4" ></el-option>
-          <el-option label="网格员" :value="5" ></el-option>
-          <el-option label="基层工会、团组织" :value="6" ></el-option>
-          <el-option label="基层工会、妇联" :value="7" ></el-option>
-          <el-option label="基层团组织、妇联" :value="8" ></el-option>
-          <el-option label="基层工会、团组织、妇联" :value="9" ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="状态" >
-        <el-radio-group  size="small" v-model="search_form.status">
-          <el-radio-button  label=1 >启用</el-radio-button>
-          <el-radio-button  label=0 >禁用</el-radio-button>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item label="用户名">
-        <el-input type="text" v-model="search_form.real_name"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="warning" @click="search">查询</el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="info" @click="reset">重置</el-button>
-      </el-form-item>
-    </el-form>
-    <el-table :data="tabledata.data" border style="width: 100%;margin-top:20px" >
-    <el-table-column type="expand">
-      <template slot-scope="props">
-        <el-form label-position="left" inline class="demo-table-expand">
-          <el-form-item label="所属企业单位" v-if="props.row.group!==1 && props.row.group!==5">
-            <span>{{ props.row.company_name }}</span>
-          </el-form-item>
-          <el-form-item label="手机号">
-            <span>{{ props.row.mobile }}</span>
-          </el-form-item>
-          <el-form-item label="创建时间">
-            <span>{{ props.row.created_at }}</span>
-          </el-form-item>
-        </el-form>
-      </template>
-    </el-table-column>
-    <el-table-column resizable prop="id" label="ID" width="70" > </el-table-column>
-    <el-table-column resizable prop="username"  label="登录名" > </el-table-column>
-    <el-table-column resizable prop="real_name" label="用户名" > </el-table-column>
-    <el-table-column resizable prop="name" label="权限组" > </el-table-column>
-      <el-table-column resizable label="职务" >
-        <template  slot-scope="scope">
-          <span v-if="scope.row.group == 1">高新区总工会</span>
-          <span v-else-if="scope.row.group == 2">基层工会</span>
-          <span v-else-if="scope.row.group == 3">基层团组织</span>
-          <span v-else-if="scope.row.group == 4">基层妇联</span>
-          <span v-else-if="scope.row.group == 5">网格员</span>
-          <span v-else-if="scope.row.group == 6">基层工会、团组织</span>
-          <span v-else-if="scope.row.group == 7">基层工会、妇联</span>
-          <span v-else-if="scope.row.group == 8">基层团组织、妇联</span>
-          <span v-else-if="scope.row.group == 9">基层工会、团组织、妇联</span>
-        </template>
-      </el-table-column>
-    <el-table-column resizable prop="login_at" label="登录时间" > </el-table-column>
-    <el-table-column resizable label="状态" >
-      <template  slot-scope="scope">
-        {{scope.row.status == 1 ? '启用':'禁用'}}
-      </template>
-    </el-table-column>
-    <el-table-column resizable align="center" label="操作">
-      <template slot-scope="scope">
-        <el-button
-                size="mini"
-                type="text"
-                icon="el-icon-edit"
-                @click="showForm('edit',scope.row)">编辑</el-button>
-        <el-button
-                size="small"
-                type="text"
-                icon="el-icon-delete"
-                @click="handleDelete(scope.$index,scope.row)">{{scope.row.status==1?'禁用':'取消禁用'}}</el-button>
-      </template>
-    </el-table-column>
-    </el-table>
-    <div class="pull-right">
-      <el-pagination
-              style="margin:15px 0"
-              @size-change="handleSizeChange"
-              @current-change="handleCurrentChange"
-              :current-page.sync="tabledata.current_page"
-              :total="tabledata.total"
-              :page-sizes="this.unils.page_size"
-              :page-size="parseInt(tabledata.per_page)"
-              layout="total, sizes, prev, pager, next, jumper">
-      </el-pagination>
-    </div>
+  <div>
+    <el-card shadow="hover" >
+      <el-form :inline="true"  class="search-form-inline" size="mini">
+        <el-form-item label="权限组:" >
+          <el-select  placeholder="请选择" v-model="search_form.role_id" clearable>
+            <el-option
+                    v-for="item in roles"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="职务:">
+          <el-select v-model="search_form.group" size="mini">
+            <el-option label="高新区总工会" :value="1" ></el-option>
+            <el-option label="基层工会" :value="2" ></el-option>
+            <el-option label="基层团组织" :value="3" ></el-option>
+            <el-option label="基层妇联" :value="4" ></el-option>
+            <el-option label="网格员" :value="5" ></el-option>
+            <el-option label="基层工会、团组织" :value="6" ></el-option>
+            <el-option label="基层工会、妇联" :value="7" ></el-option>
+            <el-option label="基层团组织、妇联" :value="8" ></el-option>
+            <el-option label="基层工会、团组织、妇联" :value="9" ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态:" >
+          <el-radio-group  v-model="search_form.status">
+            <el-radio-button  label=1 >启用</el-radio-button>
+            <el-radio-button  label=0 >禁用</el-radio-button>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="用户名:">
+          <el-input type="text" v-model="search_form.real_name"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="warning" @click="search">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="info" @click="reset">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+    <el-card shadow="hover" class="margin_top" >
+      <div slot="header" >
+        <el-button  icon="el-icon-user" type="primary" size="mini" @click="showForm('add')">新增用户</el-button>
+      </div>
+      <el-table :data="tabledata.data" v-loading="loading" size="small">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-form label-position="left" inline class="demo-table-expand">
+              <el-form-item label="所属企业单位" v-if="props.row.group!==1 && props.row.group!==5">
+                <span>{{ props.row.company_name }}</span>
+              </el-form-item>
+              <el-form-item label="手机号">
+                <span>{{ props.row.mobile }}</span>
+              </el-form-item>
+              <el-form-item label="创建时间">
+                <span>{{ props.row.created_at }}</span>
+              </el-form-item>
+            </el-form>
+          </template>
+        </el-table-column>
+        <el-table-column resizable prop="id" label="序号" width="70" > </el-table-column>
+        <el-table-column resizable prop="username"  label="登录名" > </el-table-column>
+        <el-table-column resizable prop="real_name" label="用户名" > </el-table-column>
+        <el-table-column resizable prop="name" label="权限组" > </el-table-column>
+        <el-table-column resizable label="职务" >
+          <template  slot-scope="scope">
+            <span v-if="scope.row.group == 1">高新区总工会</span>
+            <span v-else-if="scope.row.group == 2">基层工会</span>
+            <span v-else-if="scope.row.group == 3">基层团组织</span>
+            <span v-else-if="scope.row.group == 4">基层妇联</span>
+            <span v-else-if="scope.row.group == 5">网格员</span>
+            <span v-else-if="scope.row.group == 6">基层工会、团组织</span>
+            <span v-else-if="scope.row.group == 7">基层工会、妇联</span>
+            <span v-else-if="scope.row.group == 8">基层团组织、妇联</span>
+            <span v-else-if="scope.row.group == 9">基层工会、团组织、妇联</span>
+          </template>
+        </el-table-column>
+        <el-table-column resizable prop="login_at" label="登录时间" > </el-table-column>
+        <el-table-column resizable label="状态" >
+          <template  slot-scope="scope">
+            {{scope.row.status == 1 ? '启用':'禁用'}}
+          </template>
+        </el-table-column>
+        <el-table-column resizable align="center" label="操作">
+          <template slot-scope="scope">
+            <el-button
+                    size="mini"
+                    type="text"
+                    icon="el-icon-edit"
+                    @click="showForm('edit',scope.row)">编辑</el-button>
+            <el-button
+                    size="small"
+                    type="text"
+                    icon="el-icon-delete"
+                    @click="handleDelete(scope.$index,scope.row)">{{scope.row.status==1?'禁用':'取消禁用'}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div class="pull-right">
+        <el-pagination
+                style="margin:15px 0"
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page.sync="tabledata.current_page"
+                :total="tabledata.total"
+                :page-sizes="this.unils.page_size"
+                :page-size="parseInt(tabledata.per_page)"
+                layout="total, sizes, prev, pager, next, jumper">
+        </el-pagination>
+      </div>
+    </el-card>
+
     <el-dialog :visible.sync="outerVisible"
                :close-on-click-modal="false"
                width="50%" :title="dialog_title" v-if="outerVisible">
@@ -239,9 +244,6 @@ export default {
                     }
                     this.loading = false
                   })
-                  .catch(err => {
-                    console.log(err);
-                  });
         }).catch(() => {
           this.$message({
             type: 'info',

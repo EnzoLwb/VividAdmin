@@ -7,7 +7,7 @@
 						<el-button  icon="el-icon-plus" size="mini" @click="showForm('add')">新增</el-button>
 					</el-col>
 					<el-col :span="16">
-						<el-form :inline="true"  class="demo-form-inline" size="mini">
+						<el-form :inline="true"  class="search-form-inline" size="mini">
 							<el-form-item>
 								<el-input
 												placeholder="请输入创建人"
