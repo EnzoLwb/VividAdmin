@@ -18,9 +18,9 @@
 		<menu-collapse></menu-collapse>
 		<!-- 标题栏:结束 -->
 		<el-container>
-			<el-header style="background: #545c64;">
+			<el-header style="background: #222834;">
 				<div class="app-name">
-					<a href="/" style="color: #ffd04b">
+					<a href="/" style="color: #c0c4cc">
 						<h4>
 							{{config('app.name')}}
 						</h4>
@@ -134,6 +134,7 @@
 	.user-name {
 		padding: 20px;
 	}
+
 	input[type="hidden"] {
 		display: none !important;
 	}

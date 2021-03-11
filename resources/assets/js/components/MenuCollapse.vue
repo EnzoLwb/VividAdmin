@@ -1,16 +1,16 @@
 <template>
 	<div style="height: 100%">
-		<div style="padding: 15px;background-color:#ffd04b;font-size: 24px;">
-			<i class="el-icon-s-fold" v-if="isCollapse==false" @click="change_collapse"></i>
-			<i class="el-icon-s-unfold" v-else  @click="change_collapse"></i>
+		<div style="padding: 15px;background-color:#222834;font-size: 24px;">
+			<i class="el-icon-s-fold icon-color"  v-if="isCollapse==false" @click="change_collapse"></i>
+			<i class="el-icon-s-unfold icon-color" v-else  @click="change_collapse"></i>
 		</div>
 		<el-menu
 						:default-active="menu_index"
 						class="el-menu-vertical-demo"
 						:unique-opened="true"
 						:collapse="isCollapse"
-						background-color="#545c64"
-						text-color="#ddd"
+						background-color="#222834"
+						text-color="#fff"
 						active-text-color="#ffd04b"
 		>
 			<el-submenu :index="menu.name" v-for="(menu,key) in menus" :key="key"><!--导航一-->
@@ -20,7 +20,7 @@
 				</template>
 				<el-menu-item-group  v-if="submenus.submenus.length ==0" v-for="(submenus,sub_key) in menu.submenus" :key="sub_key">
 					<a :href="submenus.uri">
-						<el-menu-item :index="submenus.uri"><i :class="submenus.icon =='' ? 'el-icon-sort-up':submenus.icon"></i>{{submenus.name}}</el-menu-item>
+						<el-menu-item class="select_index" :index="submenus.uri"><i :class="submenus.icon =='' ? 'el-icon-sort-up':submenus.icon"></i>{{submenus.name}}</el-menu-item>
 					</a>
 				</el-menu-item-group>
 
@@ -29,7 +29,7 @@
 						<i :class="submenus.icon =='' ? 'el-icon-sort-up':submenus.icon">	</i>
 						<span slot="title">{{submenus.name}}</span>
 					</template>
-					<el-menu-item @click="href(submenu.uri)" :index="submenu.uri" v-for="(submenu,sub_child_key) in submenus.submenus" :key="sub_child_key">
+					<el-menu-item class="select_index" @click="href(submenu.uri)" :index="submenu.uri" v-for="(submenu,sub_child_key) in submenus.submenus" :key="sub_child_key">
 						{{submenu.name}}
 					</el-menu-item>
 				</el-submenu>
@@ -86,7 +86,16 @@
 		}
 </script>
 <style>
+	.icon-color{
+		color: #dddddd;
+	}
+	.select_index:not(.is-active){
+		color:hsla(0,0%,100%,.65) !important;
+	}
 	.el-menu-vertical-demo:not(.el-menu--collapse) {
 		min-width: 200px;
+	}
+	.el-menu-vertical-demo a{
+		text-decoration: none;
 	}
 </style>
