@@ -1,7 +1,7 @@
 <template>
 	<div class="my_breadcrumb" v-show="breads">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
-			<el-breadcrumb-item :to="{ path: '/' }"><i class="el-icon-s-home" style="margin: 0px 18px 0 10px"></i>
+			<el-breadcrumb-item :to="{ path: '/' }"><i class="el-icon-s-promotion" style="margin: 0px 18px 0 10px"></i>
 				首页</el-breadcrumb-item>
 			<el-breadcrumb-item v-for="(name,index) in breads" :key="index">{{name}}</el-breadcrumb-item>
 		</el-breadcrumb>

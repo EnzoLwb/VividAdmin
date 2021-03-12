@@ -1,8 +1,13 @@
-.el-menu{
-  height: 93.3%;
-}
 .open	{
   padding: 20px;background-color:#ffd04b;font-size: 26px;
+}
+.el-menu{
+  border-right: none;
+}
+.el-aside {
+  display: block;
+  position: relative;
+  overflow-y: scroll;
 }
 .close	{
   padding: 10px;background-color:#ffd04b;font-size: 26px;

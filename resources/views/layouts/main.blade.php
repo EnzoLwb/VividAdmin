@@ -14,11 +14,11 @@
 </head>
 <body class="no-skin">
 <div id="app" v-cloak>
-	<el-container style="height:100%;">
+	<div id="indexlayout">
 		<menu-collapse></menu-collapse>
 		<!-- 标题栏:结束 -->
 		<el-container>
-			<el-header style="background: #222834;">
+			<el-header style="background: #222834; padding-right:20px;padding-left: 0">
 				<div class="app-name">
 					<a href="/" style="color: #c0c4cc">
 						<h5>
@@ -74,7 +74,7 @@
 				<div id="body_content">@yield('content')</div>
 			</el-main>
 		</el-container>
-	</el-container>
+	</div>
 </div><!-- app -->
 
 <script src='/js/app.20210310.js'></script>
@@ -91,6 +91,11 @@
 		-ms-user-select: text; /*IE10*/
 		-khtml-user-select: text; /*早期浏览器*/
 		height: 100vh;
+	}
+	#indexlayout {
+		display: flex;
+		height: 100vh;
+		overflow: hidden;
 	}
 	body .el-table th.gutter{
 		display: table-cell!important;

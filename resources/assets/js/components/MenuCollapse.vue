@@ -1,5 +1,5 @@
 <template>
-	<div style="height: 100%">
+	<div id="indexlayout-left" :class="isCollapse ? 'narrow':''">
 		<div style="padding: 13px;background-color:#222834;font-size: 24px;">
 			<i class="el-icon-s-fold icon-color"  v-if="isCollapse==false" @click="change_collapse"></i>
 			<i class="el-icon-s-unfold icon-color" v-else  @click="change_collapse"></i>
@@ -11,8 +11,7 @@
 						:collapse="isCollapse"
 						background-color="#222834"
 						text-color="#fff"
-						active-text-color="#ffd04b"
-		>
+						active-text-color="#ffd04b">
 			<el-submenu :index="menu.name" v-for="(menu,key) in menus" :key="key"><!--导航一-->
 				<template slot="title">
 					<i :class="menu.icon"></i>
@@ -86,6 +85,17 @@
 		}
 </script>
 <style>
+	#indexlayout-left{
+		display: flex;
+		background-color:#222834;
+		flex-direction: column;
+		width: 200px;
+		height: 100vh;
+		transition-duration: .1s;
+	}
+	#indexlayout-left.narrow {
+		width: 64px;
+	}
 	.icon-color{
 		color: #dddddd;
 	}
