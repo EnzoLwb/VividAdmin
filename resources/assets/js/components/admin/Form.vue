@@ -1,6 +1,6 @@
 <template>
 	<div v-loading="loading">
-		<el-form ref="form" :model="articles" :rules="rules" label-width="120px" enctype="multipart/form-data" size="medium">
+		<el-form ref="form" :model="articles" :rules="rules" label-width="120px" enctype="multipart/form-data" size="mini">
 			<el-form-item label="登录名" prop="username">
 				<el-input v-model="articles.username"></el-input>
 			</el-form-item>
@@ -39,43 +39,8 @@
 					<el-radio-button  :label="3" >基层团组织</el-radio-button>
 					<el-radio-button  :label="4" >基层妇联</el-radio-button>
 					<el-radio-button  :label="5" >网格员</el-radio-button>
-					<el-radio-button  :label="6" >基层工会、团组织</el-radio-button>
-					<el-radio-button  :label="7" >基层工会、妇联</el-radio-button>
-					<el-radio-button  :label="8" >基层团组织、妇联</el-radio-button>
-					<el-radio-button  :label="9" >基层工会、团组织、妇联</el-radio-button>
 				</el-radio-group>
-				<p class="desc"><i class="el-icon-question"></i>高新区总工会：可以管理所有企业信息 </p>
-				<p class="desc"><i class="el-icon-question"></i>基层工青妇领导：只能操作本企业的信息</p>
-				<p class="desc"><i class="el-icon-question"></i>网格员：可以看到所有企业信息，但只能操作所属网格内的企业</p>
-			</el-form-item>
-			<el-form-item v-if="this.jiceng_arr.indexOf(this.articles.group)!=-1" label="所属企业">
-				<el-autocomplete
-						v-model="articles.company_name" :trigger-on-focus="false"
-						:fetch-suggestions="querySearchAsync"
-						placeholder="请输入公司名称"
-						@select="handleSelect"
-				></el-autocomplete>
-			</el-form-item>
-			<el-form-item v-if="articles.group==5">
-				<template slot="label"> 负责的网格
-					<el-tooltip class="item" effect="dark" :content="unils.click_grid" placement="top-start">
-						<i class="el-icon-question"></i>
-					</el-tooltip>
-				</template>
-				<el-tree class="filter-tree" :data="tree" :props="defaultProps" :highlight-current="true"
-								 :expand-on-click-node="false" :default-expand-all="false"
-								 :default-expanded-keys="[articles.grid_id]"
-								 @node-click="NodeClick"
-								 node-key="id" :current-node-key="articles.grid_id"
-						style="font-size:14px" ref="tree">
-					<span class="custom-tree-node" slot-scope="{ node, data }">
-							<span>
-								<img src="/images/floder2.png" alt="">
-								{{ data.label }}
-							</span>
-					</span>
-				</el-tree>
-				<el-input  v-model="grid_name" disabled style="width:80%" placeholder="上方选择组织管理"></el-input>
+<!--				<p class="desc"><i class="el-icon-question"></i>高新区总工会：可以管理所有企业信息 </p>-->
 			</el-form-item>
 			<el-form-item style="display: none">
 				<el-input type="hidden" name="_token" v-model="token"></el-input>

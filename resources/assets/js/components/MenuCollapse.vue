@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 100%">
-		<div style="padding: 15px;background-color:#222834;font-size: 24px;">
+		<div style="padding: 13px;background-color:#222834;font-size: 24px;">
 			<i class="el-icon-s-fold icon-color"  v-if="isCollapse==false" @click="change_collapse"></i>
 			<i class="el-icon-s-unfold icon-color" v-else  @click="change_collapse"></i>
 		</div>

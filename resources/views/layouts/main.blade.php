@@ -22,6 +22,7 @@
 				<div class="app-name">
 					<a href="/" style="color: #c0c4cc">
 						<h5>
+							<i class="el-icon-s-home" style="margin-right: 12px"></i>
 							{{config('app.name')}}
 						</h5>
 					</a>
@@ -140,6 +141,7 @@
 	.my_breadcrumb{
 		display: flex;
 		position:fixed;
+		top:60px;
 		width: 100%;
 		height: 34px;
 		z-index: 9;

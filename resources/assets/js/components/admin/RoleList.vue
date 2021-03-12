@@ -1,28 +1,23 @@
 <template>
   <div v-loading="loading">
-    <div style="margin:30px 0;">
-      <el-button  icon="el-icon-document-add" type="primary" @click="showForm('add')">新增角色</el-button>
-    </div>
-    <el-table :data="tabledata.data" border style="width: 80%;margin-top:20px" >
-<!--    <el-table-column resizable prop="id" label="ID" width="70" > </el-table-column>-->
-    <el-table-column resizable prop="name" label="名称" > </el-table-column>
-    <el-table-column resizable prop="created_at" label="创建时间" ></el-table-column>
-    <el-table-column resizable align="center">
-      <template slot-scope="scope">
-        <el-button
-                size="mini"
-                type="text"
-                icon="el-icon-edit"
-                @click="showForm('edit',scope.row)">编辑</el-button>
-        <el-button
-                size="small"
-                type="text"
-                icon="el-icon-delete"
-                @click="handleDelete(scope.$index,scope.row)">删除</el-button>
-      </template>
-    </el-table-column>
-
-    </el-table>
+    <el-card shadow="hover" >
+        <div slot="header">
+            <el-button icon="el-icon-document-add" size="mini" type="primary" @click="showForm('add')">新增角色</el-button>
+        </div>
+        <el-table :data="tabledata.data" size="medium">
+            <el-table-column resizable prop="id" label="序号" width="70" > </el-table-column>
+            <el-table-column resizable prop="name" label="名称" > </el-table-column>
+            <el-table-column resizable prop="created_at" label="创建时间" ></el-table-column>
+            <el-table-column resizable align="center" label="操作">
+                <template slot-scope="scope">
+                    <el-button
+                            type="text" icon="el-icon-edit" @click="showForm('edit',scope.row)">编辑</el-button>
+                    <el-button
+                            type="text" icon="el-icon-delete" @click="handleDelete(scope.$index,scope.row)">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </el-card>
     <el-dialog :visible.sync="outerVisible"
                :close-on-click-modal="false"
                width="60%" :title="dialog_title" v-if="outerVisible">
@@ -39,15 +34,15 @@
 <script type="text/javascript">
 export default {
     data:function() {
-            return {
-                loading: false,
-                outerVisible: false,
-                dialog_title: '',
-                articles: {},
-                policy_uri: [],
+        return {
+            loading: false,
+            outerVisible: false,
+            dialog_title: '',
+            articles: {},
+            policy_uri: [],
 
-            }
-        },
+        }
+    },
     mounted:function(){
 
     },
@@ -99,9 +94,6 @@ export default {
                     }
                     this.loading = false
                   })
-                  .catch(err => {
-                    console.log(err);
-                  });
         }).catch(() => {
           this.$message({
             type: 'info',

@@ -46,7 +46,7 @@
       <div slot="header" >
         <el-button  icon="el-icon-user" type="primary" size="mini" @click="showForm('add')">新增用户</el-button>
       </div>
-      <el-table :data="tabledata.data" v-loading="loading" size="small">
+      <el-table :data="tabledata.data" v-loading="loading" size="medium">
         <el-table-column type="expand">
           <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
@@ -73,10 +73,6 @@
             <span v-else-if="scope.row.group == 3">基层团组织</span>
             <span v-else-if="scope.row.group == 4">基层妇联</span>
             <span v-else-if="scope.row.group == 5">网格员</span>
-            <span v-else-if="scope.row.group == 6">基层工会、团组织</span>
-            <span v-else-if="scope.row.group == 7">基层工会、妇联</span>
-            <span v-else-if="scope.row.group == 8">基层团组织、妇联</span>
-            <span v-else-if="scope.row.group == 9">基层工会、团组织、妇联</span>
           </template>
         </el-table-column>
         <el-table-column resizable prop="login_at" label="登录时间" > </el-table-column>
@@ -88,12 +84,12 @@
         <el-table-column resizable align="center" label="操作">
           <template slot-scope="scope">
             <el-button
-                    size="mini"
+
                     type="text"
                     icon="el-icon-edit"
                     @click="showForm('edit',scope.row)">编辑</el-button>
             <el-button
-                    size="small"
+
                     type="text"
                     icon="el-icon-delete"
                     @click="handleDelete(scope.$index,scope.row)">{{scope.row.status==1?'禁用':'取消禁用'}}</el-button>
@@ -113,7 +109,6 @@
         </el-pagination>
       </div>
     </el-card>
-
     <el-dialog :visible.sync="outerVisible"
                :close-on-click-modal="false"
                width="50%" :title="dialog_title" v-if="outerVisible">
@@ -130,21 +125,21 @@
 <script type="text/javascript">
 export default {
     data:function() {
-            return {
-                loading: false,
-                is_add: false,
-                outerVisible: false,
-                dialog_title: '',
-                articles: {},
-                search_form:{
-                  role_id:'',
-                  real_name:'',
-                  group:'',
-                  status:1,
-                },
-                tabledata:{},
-            }
-        },
+        return {
+            loading: false,
+            is_add: false,
+            outerVisible: false,
+            dialog_title: '',
+            articles: {},
+            search_form:{
+              role_id:'',
+              real_name:'',
+              group:'',
+              status:1,
+            },
+            tabledata:{},
+        }
+    },
     mounted() {
       this.getData({})
     },

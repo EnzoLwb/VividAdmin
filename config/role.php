@@ -67,7 +67,7 @@ return [
             "submenus"=>[
                 [
                     "uri" => "/admin/setting/home",
-                    "name" => "设置",
+                    "name" => "系统设置",
                     "icon" => "",
                     "submenus" => [],
                 ],
