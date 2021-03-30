@@ -4,10 +4,9 @@ import _global from './components/Global.js';
 /*组件*/
 import BasicPaginator from './components/BasicPaginator'//分页
 import BreadCrumb from './components/common/BreadCrumb'//面包屑
+import HeaderMenu from './components/common/HeaderMenu'//面包屑
 import MenuCollapse from './components/MenuCollapse'//左侧菜单
 import SearchTags from './components/common/SearchTags'//搜索标签
-import MessageNotify from './components/common/MessageNotify'
-import DragAds from './components/common/DragAds'
 import AdminUserRoleForm from './components/admin/RoleForm';
 import AdminForm from './components/admin/Form';
 
@@ -18,14 +17,13 @@ Vue.prototype.unils = _global;//引入公共文件 公共方法
 
 Vue.use(ElementUI);
 // 注册通用组件
-Vue.component('message-notify', MessageNotify);
-Vue.component('drag-ads', DragAds);
 Vue.component('basic-paginator', BasicPaginator);
 Vue.component('search-tags', SearchTags);
 Vue.component('role-form',AdminUserRoleForm );
 Vue.component('admin-form',AdminForm );
 Vue.component('menu-collapse',MenuCollapse );
-Vue.component('bread-crumb',BreadCrumb );
+// Vue.component('bread-crumb',BreadCrumb );
+Vue.component('header-menu',HeaderMenu );
 
 Vue.filter('TimeSubstr', function (value) {
     if (!value) return ''

@@ -15,64 +15,17 @@
 <body class="no-skin">
 <div id="app" v-cloak>
 	<div id="indexlayout">
+		{{--Left First-Level Menu Begin--}}
 		<menu-collapse></menu-collapse>
-		<!-- 标题栏:结束 -->
-		<el-container>
-			<el-header style="background: #222834; padding-right:20px;padding-left: 0">
-				<div class="app-name">
-					<a href="/" style="color: #c0c4cc">
-						<h5>
-							<i class="el-icon-s-home" style="margin-right: 12px"></i>
-							{{config('app.name')}}
-						</h5>
-					</a>
-				</div>
-				<div class="user-name">
-					<el-dropdown>
-							<span class="el-dropdown-link">
-								欢迎,
-								<?php $user = \Auth::user(); if (!empty($user))
-								{
-									echo $user->real_name;
-								} ?>
-								<i class="el-icon-arrow-down el-icon--right"></i>
-							</span>
-						<el-dropdown-menu slot="dropdown">
-							<el-dropdown-item>
-								<a href="/admin/profile">
-									<i class="el-icon-user"></i>
-									个人资料
-								</a>
-							</el-dropdown-item>
-							<el-dropdown-item>
-								<a href="/admin/changepassword">
-									<i class="el-icon-unlock"></i>
-									修改密码
-								</a>
-							</el-dropdown-item>
-							<el-dropdown-item onclick="javascript:window.sessionStorage.clear();">
-								<a href="/admin/clear-cache">
-									<i class="el-icon-delete"></i>
-									清除缓存
-								</a>
-							</el-dropdown-item>
-							<el-dropdown-item onclick="javascript:window.sessionStorage.clear();">
-								<a href="/logout">
-									<i class="el-icon-refresh-left"></i>
-									退出登录
-								</a>
-							</el-dropdown-item>
-
-						</el-dropdown-menu>
-					</el-dropdown>
-				</div>
-				<message-notify></message-notify>
-
-			</el-header>
+		<el-container style="flex-direction:column">
+			{{--Top Sec-Level Menu Begin--}}
+			<header-menu :user="{{\Auth::user()}}"></header-menu>
+			{{--Top Sec-Level Menu End--}}
+			{{--Main Content Begin--}}
 			<el-main id="container" style="padding:0">
-				<bread-crumb></bread-crumb>
 				<div id="body_content">@yield('content')</div>
 			</el-main>
+			{{--Main Content End--}}
 		</el-container>
 	</div>
 </div><!-- app -->
@@ -117,9 +70,7 @@
 	.el-button + .el-button {
 		margin-left: 0 ;
 	}
-	.el-dropdown {
-		color: #ffd04b;
-	}
+
 	.margin_top {
 		margin-top: 15px;
 	}
@@ -129,18 +80,11 @@
 	.float_r {
 		float: right;
 	}
-
-	.app-name {
-		padding: 10px;
-	}
-	.user-name {
-		padding: 20px;
-	}
 	#container{
 		background-color:#f0f3f4;
 	}
 	#body_content{
-		margin: 54px 30px;
+		margin: 20px 30px;
 		position: relative;
 	}
 	.my_breadcrumb{
