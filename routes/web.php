@@ -60,30 +60,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             'namespace'=>'Admin',
         ],function (){
 
-            //资讯管理
-            Route::group([
-                'prefix'=>'news',
-            ],function (){
-//                Route::get('/', 'NewsController@index');
-                Route::get('/oa/federation/{type}', 'NewsController@index');
-                Route::get('/add/{type?}', 'NewsController@add');
-                Route::post('/save', 'NewsController@save');
-                Route::post('/delete', 'NewsController@delete');
-                Route::get('/show/{article}', 'NewsController@show');
-                Route::get('/edit/{article}', 'NewsController@edit');
-            });
-
-            //标签管理
-            Route::group([
-                'prefix'=>'tags',
-            ],function (){
-                Route::post('/', 'TagsController@getType');
-                Route::get('/list', 'TagsController@index');
-                Route::post('/update', 'TagsController@update');
-                Route::post('/search', 'TagsController@search');
-                Route::post('/delete/{id}', 'TagsController@delete');
-            });
-
             //日志管理
             Route::group([
                 'prefix'=>'logs',
@@ -93,12 +69,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
             });
 
-            //总系统设置
-            Route::group([
-                'prefix'=>'setting',
-            ],function (){
-                Route::any('/home', 'SettingController@home');
-            });
 
         });
 

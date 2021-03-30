@@ -30,7 +30,7 @@ class UserController extends Controller
             $request->session()->put($this->redirectToSessionKey, URL::previous());
         }
 
-        $tips = SystemSetting::query()->where('name','login_tip')->value('val');
+        $tips = "";
         return view('passport.login',compact('tips'));
     }
 

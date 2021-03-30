@@ -16,8 +16,8 @@ class CreateAdminGroupTable extends Migration
         Schema::create('admin_group', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->tinyInteger('type')->comment('Model 中定义');
-            $table->integer('grid_id')->comment('其他管理ID')->nullable();
-            $table->integer('admin_id')->comment('管理员id');
+            $table->integer('grid_id')->comment('其他ID')->nullable();
+            $table->integer('admin_id');
             $table->timestamps();
         });
     }

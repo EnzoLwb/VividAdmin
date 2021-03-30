@@ -9,71 +9,79 @@ return [
         "/admin/changepassword"
     ],
 
-    //菜单列表
     "menu" => [
-        /*权限管理菜单*/
+        //Page List
         [
             "uri"=>"#",
-            "name"=>"权限管理",
-            "icon"=>"el-icon-s-check",
+            "name"=>"Page List",
+            "icon"=>"el-icon-files",
             "submenus"=>[
                 [
-                    "uri" => "/admin/user/list",
-                    "name" => "人员管理",
+                    "uri" => "/admin/page_list/main",
+                    "name" => "main",
                     "icon" => "",
                     "submenus" => [],
                 ],
+                [
+                    "uri" => "/admin/page_list/common",
+                    "name" => "common",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+                [
+                    "uri" => "/admin/page_list/client_account",
+                    "name" => "client_account",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+            ],
+        ],
+        //SEO List
+        [
+            "uri"=>"#",
+            "name"=>"SEO List",
+            "icon"=>"el-icon-files",
+            "submenus"=>[
+                [
+                    "uri" => "/admin/seo_list/main",
+                    "name" => "main",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+                [
+                    "uri" => "/admin/seo_list/common",
+                    "name" => "common",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+                [
+                    "uri" => "/admin/seo_list/client_account",
+                    "name" => "client_account",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+            ],
+        ],
+        //Usr Roles
+        [
+            "uri"=>"#",
+            "name"=>"User Roles",
+            "icon"=>"el-icon-files",
+            "submenus"=>[
                 [
                     "uri" => "/admin/role/list",
-                    "name" => "角色管理",
+                    "name" => "Role List",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+                [
+                    "uri" => "/admin/user/list",
+                    "name" => "User Authorization",
                     "icon" => "",
                     "submenus" => [],
                 ],
             ],
         ],
-        /*标签管理*/
-        /*[
-            "uri"=>"#",
-            "name"=>"标签管理",
-            "icon"=>"el-icon-collection-tag",
-            "submenus"=>[
-                [
-                    "uri" => "/admin/tags/list",
-                    "name" => "标签列表",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-            ],
-        ],*/
-        /*日志管理*/
-        [
-            "uri"=>"#",
-            "name"=>"日志管理",
-            "icon"=>"el-icon-tickets",
-            "submenus"=>[
-                [
-                    "uri" => "/admin/logs/list",
-                    "name" => "日志查看",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-            ],
-        ],
-        /*系统设置*/
-        [
-            "uri"=>"#",
-            "name"=>"其他",
-            "icon"=>"el-icon-setting",
-            "submenus"=>[
-                [
-                    "uri" => "/admin/setting/home",
-                    "name" => "系统设置",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-            ],
-        ],
-
     ],
 ];
 
