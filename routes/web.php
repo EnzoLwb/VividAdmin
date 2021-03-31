@@ -16,9 +16,14 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             'namespace'=>'Admin',
         ],function (){
             //Page List
+            Route::get('/page_list/add', 'PageListController@add');
+            Route::get('/page_list/edit', 'PageListController@edit');
             Route::get('/page_list/{module?}', 'PageListController@index');
+            Route::post('/page_list/{module?}', 'PageListController@list');
+            Route::delete('/page_list', 'PageListController@delete');
             //SEO List
             Route::get('/seo_list/{module?}', 'SEOListController@index');
+
             //日志管理
             Route::group([
                 'prefix'=>'logs',
@@ -27,9 +32,11 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::post('/delete/{id}', 'LogsController@delete');
                 Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
             });
+            //菜单
             Route::post('/left_menu', 'MenuController@leftMenu');
             Route::post('/header_menu', 'MenuController@headerMenu');
         });
+
         //用户修改密码
         Route::get('/changepassword', 'UserController@changepassword');
         Route::get('/profile', 'UserController@profile');

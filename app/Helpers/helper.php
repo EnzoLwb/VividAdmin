@@ -52,4 +52,16 @@ if (!function_exists('array2csv')) {
         return $path;
     }
 }
-
+function allModulesMenu($first_menu){
+    $modules = ['main','common','client_account'];
+    $data = [];
+    foreach ($modules as $module){
+        $data[] = [
+            "uri" => "/admin/".$first_menu."/".$module,
+            "name" => $module,
+            "icon" => "",
+            "submenus" => [],
+        ];
+    }
+    return $data;
+}

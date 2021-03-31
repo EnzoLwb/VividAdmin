@@ -15,48 +15,10 @@ class Controller extends BaseController
     {
         $this->page_size = 10;
     }
-    /**
-     * 将xml转为array
-     * @param string $xml
-     * return array
-     */
-    public function xml_to_array($xml){
-        if(!$xml){
-            return false;
-        }
-        //将XML转为array
-        //禁止引用外部xml实体
-        libxml_disable_entity_loader(true);
-        $data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
-        return $data;
-    }
-
-    //部门树 $child 无子关联时是否需要返回 children字段
-    function getTree($data, $pId,$child = true)
-    {
-        $tree = [];
-        foreach ($data as $k => $v) {
-            $data[$k]['show-'.$v['id']] = false;
-            if ($v['p_id'] == $pId) {
-                $children = $this->getTree($data, $v['id'],$child);
-                if ($child || $children!==[]){
-                    $v['children'] = $children;
-                }
-                $tree[] = $v;
-            }
-        }
-        return $tree;
-    }
 
     public function json($code,$data=[],$message='')
     {
         return response()->json(compact('code','message','data'));
-    }
-
-    //0 表示成功  其他看message返回
-    public function list_json($code,$list=[],$message='',$total=0)
-    {
-        return response()->json(compact('code','message','list','total'));
     }
 
     //  get请求

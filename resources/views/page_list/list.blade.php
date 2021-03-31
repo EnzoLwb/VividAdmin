@@ -1,5 +1,7 @@
 @extends('layouts.main')
 @section('title', 'Page List')
 @section('content')
-    Page List!!
+    <page-list :module='{!! json_encode($module) !!}'
+               :module-select='{!! json_encode($module_select) !!}'
+    ></page-list>
 @stop

@@ -1,5 +1,5 @@
 <template>
-	<div class="mobile-header" style="width: 100%;overflow:auto">
+	<div class="mobile-header" style="width: 100%;">
 	<el-header style=" padding: 0 10px;height:auto">
 		<div class="app-name" id="top_header">
 			<el-menu :default-active="activeIndex" class="el-menu-demo"

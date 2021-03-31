@@ -19,7 +19,7 @@
             <el-option label="Translator" :value="3" ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="State:" class="mobile-mr-top">
+        <el-form-item label="State:" >
           <el-radio-group  v-model="search_form.status">
             <el-radio-button  label=1 >Enable</el-radio-button>
             <el-radio-button  label=0 >Disable</el-radio-button>
@@ -28,10 +28,10 @@
         <el-form-item label="NickName:">
           <el-input type="text" v-model="search_form.real_name"></el-input>
         </el-form-item>
-        <el-form-item class="mobile-mr-top">
+        <el-form-item >
           <el-button type="warning" @click="search">Search</el-button>
         </el-form-item>
-        <el-form-item class="mobile-mr-top">
+        <el-form-item >
           <el-button type="info" @click="reset">Reset</el-button>
         </el-form-item>
       </el-form>

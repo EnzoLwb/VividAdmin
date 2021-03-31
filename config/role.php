@@ -15,52 +15,14 @@ return [
             "uri"=>"/admin/page_list",
             "name"=>"Page List",
             "icon"=>"el-icon-files",
-            "submenus"=>[
-                [
-                    "uri" => "/admin/page_list/main",
-                    "name" => "main",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-                [
-                    "uri" => "/admin/page_list/common",
-                    "name" => "common",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-                [
-                    "uri" => "/admin/page_list/client_account",
-                    "name" => "client_account",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-            ],
+            "submenus"=> allModulesMenu('page_list')
         ],
         //SEO List
         [
             "uri"=>"/admin/seo_list",
             "name"=>"SEO List",
             "icon"=>"el-icon-files",
-            "submenus"=>[
-                [
-                    "uri" => "/admin/seo_list/main",
-                    "name" => "main",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-                [
-                    "uri" => "/admin/seo_list/common",
-                    "name" => "common",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-                [
-                    "uri" => "/admin/seo_list/client_account",
-                    "name" => "client_account",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-            ],
+            "submenus"=> allModulesMenu('seo_list')
         ],
         //Usr Roles
         [

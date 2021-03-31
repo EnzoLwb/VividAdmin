@@ -37,6 +37,14 @@ Vue.filter('DateSubstr', function (value) {
     }
     return value
 });
+//是否包含https || http
+Vue.filter('ContainsHttp', function (url) {
+    if (!url) return ''
+    if (url.indexOf('http') === -1 ) {
+        return 'https://'+url
+    }
+    return url
+});
 
 //截取字符串显示省略号
 Vue.filter('Ellipsis', function (value,len) {
@@ -49,8 +57,6 @@ Vue.filter('Ellipsis', function (value,len) {
 const app = new Vue({
     el: '#app',
     components: {
-
-        /*系统设置*/
         'logs-list':()=>import('./components/logs/LogsList'),//日志
         'login':()=>import('./components/Login'),//登录
 
@@ -60,6 +66,7 @@ const app = new Vue({
         'my-profile':()=>import('./components/admin/Profile'),//个人介绍
         'role-list':()=>import('./components/admin/RoleList'),
 
-
+        /*业务部分*/
+        'page-list':()=>import('./components/page_list/index'),//日志
     }
 });

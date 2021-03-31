@@ -4,18 +4,27 @@
 .el-menu{
   border-right: none;
 }
+.search-form-inline{
+  .el-form-item{
+    margin-bottom: 0 !important;
+  }
+}
 @media  (max-width: 768px){
   .el-dialog{
     width: 100% !important;
   }
   .mobile-header{
     display: flex;
+    overflow-x:auto
   }
-  .mobile-mr-top{
-    margin-top:18px
-  }
+
   #body_content{
     margin:20px 0!important;
+  }
+  .search-form-inline{
+    .el-form-item{
+      margin-bottom: 18px !important;
+    }
   }
 }
 .el-aside {
@@ -26,11 +35,7 @@
 .close	{
   padding: 10px;background-color:#ffd04b;font-size: 26px;
 }
-.search-form-inline{
-  .el-form-item{
-    margin-bottom: 0 !important;
-  }
-}
+
 .el-tree-node__content{
   margin: 8px 0px;
 }
