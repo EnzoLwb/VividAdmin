@@ -12,7 +12,7 @@ return [
     "menu" => [
         //Page List
         [
-            "uri"=>"#",
+            "uri"=>"/admin/page_list",
             "name"=>"Page List",
             "icon"=>"el-icon-files",
             "submenus"=>[
@@ -38,7 +38,7 @@ return [
         ],
         //SEO List
         [
-            "uri"=>"#",
+            "uri"=>"/admin/seo_list",
             "name"=>"SEO List",
             "icon"=>"el-icon-files",
             "submenus"=>[
@@ -64,7 +64,7 @@ return [
         ],
         //Usr Roles
         [
-            "uri"=>"#",
+            "uri"=>"/admin/role/list",
             "name"=>"User Roles",
             "icon"=>"el-icon-files",
             "submenus"=>[

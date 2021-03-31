@@ -3,15 +3,7 @@
 		<div class="app-name" id="top_header" style="width:70%">
 			<el-menu :default-active="activeIndex" class="el-menu-demo"
 							 mode="horizontal" @select="handleSelect">
-				<el-menu-item index="1">Page List</el-menu-item>
-				<el-menu-item index="2">SEO List</el-menu-item>
-				<el-menu-item index="3">Page Content</el-menu-item>
-				<el-menu-item index="3">Constant List</el-menu-item>
-				<el-menu-item index="3">NewsLetter</el-menu-item>
-				<el-menu-item index="3">Image List</el-menu-item>
-				<el-menu-item index="3">Video List</el-menu-item>
-				<el-menu-item index="3">DB Terms</el-menu-item>
-				<el-menu-item index="3">User Roles</el-menu-item>
+				<el-menu-item :index="menu.uri" v-for="(menu,index) in menus" :key="index">{{menu.name}}</el-menu-item>
 			</el-menu>
 		</div>
 		<div class="user-name" style="width:30%">
@@ -60,17 +52,42 @@
 		export default {
 				data: function() {
 						return {
-							activeIndex: '1',
+							activeIndex:"",
 							site: 'Service',
+							menus:[]
 						}
 				},
 
 				created() {
+						//获取菜单 进行展示
+					var storage_key = 'header_menu'
+					let menus = JSON.parse(window.sessionStorage.getItem(storage_key)) ;
+					if (!menus){
+						axios.post('/admin/'+storage_key)
+								.then(response => {
+									menus = response.data.data
+									window.sessionStorage.setItem(storage_key,JSON.stringify( menus))
+									this.menus =  menus;
+									this.currentUrl()
+								})
+					}else{
+						this.menus =  menus;
+						this.currentUrl()
+					}
 
 				},
 				methods:{
 					handleSelect(key, keyPath) {
-						console.log(key, keyPath);
+						window.location.href = key //'/admin/page_list'
+					},
+					//拆分当前url 分析activeIndex
+					currentUrl(){
+						var url = window.location.pathname; //["","admin","page_list"]
+						this.menus.forEach(item =>{
+							if (item.uri.split('/')[2]===url.split('/')[2]){
+								this.activeIndex = item.uri
+							}
+						})
 					}
 				},
 			props:['user'],

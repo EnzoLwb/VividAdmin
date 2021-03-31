@@ -5,15 +5,6 @@ Route::get('/login', 'UserController@login')->name('login');
 Route::post('/login', 'UserController@loginPost');
 Route::any('/logout', 'UserController@logout');
 
-/*测试接口*/
-
-/*移动端*/
-Route::group([
-    'prefix'=>'mobile',//手机查看的
-],function (){
-
-});
-
 /*PC端*/
 Route::group(['middleware' => ['needlogin','menunorm']], function () {
     Route::get('/', 'Admin\IndexController@home');
@@ -21,12 +12,30 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
     Route::group([
         'prefix'=>'admin',
     ],function (){
+        Route::group([
+            'namespace'=>'Admin',
+        ],function (){
+            //Page List
+            Route::get('/page_list/{module?}', 'PageListController@index');
+            //SEO List
+            Route::get('/seo_list/{module?}', 'SEOListController@index');
+            //日志管理
+            Route::group([
+                'prefix'=>'logs',
+            ],function (){
+                Route::get('/list', 'LogsController@logList');
+                Route::post('/delete/{id}', 'LogsController@delete');
+                Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
+            });
+            Route::post('/left_menu', 'MenuController@leftMenu');
+            Route::post('/header_menu', 'MenuController@headerMenu');
+        });
         //用户修改密码
         Route::get('/changepassword', 'UserController@changepassword');
         Route::get('/profile', 'UserController@profile');
         Route::get('/clear-cache', 'UserController@clearCache');
         Route::post('/changepassword', 'UserController@changepasswordPost');
-        Route::post('/getMenu', 'UserController@getMenu');
+
         Route::post('/updateRememberToken', 'UserController@updateRememberToken');
         Route::post('/user_group', 'UserController@userGroup');
 
@@ -54,22 +63,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::post('/common/zzjs_export', 'CommonController@zzjsExport');//导出
             Route::post('/common/common_stick', 'CommonController@common_stick');//置顶
             Route::post('/common/common_publish', 'CommonController@common_publish');//发布
-        });
-
-        Route::group([
-            'namespace'=>'Admin',
-        ],function (){
-
-            //日志管理
-            Route::group([
-                'prefix'=>'logs',
-            ],function (){
-                Route::get('/list', 'LogsController@logList');
-                Route::post('/delete/{id}', 'LogsController@delete');
-                Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
-            });
-
-
         });
 
     });

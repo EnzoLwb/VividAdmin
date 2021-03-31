@@ -168,6 +168,7 @@ class AuthService
     			$rtnmenu['uri'] = "#";
     		}
 
+    		$rtnmenu['uri'] = $menu['uri'];
     		$rtnmenu['name'] = $menu['name'];
     		$rtnmenu['icon'] = $menu['icon'];
     	}

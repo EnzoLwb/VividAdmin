@@ -11,8 +11,9 @@
 						:collapse="isCollapse"
 						background-color="#222834"
 						text-color="#fff"
+						:default-openeds="opened"
 						active-text-color="#ffd04b">
-			<el-submenu :index="menu.name" v-for="(menu,key) in menus" :key="key"><!--导航一-->
+			<el-submenu :index="menu.uri" v-for="(menu,key) in menus" :key="key">
 				<template slot="title">
 					<i :class="menu.icon"></i>
 					<span slot="title">{{menu.name}}</span>
@@ -45,29 +46,23 @@
 								isCollapse : JSON.parse( window.localStorage.getItem("isCollapse") ),
 								loading:true,
 								menus:[],
-								// menu_index:window.location.pathname+window.location.search
+								opened:[],
 								menu_index:window.location.pathname
 						}
 				},
-				/*created(){
-						this.$store.dispatch( 'loadMenu' );//获取vuex state中的action 方法
-				},*/
 				created() {
 						// 获取 菜单
-						// storage.removeItem('menus')
 						let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
 						if (!menus){
-								axios.post('/admin/getMenu')
+								axios.post('/admin/left_menu')
 										.then(response => {
 												menus = response.data.data
 												window.sessionStorage.setItem("menus",JSON.stringify( menus))
-												this.menus =  menus;
+												this.menus =  this.opened_menu(menus);
 										})
-										.catch( function(){
-												console.log('error')
-										});
+						}else{
+							this.menus =  this.opened_menu(menus);
 						}
-						this.menus =  menus;
 
 				},
 				methods:{
@@ -78,9 +73,19 @@
 								this.isCollapse = !this.isCollapse
 								window.localStorage.setItem('isCollapse',this.isCollapse)
 						},
-						handleClose(key, keyPath) {
-								console.log(key, keyPath);
-						}
+						opened_menu(menus) {
+							var url = window.location.pathname; //["","admin","page_list"]
+							var current_index = 0
+							menus.forEach((item,index) =>{
+								if (item.uri.split('/')[2] === url.split('/')[2]){
+									this.opened = [item.uri]
+									current_index = index
+								}
+							})
+							//只显示当前菜单的子菜单
+							return [menus[current_index]]
+						},
+
 				},
 		}
 </script>

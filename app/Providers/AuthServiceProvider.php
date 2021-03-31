@@ -27,11 +27,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //只能是 工会家领导 或者网格员
-        Gate::define('leader-action', function ($user) {
+        //翻译员权限
+        Gate::define('translate', function ($user) {
             $group = AdminGroups::query()->where('admin_id',$user->id)->value('type');
             return ( $group === AdminGroups::GRID_MEMBER  || $group === AdminGroups::GH_LEADER ) ? Response::allow()
-                : Response::deny('此操作仅限于高新区总工会 和 网格员。');
+                : Response::deny('Insufficient operation authority, only translators');
         });
+        //运营权限
+
     }
 }

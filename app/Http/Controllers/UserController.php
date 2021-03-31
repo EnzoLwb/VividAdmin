@@ -65,7 +65,7 @@ class UserController extends Controller
         $redirectTo = $request->session()->get($this->redirectToSessionKey);
         $request->session()->forget($this->redirectToSessionKey);
         return $this->json(0,['redirectTo'=>$redirectTo??''],'');
-//        return redirect($redirectTo);
+
     }
 
     //退出登录
@@ -253,17 +253,6 @@ class UserController extends Controller
         Admin::updateUser($user->id,['password'=>$password],true);
 
         return $this->json(0,[],'修改密码成功');
-    }
-
-    public function getMenu()
-    {
-        $cache_key = 'auth_menus';
-        $data = Cache::get($cache_key, function () use($cache_key){
-            $val = AuthService::getAuthedMenus();
-            Cache::put($cache_key, $val, 3600);//存储1小时
-            return $val;
-        });
-        return $this->json(0,$data,'');
     }
 
     //清除缓存

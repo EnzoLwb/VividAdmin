@@ -21,7 +21,7 @@
 			created() {
 				let menus = JSON.parse(window.sessionStorage.getItem("menus"));
 				if (!menus){
-					axios.post('/admin/getMenu')
+					axios.post('/admin/left_menu')
 						.then(response => {
 							menus = response.data.data
 							window.sessionStorage.setItem("menus",JSON.stringify( menus))
