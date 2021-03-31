@@ -3,7 +3,6 @@ import Vue from 'vue';
 import _global from './components/Global.js';
 /*组件*/
 import BasicPaginator from './components/BasicPaginator'//分页
-import BreadCrumb from './components/common/BreadCrumb'//面包屑
 import HeaderMenu from './components/common/HeaderMenu'//面包屑
 import MenuCollapse from './components/MenuCollapse'//左侧菜单
 import SearchTags from './components/common/SearchTags'//搜索标签
@@ -22,7 +21,6 @@ Vue.component('search-tags', SearchTags);
 Vue.component('role-form',AdminUserRoleForm );
 Vue.component('admin-form',AdminForm );
 Vue.component('menu-collapse',MenuCollapse );
-// Vue.component('bread-crumb',BreadCrumb );
 Vue.component('header-menu',HeaderMenu );
 
 Vue.filter('TimeSubstr', function (value) {
@@ -48,17 +46,13 @@ Vue.filter('Ellipsis', function (value,len) {
     }
     return value
 });
-import store from './store/index'
 const app = new Vue({
     el: '#app',
-    store,
     components: {
 
         /*系统设置*/
-        'setting-list':()=>import('./components/setting/SystemSetting'),
-        'tags-list':()=>import('./components/tags/TagsList'),//标签
         'logs-list':()=>import('./components/logs/LogsList'),//日志
-        'login':()=>import('./components/Login2'),//登录
+        'login':()=>import('./components/Login'),//登录
 
         /*权限部分*/
         'admin-list':()=>import('./components/admin/List'),
@@ -66,8 +60,6 @@ const app = new Vue({
         'my-profile':()=>import('./components/admin/Profile'),//个人介绍
         'role-list':()=>import('./components/admin/RoleList'),
 
-        'news-list':()=>import('./components/news/List'),
-        'news-form':()=>import('./components/news/Form'),
 
     }
 });

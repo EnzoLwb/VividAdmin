@@ -4,6 +4,20 @@
 .el-menu{
   border-right: none;
 }
+@media  (max-width: 768px){
+  .el-dialog{
+    width: 100% !important;
+  }
+  .mobile-header{
+    display: flex;
+  }
+  .mobile-mr-top{
+    margin-top:18px
+  }
+  #body_content{
+    margin:20px 0!important;
+  }
+}
 .el-aside {
   display: block;
   position: relative;

@@ -1,23 +1,28 @@
 <template>
-	<el-header style=" padding: 0 10px">
-		<div class="app-name" id="top_header" style="width:70%">
+	<div class="mobile-header" style="width: 100%;overflow:auto">
+	<el-header style=" padding: 0 10px;height:auto">
+		<div class="app-name" id="top_header">
 			<el-menu :default-active="activeIndex" class="el-menu-demo"
 							 mode="horizontal" @select="handleSelect">
 				<el-menu-item :index="menu.uri" v-for="(menu,index) in menus" :key="index">{{menu.name}}</el-menu-item>
+				<el-menu-item index="1">DB Term</el-menu-item>
+				<el-menu-item index="2">DB Term2</el-menu-item>
+				<el-menu-item index="3">DB Term3</el-menu-item>
+				<el-menu-item index="4">DB Term4</el-menu-item>
 			</el-menu>
 		</div>
-		<div class="user-name" style="width:30%">
+		<div class="user-name">
 			Site:
 			<el-select v-model="site" placeholder="请选择" size="mini" style="width: 100px">
 				<el-option label="Service" value="Service"></el-option>
 				<el-option label="Media" value="Media"></el-option>
 			</el-select>
 			<el-dropdown>
-				<span class="el-dropdown-link">
-					<i class="el-icon-user" style="font-size: 18px;margin: 0 10px"></i>
-					<b>{{user.real_name}}</b>
-					<i class="el-icon-arrow-down el-icon--right"></i>
-				</span>
+		<span class="el-dropdown-link">
+			<i class="el-icon-user" style="font-size: 18px;margin: 0 10px"></i>
+			<b>{{user.real_name}}</b>
+			<i class="el-icon-arrow-down el-icon--right"></i>
+		</span>
 				<el-dropdown-menu slot="dropdown">
 					<el-dropdown-item>
 						<a href="/admin/profile">
@@ -47,6 +52,7 @@
 			</el-dropdown>
 		</div>
 	</el-header>
+	</div>
 </template>
 <script>
 		export default {

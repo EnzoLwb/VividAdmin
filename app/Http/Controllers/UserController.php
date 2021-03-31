@@ -196,7 +196,7 @@ class UserController extends Controller
                 $users = $users->where('real_name','like',"%$realName%");
             }
 
-            $users = $users->select('admins.*','admin_group.type as group','admin_group.company_name','admin_group.company_id','admin_group.grid_id','roles.id as role_id','roles.name')
+            $users = $users->select('admins.*','admin_group.type as group','admin_group.grid_id','roles.id as role_id','roles.name')
                 ->orderBy('admins.id','desc')
                 ->paginate($page_size);
             return $this->json(0,$users,'');

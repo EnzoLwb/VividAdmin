@@ -2,8 +2,8 @@
   <div>
     <el-card shadow="hover" >
       <el-form :inline="true"  class="search-form-inline" size="mini">
-        <el-form-item label="权限组:" >
-          <el-select  placeholder="请选择" v-model="search_form.role_id" clearable>
+        <el-form-item label="Role:" >
+          <el-select  placeholder="Select" v-model="search_form.role_id" clearable style="width: 150px;">
             <el-option
                     v-for="item in roles"
                     :key="item.id"
@@ -12,87 +12,60 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="职务:">
-          <el-select v-model="search_form.group" size="mini">
-            <el-option label="高新区总工会" :value="1" ></el-option>
-            <el-option label="基层工会" :value="2" ></el-option>
-            <el-option label="基层团组织" :value="3" ></el-option>
-            <el-option label="基层妇联" :value="4" ></el-option>
-            <el-option label="网格员" :value="5" ></el-option>
-            <el-option label="基层工会、团组织" :value="6" ></el-option>
-            <el-option label="基层工会、妇联" :value="7" ></el-option>
-            <el-option label="基层团组织、妇联" :value="8" ></el-option>
-            <el-option label="基层工会、团组织、妇联" :value="9" ></el-option>
+        <el-form-item label="Post:">
+          <el-select v-model="search_form.group" size="mini" style="width: 150px;">
+            <el-option label="Admin" :value="1" ></el-option>
+            <el-option label="Marketing Manager" :value="2" ></el-option>
+            <el-option label="Translator" :value="3" ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态:" >
+        <el-form-item label="State:" class="mobile-mr-top">
           <el-radio-group  v-model="search_form.status">
-            <el-radio-button  label=1 >启用</el-radio-button>
-            <el-radio-button  label=0 >禁用</el-radio-button>
+            <el-radio-button  label=1 >Enable</el-radio-button>
+            <el-radio-button  label=0 >Disable</el-radio-button>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="用户名:">
+        <el-form-item label="NickName:">
           <el-input type="text" v-model="search_form.real_name"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-button type="warning" @click="search">查询</el-button>
+        <el-form-item class="mobile-mr-top">
+          <el-button type="warning" @click="search">Search</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-button type="info" @click="reset">重置</el-button>
+        <el-form-item class="mobile-mr-top">
+          <el-button type="info" @click="reset">Reset</el-button>
         </el-form-item>
       </el-form>
     </el-card>
     <el-card shadow="hover" class="margin_top" >
       <div slot="header" >
-        <el-button  icon="el-icon-user" type="primary" size="mini" @click="showForm('add')">新增用户</el-button>
+        <el-button  icon="el-icon-user" type="primary" size="mini" @click="showForm('add')">Add User</el-button>
       </div>
       <el-table :data="tabledata.data" v-loading="loading" size="medium">
-        <el-table-column type="expand">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="所属企业单位" v-if="props.row.group!==1 && props.row.group!==5">
-                <span>{{ props.row.company_name }}</span>
-              </el-form-item>
-              <el-form-item label="手机号">
-                <span>{{ props.row.mobile }}</span>
-              </el-form-item>
-              <el-form-item label="创建时间">
-                <span>{{ props.row.created_at }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
-        </el-table-column>
-        <el-table-column resizable prop="id" label="序号" width="70" > </el-table-column>
-        <el-table-column resizable prop="username"  label="登录名" > </el-table-column>
-        <el-table-column resizable prop="real_name" label="用户名" > </el-table-column>
-        <el-table-column resizable prop="name" label="权限组" > </el-table-column>
-        <el-table-column resizable label="职务" >
+        <el-table-column resizable prop="id" label="ID" width="70" > </el-table-column>
+        <el-table-column resizable prop="username"  label="UserName" > </el-table-column>
+        <el-table-column resizable prop="real_name" label="NickName" > </el-table-column>
+        <el-table-column resizable prop="name" label="Role" > </el-table-column>
+        <el-table-column resizable label="Post" >
           <template  slot-scope="scope">
-            <span v-if="scope.row.group == 1">高新区总工会</span>
-            <span v-else-if="scope.row.group == 2">基层工会</span>
-            <span v-else-if="scope.row.group == 3">基层团组织</span>
-            <span v-else-if="scope.row.group == 4">基层妇联</span>
-            <span v-else-if="scope.row.group == 5">网格员</span>
+            <span v-if="scope.row.group == 1">Admin</span>
+            <span v-else-if="scope.row.group == 2">Marketing Manager</span>
+            <span v-else-if="scope.row.group == 3">Translator</span>
           </template>
         </el-table-column>
-        <el-table-column resizable prop="login_at" label="登录时间" > </el-table-column>
-        <el-table-column resizable label="状态" >
+        <el-table-column resizable prop="login_at" label="Login Time" > </el-table-column>
+        <el-table-column resizable label="State" >
           <template  slot-scope="scope">
-            {{scope.row.status == 1 ? '启用':'禁用'}}
+            {{scope.row.status == 1 ? 'Enable':'Disable'}}
           </template>
         </el-table-column>
-        <el-table-column resizable align="center" label="操作">
+        <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
             <el-button
-
                     type="text"
-                    icon="el-icon-edit"
-                    @click="showForm('edit',scope.row)">编辑</el-button>
+                    @click="showForm('edit',scope.row)">Edit</el-button>
             <el-button
-
                     type="text"
-                    icon="el-icon-delete"
-                    @click="handleDelete(scope.$index,scope.row)">{{scope.row.status==1?'禁用':'取消禁用'}}</el-button>
+                    @click="handleDelete(scope.$index,scope.row)">{{scope.row.status==1?'Disable':'Enable'}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -110,8 +83,7 @@
       </div>
     </el-card>
     <el-dialog :visible.sync="outerVisible"
-               :close-on-click-modal="false"
-               width="50%" :title="dialog_title" v-if="outerVisible">
+               :close-on-click-modal="false" :title="dialog_title" v-if="outerVisible">
       <!--表格详情-->
       <el-row style="margin-top: 15px">
         <el-col :span="20">
@@ -184,13 +156,13 @@ export default {
         this.outerVisible = true
         if (action != 'add'){
           //编辑
-          this.dialog_title = '编辑用户 —— '+param.real_name
+          this.dialog_title = 'Edit User —— '+param.real_name
           this.articles = param
           this.is_add = false
         }else{
           this.articles = {}
           this.is_add = true
-          this.dialog_title = '新增用户'
+          this.dialog_title = 'Add User'
         }
       },
       reset()
@@ -213,11 +185,10 @@ export default {
       },
       handleDelete(index,row) {
         var updateStatus = row.status == 1 ? 0 : 1;
-        var tip = updateStatus == 1 ? '此操作将取消禁用该用户':'此操作将禁用该用户';
-        console.log(updateStatus)
-        this.$confirm(tip+', 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        var tip = updateStatus == 1 ? 'Enable the user':'Disable the user';
+        this.$confirm(tip+', Do you want to continue?', 'Confirm', {
+          confirmButtonText: 'Yes',
+          cancelButtonText: 'No',
           type: 'warning'
         }).then(() => {
           this.loading = true
@@ -225,7 +196,7 @@ export default {
                   .then(res => {
                     if (res.data.code != 0 || res.status != 200) {
                       this.$notify({
-                        title: '失败',
+                        title: 'Fail',
                         message: res.data.message,
                         type: 'error'
                       });
@@ -239,11 +210,6 @@ export default {
                     }
                     this.loading = false
                   })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
         });
       },
     },

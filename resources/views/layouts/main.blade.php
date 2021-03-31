@@ -7,7 +7,6 @@
 	<link href="{{cdn('images/favicon.ico')}}" rel="shortcut icon">
 	<title>@yield('title',config('app.name'))</title>
 	<meta name="description" content="overview &amp; stats" />
-	<meta name="imagecache_path" content="{{env('IMAGE_CACHE_PATH')}}" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 	<link rel="stylesheet" href='/css/app.css' />
 	@yield('header')
@@ -70,7 +69,6 @@
 	.el-button + .el-button {
 		margin-left: 0 ;
 	}
-
 	.margin_top {
 		margin-top: 15px;
 	}
@@ -86,20 +84,6 @@
 	#body_content{
 		margin: 20px 30px;
 		position: relative;
-	}
-	.my_breadcrumb{
-		display: flex;
-		position:fixed;
-		top:60px;
-		width: 100%;
-		height: 34px;
-		z-index: 9;
-		background-color: white;
-		box-shadow: 0 1px 4px rgba(0,21,41,.08);
-	}
-
-	.el-breadcrumb{
-		line-height: 34px;
 	}
 	input[type="hidden"] {
 		display: none !important;

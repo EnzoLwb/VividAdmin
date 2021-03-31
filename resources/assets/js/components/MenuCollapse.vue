@@ -43,7 +43,7 @@
 		{
 				data: function() {
 						return {
-								isCollapse : JSON.parse( window.localStorage.getItem("isCollapse") ),
+								isCollapse : '',
 								loading:true,
 								menus:[],
 								opened:[],
@@ -51,7 +51,16 @@
 						}
 				},
 				created() {
-						// 获取 菜单
+						//获取屏幕宽度
+					var windowWidth = document.documentElement.clientWidth;
+					if(windowWidth < 640){
+						this.isCollapse = true
+					}
+					if(windowWidth >= 640){
+						this.isCollapse = false
+					}
+
+					// 获取 菜单
 						let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
 						if (!menus){
 								axios.post('/admin/left_menu')
