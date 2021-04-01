@@ -5,16 +5,6 @@
 				upload_video_path : '/api/saveVideo',
 				upload_no_return_path : '/api/noReturn',
 				page_size : [10, 20, 60,1000],//分页
-				setQueryConfig(queryConfig) {
-					console.log('setQueryConfig')
-						var _str = "";
-						for(var o in queryConfig){
-								if(queryConfig[o] != '' && queryConfig[o] != null){
-										_str += o + "=" + queryConfig[o] + "&";
-								}
-						}
-						return _str.substring(0, _str.length-1);
-				},
 				beforeUploadAttendFile(file) {
 					const isLt2M = file.size / 1024 / 1024 < 20;
 					if (!isLt2M) {

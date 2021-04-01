@@ -1,4 +1,5 @@
 import ElementUI from 'element-ui';
+import locale from 'element-ui/lib/locale/lang/en'
 import Vue from 'vue';
 import _global from './components/Global.js';
 /*组件*/
@@ -14,7 +15,7 @@ require('./bootstrap');
 window.Vue = Vue;
 Vue.prototype.unils = _global;//引入公共文件 公共方法
 
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale });
 // 注册通用组件
 Vue.component('basic-paginator', BasicPaginator);
 Vue.component('search-tags', SearchTags);
@@ -67,6 +68,7 @@ const app = new Vue({
         'role-list':()=>import('./components/admin/RoleList'),
 
         /*业务部分*/
-        'page-list':()=>import('./components/page_list/index'),//日志
+        'page-list':()=>import('./components/page_list/Index'),
+        'page-form':()=>import('./components/page_list/Form'),
     }
 });

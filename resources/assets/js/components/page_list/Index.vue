@@ -9,7 +9,7 @@
           <el-input type="text" placeholder="Page Url" v-model="search_form.url"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-select  placeholder="Select" v-model="search_form.module" clearable style="width: 150px;">
+          <el-select  v-model="search_form.module_id" clearable style="width: 150px;">
             <el-option
                     v-for="item in moduleSelect"
                     :key="item.id"
@@ -34,12 +34,12 @@
             <a :href="scope.row.url | ContainsHttp">{{scope.row.url | ContainsHttp}}</a>
           </template>
         </el-table-column>
-        <el-table-column resizable label="Page ScreenShot" >
+        <el-table-column resizable label="Page ScreenShot" width="300">
           <template slot-scope="scope">
-            <el-image
-                    style="width: 100px;"
-                    :src="scope.row.screenshots"
-                    :preview-src-list="[scope.row.screenshots]">
+            <el-image class="table-image"
+                    v-for="(item,index) in scope.row.screenshots.split(',')"
+                    :key="index" :src="item"
+                    :preview-src-list="scope.row.screenshots.split(',')">
             </el-image>
           </template>
         </el-table-column>
@@ -78,19 +78,8 @@
               search_form:{
                 page_name:'',
                 url:'',
-                module:'',
+                module_id:'',
               },
-              modules:[
-                {
-                  id:1,name:'main',
-                },
-                {
-                  id:2,name:'common',
-                },
-                {
-                  id:3,name:'other',
-                }
-              ],
               tabledata:{},
           }
       },
@@ -128,15 +117,6 @@
               this.loading = false
             })
         },
-        reset()
-        {
-          this.search_form = {
-            page_name:'',
-            url:'',
-            module:'',
-          }
-          this.getData({})
-        },
         search()
         {
           var data = {};
@@ -148,7 +128,7 @@
           window.location.href = id ? url+'?id='+id : url
         },
         handleDelete(index,row) {
-          this.$confirm(' Do you want to continue?', 'Confirm', {
+          this.$confirm(' Do you want to delete it?', 'Confirm', {
             confirmButtonText: 'Yes',
             cancelButtonText: 'No',
             type: 'warning'
@@ -169,6 +149,7 @@
                     type: 'success'
                   });
                 }
+                this.tabledata.data.splice(index,1)
                 this.loading = false
               })
           });

@@ -4,6 +4,12 @@
 .el-menu{
   border-right: none;
 }
+.table-image{
+  width: 120px;display: inline-block;margin-right: 15px
+}
+.login_cover{
+  width: 100px;
+}
 .search-form-inline{
   .el-form-item{
     margin-bottom: 0 !important;
@@ -15,7 +21,9 @@
   }
   .mobile-header{
     display: flex;
-    overflow-x:auto
+    overflow: auto;
+    overflow-y: hidden;
+    min-height: 60px;
   }
 
   #body_content{

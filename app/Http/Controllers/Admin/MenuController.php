@@ -35,4 +35,11 @@ class MenuController extends Controller
         }
         return $this->json(0,$roles,'');
     }
+
+    public function changeSite(Request $request)
+    {
+        if (!$request->site) return $this->json(1,[],'error param');
+        $request->session()->put('site',$request->site);
+        return $this->json(0,[],'');
+    }
 }

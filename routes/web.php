@@ -18,6 +18,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             //Page List
             Route::get('/page_list/add', 'PageListController@add');
             Route::get('/page_list/edit', 'PageListController@edit');
+            Route::post('/page_list/save', 'PageListController@save');
             Route::get('/page_list/{module?}', 'PageListController@index');
             Route::post('/page_list/{module?}', 'PageListController@list');
             Route::delete('/page_list', 'PageListController@delete');
@@ -35,6 +36,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             //菜单
             Route::post('/left_menu', 'MenuController@leftMenu');
             Route::post('/header_menu', 'MenuController@headerMenu');
+            Route::post('/home/site', 'MenuController@changeSite');
         });
 
         //用户修改密码

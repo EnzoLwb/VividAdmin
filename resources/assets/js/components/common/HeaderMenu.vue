@@ -13,7 +13,7 @@
 		</div>
 		<div class="user-name">
 			Site:
-			<el-select v-model="site" placeholder="请选择" size="mini" style="width: 100px">
+			<el-select v-model="site" placeholder="请选择" size="mini" style="width: 100px" @change="changeSite">
 				<el-option label="Service" value="Service"></el-option>
 				<el-option label="Media" value="Media"></el-option>
 			</el-select>
@@ -59,12 +59,11 @@
 				data: function() {
 						return {
 							activeIndex:"",
-							site: 'Service',
 							menus:[]
 						}
 				},
-
 				created() {
+					console.log(this.site)
 						//获取菜单 进行展示
 					var storage_key = 'header_menu'
 					let menus = JSON.parse(window.sessionStorage.getItem(storage_key)) ;
@@ -83,6 +82,20 @@
 
 				},
 				methods:{
+					changeSite(){
+						axios.post('/admin/home/site',{site:this.site})
+								.then(res => {
+									if (res.data.code != 0 || res.status != 200) {
+										this.$notify({
+											message: res.data.message,
+											type: 'error'
+										});
+									}else{
+										window.location.href = window.location.href
+									}
+								})
+
+					},
 					handleSelect(key, keyPath) {
 						window.location.href = key //'/admin/page_list'
 					},
@@ -96,7 +109,7 @@
 						})
 					}
 				},
-			props:['user'],
+			props:['user','site'],
 		}
 </script>
 <style lang="scss">

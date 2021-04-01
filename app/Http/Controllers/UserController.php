@@ -53,8 +53,9 @@ class UserController extends Controller
         if ($userInfo->status == 0)  return $this->json(1,[],"该用户已被禁用");
 
         //进行登录
-//        Auth::loginUsingId($userInfo->id);
         Auth::login($userInfo);
+        //设置当前site
+        $request->session()->put('site','Service');
         $userInfo->login_at = date("Y-m-d");
         $userInfo->save();
         activity()

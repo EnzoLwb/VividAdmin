@@ -18,7 +18,7 @@
 		<menu-collapse></menu-collapse>
 		<el-container style="flex-direction:column">
 			{{--Top Sec-Level Menu Begin--}}
-			<header-menu :user="{{\Auth::user()}}"></header-menu>
+			<header-menu :user="{{\Auth::user()}}" site="{!! session('site') !!}"></header-menu>
 			{{--Top Sec-Level Menu End--}}
 			{{--Main Content Begin--}}
 			<el-main id="container" style="padding:0">
@@ -60,9 +60,9 @@
 		padding-top: 30px;
 	}
 	/*按钮 应该靠右*/
-	.el-form-item__content button:not(.button-new-tag,.origin) {
+/*	.el-form-item__content button:not(.button-new-tag,.origin) {
 		float: right;
-	}
+	}*/
 	.el-select-dropdown__wrap{
 		margin-bottom:0px !important;
 	}
