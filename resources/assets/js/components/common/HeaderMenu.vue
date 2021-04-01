@@ -25,12 +25,6 @@
 		</span>
 				<el-dropdown-menu slot="dropdown">
 					<el-dropdown-item>
-						<a href="/admin/profile">
-							<i class="el-icon-user"></i>
-							个人资料
-						</a>
-					</el-dropdown-item>
-					<el-dropdown-item>
 						<a href="/admin/changepassword">
 							<i class="el-icon-unlock"></i>
 							修改密码

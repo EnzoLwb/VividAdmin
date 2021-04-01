@@ -64,11 +64,12 @@ const app = new Vue({
         /*权限部分*/
         'admin-list':()=>import('./components/admin/List'),
         'password-form':()=>import('./components/admin/Password'),
-        'my-profile':()=>import('./components/admin/Profile'),//个人介绍
         'role-list':()=>import('./components/admin/RoleList'),
 
         /*业务部分*/
         'page-list':()=>import('./components/page_list/Index'),
         'page-form':()=>import('./components/page_list/Form'),
+        'seo-list':()=>import('./components/seo_list/Index'),
+        'seo-form':()=>import('./components/seo_list/Form'),
     }
 });

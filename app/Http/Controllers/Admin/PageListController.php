@@ -3,16 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\PageList;
+use App\Models\PageList as Model;
 use App\Models\PageModule;
 use Illuminate\Http\Request;
 
 class PageListController extends Controller
 {
+    protected $model_name;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->model_name = 'page_list';
+    }
+
     public function index($module='')
     {
         $module_select = PageModule::query()->select('module_id as id','module as name')->get();
-        return view('page_list.list',compact('module','module_select'));
+        return view($this->model_name.'.list',compact('module','module_select'));
     }
 
     public function add()
@@ -20,12 +27,12 @@ class PageListController extends Controller
         $module_select = PageModule::query()->select('module_id as id','module as name')->get();
         $obj = new \stdClass();
         $title = 'Add New Page';
-        return view('page_list.form',compact('module_select','obj','title'));
+        return view($this->model_name.'.form',compact('module_select','obj','title'));
     }
 
     public function edit()
     {
-        $obj = PageList::query()->findOrFail(\request('id'));
+        $obj = Model::query()->findOrFail(\request('id'));
         $screenshots = explode(',',$obj->screenshots);
         $data = [];//由字符串改为数组
         foreach ($screenshots as $screenshot){
@@ -34,14 +41,14 @@ class PageListController extends Controller
         $obj->screenshots = $data;
         $module_select = PageModule::query()->select('module_id as id','module as name')->get();
         $title = 'Edit Page';
-        return view('page_list.form',compact('module_select','obj','title'));
+        return view($this->model_name.'.form',compact('module_select','obj','title'));
     }
 
     public function list(Request $request, $module='')
     {
         $site = $request->session()->get('site');
         if ($request->has('module_id')) $module = "";//证明是搜索 即不考虑当前菜单的类别。
-        $res = PageList::query()
+        $res = Model::query()
             ->leftJoin('pages_modules','pages_modules.module_id','pages.module_id')
             ->when($module,function ($query)use($module){//菜单中的类别
                 return $query->where('pages_modules.module',$module);
@@ -71,7 +78,7 @@ class PageListController extends Controller
             $screenshots[] = $screenshot['url'];
         }
         $data['screenshots'] = implode(',',$screenshots );
-        $obj = PageList::query()->updateOrInsert(
+        $obj = Model::query()->updateOrInsert(
             ['page_id' => $request->page_id],
             $data
         );
@@ -81,7 +88,7 @@ class PageListController extends Controller
 
     public function delete()
     {
-        $res = PageList::findorFail(\request('id'));
+        $res = Model::findorFail(\request('id'));
         return $this->json(!intval( $res->delete()),[],'');
     }
 }

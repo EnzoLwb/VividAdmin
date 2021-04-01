@@ -3,6 +3,9 @@
     <el-card shadow="hover" >
       <el-form :inline="true"  class="search-form-inline" size="mini">
         <el-form-item >
+          <el-input type="text" placeholder="Column Name" v-model="search_form.column_name"></el-input>
+        </el-form-item>
+        <el-form-item >
           <el-input type="text" placeholder="Page Name" v-model="search_form.page_name"></el-input>
         </el-form-item>
         <el-form-item >
@@ -28,31 +31,26 @@
     </el-card>
     <el-card shadow="hover" class="margin_top" >
       <div slot="header" >
-        <el-button   type="primary" size="medium" @click="handleOperation('add')">Add Page</el-button>
+        <el-button  type="primary" size="medium" @click="handleOperation('add')">Add a Column</el-button>
       </div>
       <el-table :data="tabledata.data" v-loading="loading" size="medium">
-        <el-table-column resizable prop="name" label="Page Name" > </el-table-column>
+        <el-table-column resizable prop="meta_id" label="ID" width="70"> </el-table-column>
+        <el-table-column resizable prop="module" label="Module" > </el-table-column>
+        <el-table-column resizable prop="key_name" label="Column name" > </el-table-column>
+        <el-table-column resizable prop="key_value" label="Column description" > </el-table-column>
+        <el-table-column resizable prop="page_name" label="Page Name" > </el-table-column>
         <el-table-column resizable label="URL" >
           <template slot-scope="scope">
             <a :href="scope.row.url | ContainsHttp">{{scope.row.url | ContainsHttp}}</a>
           </template>
         </el-table-column>
-        <el-table-column resizable label="Page ScreenShot" width="300">
-          <template slot-scope="scope">
-            <el-image class="table-image"
-                    v-for="(item,index) in scope.row.screenshots.split(',')"
-                    :key="index" :src="item"
-                    :preview-src-list="scope.row.screenshots.split(',')">
-            </el-image>
-          </template>
-        </el-table-column>
-        <el-table-column resizable prop="module" label="Module" > </el-table-column>
-        <el-table-column resizable prop="note" label="Note" > </el-table-column>
         <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
             <el-button style="color: rgb(0, 0, 255)" type="text" @click="handleOperation('edit',scope.row.id)">Edit</el-button>
             |
             <el-button type="text" @click="handleDelete(scope.$index,scope.row)">Delete</el-button>
+            |
+            <el-button type="text" @click="handleOperation('translate',scope.row.id)">Translate</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -73,13 +71,14 @@
 </template>
 
 <script type="text/javascript">
-  const current_url = '/admin/page_list/'
+  const current_url = '/admin/seo_list/'
   export default {
       data:function() {
           return {
               loading: false,
               search_form:{
                 page_name:'',
+                column_name:'',
                 url:'',
                 module_id:'',
               },

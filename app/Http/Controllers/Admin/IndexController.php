@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PageList;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -16,5 +17,12 @@ class IndexController extends Controller
         $policy_uri = json_decode($role,true);
         return redirect()->to(current($policy_uri));
 //        return redirect()->to("/admin/logs/list");
+    }
+
+    public function getPagesBySite()
+    {
+        $site = \request('site');
+        $data = PageList::query()->where('website',$site)->select('name','url','page_id')->get();
+        return $this->json(0,$data,'');
     }
 }

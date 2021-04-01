@@ -15,6 +15,12 @@
     margin-bottom: 0 !important;
   }
 }
+.word-count{
+  float: right;
+  b{
+    color: red;
+  }
+}
 @media  (max-width: 768px){
   .el-dialog{
     width: 100% !important;

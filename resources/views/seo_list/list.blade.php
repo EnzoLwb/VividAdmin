@@ -1,5 +1,7 @@
 @extends('layouts.main')
-@section('title', 'Page List')
+@section('title', 'SEO List')
 @section('content')
-    SEO List!!
+    <seo-list :module='{!! json_encode($module) !!}'
+               :module-select='{!! json_encode($module_select) !!}'
+    ></seo-list>
 @stop

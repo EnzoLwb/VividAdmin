@@ -23,8 +23,13 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::post('/page_list/{module?}', 'PageListController@list');
             Route::delete('/page_list', 'PageListController@delete');
             //SEO List
+            Route::get('/seo_list/add', 'SEOListController@add');
+            Route::get('/seo_list/edit', 'SEOListController@edit');
+            Route::post('/seo_list/save', 'SEOListController@save');
+            Route::any('/seo_list/translate', 'SEOListController@translate');
             Route::get('/seo_list/{module?}', 'SEOListController@index');
-
+            Route::post('/seo_list/{module?}', 'SEOListController@list');
+            Route::delete('/seo_list', 'SEOListController@delete');
             //日志管理
             Route::group([
                 'prefix'=>'logs',
@@ -33,6 +38,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::post('/delete/{id}', 'LogsController@delete');
                 Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
             });
+            Route::post('/pages_by_site', 'IndexController@getPagesBySite');
             //菜单
             Route::post('/left_menu', 'MenuController@leftMenu');
             Route::post('/header_menu', 'MenuController@headerMenu');
@@ -41,7 +47,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
 
         //用户修改密码
         Route::get('/changepassword', 'UserController@changepassword');
-        Route::get('/profile', 'UserController@profile');
         Route::get('/clear-cache', 'UserController@clearCache');
         Route::post('/changepassword', 'UserController@changepasswordPost');
 
