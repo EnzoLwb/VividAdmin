@@ -7,7 +7,7 @@ Route::any('/logout', 'UserController@logout');
 
 /*PC端*/
 Route::group(['middleware' => ['needlogin','menunorm']], function () {
-    Route::get('/', 'Admin\IndexController@home');
+    Route::get('/', 'Admin\IndexController@home');//首页
 
     Route::group([
         'prefix'=>'admin',
@@ -53,20 +53,29 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
         Route::post('/updateRememberToken', 'UserController@updateRememberToken');
         Route::post('/user_group', 'UserController@userGroup');
 
-        Route::get('/user/add', 'UserController@addUser');//添加用户
-        Route::any('/user/list','UserController@userList');
-        Route::get('/user/edit', 'UserController@editUser');
-        Route::post('/user/update','UserController@updateUserPost');
-        Route::post('/user/delete','UserController@deleteUser');
-        Route::post('/user/roles','UserController@roles');//批量创建用户
+        Route::group([
+            'prefix'=>'user',
+        ],function (){
+            Route::get('/add', 'UserController@addUser');//添加用户
+            Route::any('/list','UserController@userList');
+            Route::get('/edit', 'UserController@editUser');
+            Route::post('/update','UserController@updateUserPost');
+            Route::post('/delete','UserController@deleteUser');
+            Route::post('/roles','UserController@roles');
+        });
 
         //添加角色
-        Route::get('/role/add', 'AuthController@addRole');
-        Route::get('/role/edit', 'AuthController@addRole');
-        Route::get('/role/list', 'AuthController@roleList');
-        Route::post('/role/delete', 'AuthController@deleteRolePost');
-        Route::post('/role/save', 'AuthController@save_role');
-        Route::post('/role/get_menu', 'AuthController@getMenuRole');//获取角色菜单
+        Route::group([
+            'prefix'=>'role',
+        ],function (){
+            Route::get('/add', 'AuthController@addRole');
+            Route::get('/edit', 'AuthController@addRole');
+            Route::get('/list', 'AuthController@roleList');
+            Route::post('/delete', 'AuthController@deleteRolePost');
+            Route::post('/save', 'AuthController@save_role');
+            Route::post('/get_menu', 'AuthController@getMenuRole');//获取角色菜单
+        });
+
         Route::group([
             'namespace'=>'Api',
         ],function (){
