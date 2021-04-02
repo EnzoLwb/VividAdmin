@@ -30,9 +30,9 @@
       <div slot="header" >
         <el-button   type="primary" size="medium" @click="handleOperation('add')">Add Page</el-button>
       </div>
-      <el-table :data="tabledata.data" v-loading="loading" size="medium">
-        <el-table-column resizable prop="name" label="Page Name" > </el-table-column>
-        <el-table-column resizable label="URL" >
+      <el-table :data="tabledata.data" v-loading="loading" size="medium" @sort-change="sortChange">
+        <el-table-column resizable prop="name" label="Page Name" sortable="custom"> </el-table-column>
+        <el-table-column resizable label="URL" sortable="custom" prop="url">
           <template slot-scope="scope">
             <a :href="scope.row.url | ContainsHttp">{{scope.row.url | ContainsHttp}}</a>
           </template>
@@ -46,7 +46,7 @@
             </el-image>
           </template>
         </el-table-column>
-        <el-table-column resizable prop="module" label="Module" > </el-table-column>
+        <el-table-column resizable prop="module" label="Module" sortable="custom"> </el-table-column>
         <el-table-column resizable prop="note" label="Note" > </el-table-column>
         <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
@@ -81,7 +81,11 @@
               search_form:{
                 page_name:'',
                 url:'',
+                sort_prop:'',
+                sort_order:'',
                 module_id:'',
+                page:0,
+                per_page:this.unils.per_page,
               },
               tabledata:{},
           }
@@ -90,21 +94,21 @@
         this.getData({})
       },
       methods: {
-        handleSizeChange(val)
-        {
-          this.per_page = val
-          this.handleCurrentChange(this.tabledata.current_page);
+        sortChange(column) {
+          console.log(column.prop,column.order)
+          this.search_form.sort_prop = column.prop
+          this.search_form.sort_order = column.order === 'descending'? 'desc':'asc';
+          this.getData(this.search_form)
         },
-        handleCurrentChange(val)
-        {
-          var data = {};
-          Object.assign(data,this.search_form)
-          data.page = val
-          data.per_page = this.per_page
-          this.getData(data);
+        handleSizeChange(val) {
+          this.search_form.per_page = val
+          this.handleCurrentChange();
         },
-        getData(data)
-        {
+        handleCurrentChange() {
+          this.search_form.page = this.tabledata.current_page
+          this.getData(this.search_form);
+        },
+        getData(data) {
           this.loading = true
           axios.post(current_url + this.module,data)
             .then(res => {
@@ -120,15 +124,11 @@
               this.loading = false
             })
         },
-        reset()
-        {
+        reset() {
           window.location.href = current_url
         },
-        search()
-        {
-          var data = {};
-          Object.assign(data,this.search_form)
-          this.getData(data);
+        search() {
+          this.getData(this.search_form);
         },
         handleOperation(operation,id=null) {
           var url = current_url + operation

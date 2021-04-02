@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\PageList;
 use App\Models\SeoList as Model;
+use App\Models\SeoListTranslation as TranslationModel;
 use App\Models\PageModule;
 use Illuminate\Http\Request;
 
@@ -24,23 +26,24 @@ class SEOListController extends Controller
 
     public function add()
     {
-        $module_select = PageModule::query()->select('module_id as id','module as name')->get();
         $obj = new \stdClass();
         $title = 'Add SEO Column';
-        return view($this->model_name.'.form',compact('module_select','obj','title'));
+        return view($this->model_name.'.form',compact('obj','title'));
     }
 
     public function edit()
     {
         $obj = Model::query()->findOrFail(\request('id'));
-        $module_select = PageModule::query()->select('module_id as id','module as name')->get();
+        //返回默认的site
+        $site = PageList::query()->findOrFail($obj->page_id)->website;
         $title = 'Edit SEO Column';
-        return view($this->model_name.'.form',compact('module_select','obj','title'));
+        return view($this->model_name.'.form',compact('obj','site','title'));
     }
 
     public function list(Request $request, $module='')
     {
         $site = $request->session()->get('site');
+        $page_size = $request->per_page ?? $this->page_size;
         if ($request->has('module_id')) $module = "";//证明是搜索 即不考虑当前菜单的类别。
         $res = Model::query()
             ->leftJoin('pages','pages.page_id','pages_seo_meta.page_id')
@@ -57,19 +60,25 @@ class SEOListController extends Controller
             ->when($request->column_name,function ($query)use($request){
                 return $query->where('pages_seo_meta.key_name','like','%'.$request->column_name.'%');
             })
-            ->when($request->page_name,function ($query)use($request){
-                return $query->where('pages.name','like','%'.$request->page_name.'%');
+            ->when($request->name,function ($query)use($request){
+                return $query->where('pages.name','like','%'.$request->name.'%');
+            })
+            ->when($request->sort_order,function ($query)use($request){//排序
+                $field = $request->sort_prop;
+                $order = $request->sort_order;
+                return $query->orderBy($field,$order);
             })
             ->where('pages.website',$site)
-            ->select('pages.name as page_name','pages.url','pages_seo_meta.*','pages_modules.module')
+            ->select('pages.name','pages.url','pages_seo_meta.meta_id as id','pages_seo_meta.*','pages_modules.module')
             ->orderByDesc('meta_id')
-            ->paginate($this->page_size);
+            ->paginate($page_size);
 
         return $this->json(0,$res,'');
     }
 
     public function save(Request $request){
         $data = $request->all();
+        //单词数
         $obj = Model::query()->updateOrInsert(
             ['meta_id' => $request->meta_id],
             $data
@@ -87,14 +96,22 @@ class SEOListController extends Controller
     public function translate(Request $request)
     {
         if ($request->isMethod('POST')){
-
+            $data = $request->all();
+            TranslationModel::query()->updateOrInsert(
+                ['translation_id' => $request->translation_id],
+                $data
+            );
+            return $this->json(0,[],'');
         }else{
             $obj = Model::query()
                 ->leftJoin('pages','pages.page_id','pages_seo_meta.page_id')
                 ->where('pages_seo_meta.meta_id',\request('id'))
-                ->select('key_name','key_value','pages.name as page_name','site')
+                ->select('pages_seo_meta.*','pages.name as page_name','pages.website','pages.url')
                 ->first();
-            $language_select = [];
+            $language_select = [
+                'Chinese' => 'zh',
+                'English' => 'en',
+            ];
             return view($this->model_name.'.translate',compact('language_select','obj'));
         }
     }

@@ -6,7 +6,7 @@
           <el-input type="text" placeholder="Column Name" v-model="search_form.column_name"></el-input>
         </el-form-item>
         <el-form-item >
-          <el-input type="text" placeholder="Page Name" v-model="search_form.page_name"></el-input>
+          <el-input type="text" placeholder="Page Name" v-model="search_form.name"></el-input>
         </el-form-item>
         <el-form-item >
           <el-input type="text" placeholder="Page Url" v-model="search_form.url"></el-input>
@@ -32,14 +32,15 @@
     <el-card shadow="hover" class="margin_top" >
       <div slot="header" >
         <el-button  type="primary" size="medium" @click="handleOperation('add')">Add a Column</el-button>
+        <el-button type="text" class="word-count">WordCount: <b>3456</b></el-button>
       </div>
-      <el-table :data="tabledata.data" v-loading="loading" size="medium">
-        <el-table-column resizable prop="meta_id" label="ID" width="70"> </el-table-column>
-        <el-table-column resizable prop="module" label="Module" > </el-table-column>
-        <el-table-column resizable prop="key_name" label="Column name" > </el-table-column>
+      <el-table :data="tabledata.data" v-loading="loading" size="medium" @sort-change="sortChange">
+        <el-table-column resizable prop="meta_id" label="ID" width="70" > </el-table-column>
+        <el-table-column resizable prop="module" label="Module" sortable="custom"> </el-table-column>
+        <el-table-column resizable prop="key_name" label="Column name" sortable="custom"> </el-table-column>
         <el-table-column resizable prop="key_value" label="Column description" > </el-table-column>
-        <el-table-column resizable prop="page_name" label="Page Name" > </el-table-column>
-        <el-table-column resizable label="URL" >
+        <el-table-column resizable prop="name" label="Page Name" sortable="custom"> </el-table-column>
+        <el-table-column resizable label="URL" prop="url" sortable="custom">
           <template slot-scope="scope">
             <a :href="scope.row.url | ContainsHttp">{{scope.row.url | ContainsHttp}}</a>
           </template>
@@ -77,10 +78,14 @@
           return {
               loading: false,
               search_form:{
-                page_name:'',
+                name:'',
                 column_name:'',
                 url:'',
                 module_id:'',
+                sort_prop:'',
+                sort_order:'',
+                page:0,
+                per_page:this.unils.per_page,
               },
               tabledata:{},
           }
@@ -89,18 +94,19 @@
         this.getData({})
       },
       methods: {
-        handleSizeChange(val)
-        {
-          this.per_page = val
-          this.handleCurrentChange(this.tabledata.current_page);
+        sortChange(column) {
+          console.log(column.prop,column.order)
+          this.search_form.sort_prop = column.prop
+          this.search_form.sort_order = column.order === 'descending'? 'desc':'asc';
+          this.getData(this.search_form)
         },
-        handleCurrentChange(val)
-        {
-          var data = {};
-          Object.assign(data,this.search_form)
-          data.page = val
-          data.per_page = this.per_page
-          this.getData(data);
+        handleSizeChange(val) {
+          this.search_form.per_page = val
+          this.handleCurrentChange();
+        },
+        handleCurrentChange() {
+          this.search_form.page = this.tabledata.current_page
+          this.getData(this.search_form);
         },
         getData(data)
         {
@@ -119,15 +125,11 @@
               this.loading = false
             })
         },
-        reset()
-        {
+        reset() {
           window.location.href = current_url
         },
-        search()
-        {
-          var data = {};
-          Object.assign(data,this.search_form)
-          this.getData(data);
+        search() {
+          this.getData(this.search_form);
         },
         handleOperation(operation,id=null) {
           var url = current_url + operation

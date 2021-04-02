@@ -11,25 +11,25 @@
                     <el-input v-model="article.key_name"></el-input>
                 </el-form-item>
                 <el-form-item label="Site">
-                    <el-select v-model="site">
+                    <el-select v-model="site" @change="getPages">
                         <el-option label="Service" value="Service"></el-option>
                         <el-option label="Media" value="Media"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Web page name" prop="page_id">
+                <el-form-item label="Web page name" prop="page_id" v-loading="pagesLoading">
                     <el-select  v-model="article.page_id" clearable style="width: 150px;">
                         <el-option
                                 v-for="item in pages"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
+                                :key="item.page_id"
+                                :label="item.name + '   ('+ item.url +')'"
+                                :value="item.page_id">
                         </el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="Column description" prop="key_value">
-                    <el-input v-model="article.key_value" type="textarea"></el-input>
+                    <el-input v-model="article.key_value" type="textarea" @input="countWord"></el-input>
                 </el-form-item>
-                <div class="word-count">WordCount: <b>4</b></div>
+                <div class="word-count">WordCount: <b>{{this.article.word_count}}</b></div>
                 <el-input v-model="article.meta_id" type="hidden"></el-input>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">保存</el-button>
@@ -52,23 +52,70 @@
                     key_value: '',
                     page_id: '',
                     meta_id: '',
+                    word_count: 0,
                 },
                 rules: {
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
                     key_name: [{required: true, message: 'Required', trigger: 'blur'}],
                     key_value: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
+                site:this.editSite,
                 pages:[],
-                site:'',
                 loading: false,
+                pagesLoading: false,
             }
         },
         created () {
             if(Object.keys(this.originObj).length==0){
                 this.article = this.form
+            }else{
+                //加载pages 和 默认选中的内容
+                var page_id = this.originObj.page_id
+                this.pagesLoading = true
+                this.article.page_id = null
+                axios.post('/admin/pages_by_site',{site:this.site})
+                    .then(res => {
+                        if (res.data.code != 0 || res.status != 200) {
+                            this.$notify({
+                                title: 'Request Failed',
+                                message: res.data.message,
+                                type: 'error'
+                            });
+                        } else {
+                            this.pages = res.data.data
+                            this.article.page_id = page_id
+                        }
+                        this.pagesLoading = false
+                    })
             }
         },
         methods: {
+            countWord(){
+                var val = this.article.key_value.trim()
+                if (!val){
+                    this.article.word_count = 0
+                }else{
+                    var arr = val.split(" ")
+                    this.article.word_count = arr.length
+                }
+            },
+            getPages(){
+                this.pagesLoading = true
+                this.article.page_id = null //默认change会清空选择
+                axios.post('/admin/pages_by_site',{site:this.site})
+                    .then(res => {
+                        if (res.data.code != 0 || res.status != 200) {
+                            this.$notify({
+                                title: 'Request Failed',
+                                message: res.data.message,
+                                type: 'error'
+                            });
+                        } else {
+                            this.pages = res.data.data
+                        }
+                        this.pagesLoading = false
+                    })
+            },
             submitForm() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
@@ -102,6 +149,6 @@
 
             },
         },
-        props: ['moduleSelect','originObj','title']
+        props: ['originObj','title','editSite']
     }
 </script>

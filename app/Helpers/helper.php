@@ -66,3 +66,6 @@ function allModulesMenu($first_menu){
     }
     return $data;
 }
+function wordCount($sentence){
+    return count( explode(' ',trim($sentence)) );
+}

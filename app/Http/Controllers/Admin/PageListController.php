@@ -47,6 +47,7 @@ class PageListController extends Controller
     public function list(Request $request, $module='')
     {
         $site = $request->session()->get('site');
+        $page_size = $request->per_page ?? $this->page_size;
         if ($request->has('module_id')) $module = "";//证明是搜索 即不考虑当前菜单的类别。
         $res = Model::query()
             ->leftJoin('pages_modules','pages_modules.module_id','pages.module_id')
@@ -62,10 +63,15 @@ class PageListController extends Controller
             ->when($request->page_name,function ($query)use($request){
                 return $query->where('pages.name','like','%'.$request->page_name.'%');
             })
+            ->when($request->sort_order,function ($query)use($request){//排序
+                $field = $request->sort_prop;
+                $order = $request->sort_order;
+                return $query->orderBy($field,$order);
+            })
             ->where('website',$site)
             ->select('page_id as id','pages.*','pages_modules.module')
             ->orderByDesc('page_id')
-            ->paginate($this->page_size);
+            ->paginate($page_size);
 
         return $this->json(0,$res,'');
     }

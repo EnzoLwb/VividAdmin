@@ -71,5 +71,6 @@ const app = new Vue({
         'page-form':()=>import('./components/page_list/Form'),
         'seo-list':()=>import('./components/seo_list/Index'),
         'seo-form':()=>import('./components/seo_list/Form'),
+        'seo-translate':()=>import('./components/seo_list/Translate'),
     }
 });
