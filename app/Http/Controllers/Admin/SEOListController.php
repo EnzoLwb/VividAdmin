@@ -21,7 +21,8 @@ class SEOListController extends Controller
     public function index($module='')
     {
         $module_select = PageModule::query()->select('module_id as id','module as name')->get();
-        return view($this->model_name.'.list',compact('module','module_select'));
+        $word_count = Model::query()->sum('word_count');
+        return view($this->model_name.'.list',compact('module','module_select','word_count'));
     }
 
     public function add()
@@ -97,6 +98,8 @@ class SEOListController extends Controller
     {
         if ($request->isMethod('POST')){
             $data = $request->all();
+            if (!isset($data['locale'])) return $this->json(1,[],'locale is required');
+            //翻译内容 有则update 无则insert
             TranslationModel::query()->updateOrInsert(
                 ['translation_id' => $request->translation_id],
                 $data
@@ -108,6 +111,7 @@ class SEOListController extends Controller
                 ->where('pages_seo_meta.meta_id',\request('id'))
                 ->select('pages_seo_meta.*','pages.name as page_name','pages.website','pages.url')
                 ->first();
+            //语言词库
             $language_select = [
                 'Chinese' => 'zh',
                 'English' => 'en',

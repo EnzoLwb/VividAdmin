@@ -3,5 +3,6 @@
 @section('content')
     <seo-list :module='{!! json_encode($module) !!}'
                :module-select='{!! json_encode($module_select) !!}'
+              :word-count='{!! json_encode($word_count) !!}'
     ></seo-list>
 @stop

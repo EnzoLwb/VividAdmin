@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-loading="loading">
     <el-row>
         <el-col :xs="24" :sm="24" :md="20" :lg="16" :xl="16">
         <el-card shadow="hover">

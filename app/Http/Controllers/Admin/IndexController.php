@@ -19,10 +19,27 @@ class IndexController extends Controller
 //        return redirect()->to("/admin/logs/list");
     }
 
+    //表单中 根据选择site来返回所有的pages
     public function getPagesBySite()
     {
         $site = \request('site');
         $data = PageList::query()->where('website',$site)->select('name','url','page_id')->get();
+        return $this->json(0,$data,'');
+    }
+
+    //翻译中 根据不同的Model 和 选择语种 返回翻译记录
+    public function translateRecord()
+    {
+        $model = \request('model');
+        $relate_id = \request('relate_id'); //例如pic_id meta_id
+        $locale = \request('locale');
+        $id = \request('id');
+        $obj = "App\Models\\".$model;
+        $obj = new $obj;
+        $data = $obj->query()->where([
+            $relate_id => $id,
+            'locale' => $locale,
+        ])->first();
         return $this->json(0,$data,'');
     }
 }

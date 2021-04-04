@@ -43,6 +43,8 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::post('/left_menu', 'MenuController@leftMenu');
             Route::post('/header_menu', 'MenuController@headerMenu');
             Route::post('/home/site', 'MenuController@changeSite');
+            //通用查询
+            Route::post('/translate/record', 'IndexController@translateRecord');
         });
 
         //用户修改密码

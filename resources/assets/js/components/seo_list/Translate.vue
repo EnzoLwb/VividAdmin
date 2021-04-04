@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-loading="loading">
     <el-row>
         <el-col :xs="24" :sm="24" :md="20" :lg="12" :xl="12">
         <el-card shadow="hover">
@@ -17,7 +17,7 @@
                 <!--译文 ↓ -->
                 <el-form-item prop="key_value">
                     <template slot="label">Translated into :
-                        <el-select  v-model="translate.locale"  style="width: 120px;margin-left: 20px" size="mini">
+                        <el-select  v-model="translate.locale"  style="width: 120px;margin-left: 20px" size="mini" @change="translateRecord">
                             <el-option
                                     v-for="(item,index) in languageSelect"
                                     :key="index"
@@ -28,7 +28,7 @@
                     </template>
                     <el-input v-model="translate.key_value" type="textarea" :autosize="autosize" @input="countWord"></el-input>
                 </el-form-item>
-                <div class="word-count">WordCount: <b>{{this.obj.word_count}}</b></div>
+<!--                <div class="word-count">WordCount: <b>{{this.obj.word_count}}</b></div>-->
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">保存</el-button>
                 </el-form-item>
@@ -48,9 +48,9 @@
                     key_value: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 translate:{
-                    meta_id:this.obj.meta_id,
+                    meta_id:this.obj.meta_id,//此字段会不同
                     word_count:this.obj.word_count,
-                    locale:'zh',
+                    locale:'',
                     translation_id:null,
                     key_value:"",//翻译后的内容
                 },
@@ -62,6 +62,30 @@
 
         },
         methods: {
+            //根据语言查询是否已有翻译记录
+            translateRecord(){
+                this.loading = true
+                axios.post( '/admin/translate/record',
+                    {model:'SeoListTranslation',relate_id:'meta_id', id:this.translate.meta_id, locale:this.translate.locale})
+                    .then(res => {
+                        if (res.data.code != 0 || res.status != 200) {
+                            this.$notify({
+                                message: res.data.message,
+                                type: 'error'
+                            });
+                        } else {
+                            console.log(res.data.data)
+                            if (res.data.data){
+                                this.translate.translation_id = res.data.data.translation_id
+                                this.translate.key_value = res.data.data.key_value //此字段会不同
+                            }else{
+                                this.translate.key_value = ''
+                            }
+
+                        }
+                        this.loading = false
+                    })
+            },
             countWord(){
                 var val = this.obj.key_value.trim()
                 if (!val){

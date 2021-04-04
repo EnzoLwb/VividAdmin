@@ -32,7 +32,7 @@
     <el-card shadow="hover" class="margin_top" >
       <div slot="header" >
         <el-button  type="primary" size="medium" @click="handleOperation('add')">Add a Column</el-button>
-        <el-button type="text" class="word-count">WordCount: <b>3456</b></el-button>
+        <el-button type="text" class="word-count">WordCount: <b>{{this.wordCount}}</b></el-button>
       </div>
       <el-table :data="tabledata.data" v-loading="loading" size="medium" @sort-change="sortChange">
         <el-table-column resizable prop="meta_id" label="ID" width="70" > </el-table-column>
@@ -163,7 +163,7 @@
           });
         },
       },
-      props: ['module','moduleSelect']
+      props: ['module','moduleSelect','wordCount']
   }
 </script>
 
