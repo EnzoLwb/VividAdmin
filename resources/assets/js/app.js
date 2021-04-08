@@ -77,5 +77,9 @@ const app = new Vue({
         'content-list':()=>import('./components/content_list/Index'),
         'content-form':()=>import('./components/content_list/Form'),
         'content-translate':()=>import('./components/content_list/Translate'),
+
+        'constant-list':()=>import('./components/constant_list/Index'),
+        'constant-form':()=>import('./components/constant_list/Form'),
+        'constant-translate':()=>import('./components/constant_list/Translate'),
     }
 });

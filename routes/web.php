@@ -38,6 +38,15 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/content_list/{module?}', 'ContentListController@index');
             Route::post('/content_list/{module?}', 'ContentListController@list');
             Route::delete('/content_list', 'ContentListController@delete');
+            //Constant List
+            Route::get('/constant_list/add', 'ConstantListController@add');
+            Route::get('/constant_list/edit', 'ConstantListController@edit');
+            Route::post('/constant_list/save', 'ConstantListController@save');
+            Route::any('/constant_list/translate', 'ConstantListController@translate');
+            Route::get('/constant_list/{module?}', 'ConstantListController@index');
+            Route::post('/constant_list/{module?}', 'ConstantListController@list');
+            Route::delete('/constant_list', 'ConstantListController@delete');
+
             //日志管理
             Route::group([
                 'prefix'=>'logs',
@@ -47,10 +56,12 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
             });
             Route::post('/pages_by_site', 'IndexController@getPagesBySite');
+
             //菜单
             Route::post('/left_menu', 'MenuController@leftMenu');
             Route::post('/header_menu', 'MenuController@headerMenu');
             Route::post('/home/site', 'MenuController@changeSite');
+
             //通用查询
             Route::post('/translate/record', 'IndexController@translateRecord');
         });

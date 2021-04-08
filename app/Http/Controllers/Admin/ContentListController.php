@@ -18,10 +18,13 @@ class ContentListController extends Controller
         $this->model_name = 'content_list';
     }
 
-    public function index($module='')
+    public function index(Request $request,$module='')
     {
+        $site = $request->session()->get('site');
         $module_select = PageModule::query()->select('module_id as id','module as name')->get();
-        $word_count = Model::query()->sum('word_count');
+        $word_count = Model::query()
+            ->leftJoin('pages','pages.page_id','pages_contents.page_id')
+            ->where('website',$site)->sum('word_count');
         return view($this->model_name.'.list',compact('module','module_select','word_count'));
     }
 
@@ -110,7 +113,7 @@ class ContentListController extends Controller
                 ['translation_id' => $request->translation_id],
                 $data
             );
-            return $this->json(0,[],'');
+            return $this->json(0,[],'Translate Success');
         }else{
             $obj = Model::query()
                 ->leftJoin('pages','pages.page_id','pages_contents.page_id')

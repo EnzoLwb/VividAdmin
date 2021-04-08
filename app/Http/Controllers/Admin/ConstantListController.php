@@ -4,35 +4,39 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PageList;
-use App\Models\SeoList as Model;
-use App\Models\SeoListTranslation as TranslationModel;
-use App\Models\PageModule;
+use App\Models\ConstantList as Model;
+use App\Models\ConstantListTranslation as TranslationModel;
 use Illuminate\Http\Request;
 
-class SEOListController extends Controller
+class ConstantListController extends Controller
 {
     protected $model_name;
+    protected $type_select;
     public function __construct()
     {
         parent::__construct();
-        $this->model_name = 'seo_list';
+        $this->model_name = 'constant_list';
+        $this->type_select = [
+            "Constant","PHP Variable","Ajax Variable","Error Msg","Prompts"
+        ];
     }
 
     public function index(Request $request,$module='')
     {
         $site = $request->session()->get('site');
-        $module_select = PageModule::query()->select('module_id as id','module as name')->get();
         $word_count = Model::query()
-            ->leftJoin('pages','pages.page_id','pages_seo_meta.page_id')
+            ->leftJoin('pages','pages.page_id','pages_constant.page_id')
             ->where('website',$site)->sum('word_count');
-        return view($this->model_name.'.list',compact('module','module_select','word_count'));
+        $type_select = $this->type_select;
+        return view($this->model_name.'.list',compact('module','type_select','word_count'));
     }
 
     public function add()
     {
         $obj = new \stdClass();
-        $title = 'Add SEO Column';
-        return view($this->model_name.'.form',compact('obj','title'));
+        $title = 'Add a Column';
+        $type_select = $this->type_select;
+        return view($this->model_name.'.form',compact('obj','title','type_select'));
     }
 
     public function edit()
@@ -40,8 +44,9 @@ class SEOListController extends Controller
         $obj = Model::query()->findOrFail(\request('id'));
         //返回默认的site
         $site = PageList::query()->findOrFail($obj->page_id)->website;
-        $title = 'Edit SEO Column';
-        return view($this->model_name.'.form',compact('obj','site','title'));
+        $title = 'Edit a Constant';
+        $type_select = $this->type_select;
+        return view($this->model_name.'.form',compact('obj','type_select','site','title'));
     }
 
     public function list(Request $request, $module='')
@@ -50,22 +55,16 @@ class SEOListController extends Controller
         $page_size = $request->per_page ?? $this->page_size;
         if ($request->has('module_id')) $module = "";//证明是搜索 即不考虑当前菜单的类别。
         $res = Model::query()
-            ->leftJoin('pages','pages.page_id','pages_seo_meta.page_id')
+            ->leftJoin('pages','pages.page_id','pages_constant.page_id')
             ->leftJoin('pages_modules','pages_modules.module_id','pages.module_id')
             ->when($module,function ($query)use($module){//菜单中的类别
                 return $query->where('pages_modules.module',$module);
             })
-            ->when($request->module_id,function ($query)use($request){//搜索中的类别
-                return $query->where('pages.module_id',$request->module_id);
-            })
-            ->when($request->url,function ($query)use($request){
-                return $query->where('pages.url','like','%'.$request->url.'%');
+            ->when($request->type,function ($query)use($request){
+                return $query->where('pages_constant.constant_type',$request->type);
             })
             ->when($request->column_name,function ($query)use($request){
-                return $query->where('pages_seo_meta.key_name','like','%'.$request->column_name.'%');
-            })
-            ->when($request->name,function ($query)use($request){
-                return $query->where('pages.name','like','%'.$request->name.'%');
+                return $query->where('pages_constant.key_name','like','%'.$request->column_name.'%');
             })
             ->when($request->sort_order,function ($query)use($request){//排序
                 $field = $request->sort_prop;
@@ -73,8 +72,8 @@ class SEOListController extends Controller
                 return $query->orderBy($field,$order);
             })
             ->where('pages.website',$site)
-            ->select('pages.name','pages.url','pages_seo_meta.meta_id as id','pages_seo_meta.*','pages_modules.module')
-            ->orderByDesc('meta_id')
+            ->select('pages.name','pages.url','pages_constant.key_id as id','pages_constant.*','pages_modules.module')
+            ->orderByDesc('key_id')
             ->paginate($page_size);
 
         return $this->json(0,$res,'');
@@ -84,11 +83,11 @@ class SEOListController extends Controller
         $data = $request->all();
         //单词数
         $obj = Model::query()->updateOrInsert(
-            ['meta_id' => $request->meta_id],
+            ['key_id' => $request->key_id],
             $data
         );
-        if ($obj) return $this->json(0,[],$data['meta_id'] ? 'Edit Success!':'Add Success!');
-        if (!$obj) return $this->json(1,[],$data['meta_id'] ? 'Edit Failed!':'Add Failed!');
+        if ($obj) return $this->json(0,[],$data['key_id'] ? 'Edit Success!':'Add Success!');
+        if (!$obj) return $this->json(1,[],$data['key_id'] ? 'Edit Failed!':'Add Failed!');
     }
 
     public function delete()
@@ -110,9 +109,9 @@ class SEOListController extends Controller
             return $this->json(0,[],'Translate Success');
         }else{
             $obj = Model::query()
-                ->leftJoin('pages','pages.page_id','pages_seo_meta.page_id')
-                ->where('pages_seo_meta.meta_id',\request('id'))
-                ->select('pages_seo_meta.*','pages.name as page_name','pages.website','pages.url')
+                ->leftJoin('pages','pages.page_id','pages_constant.page_id')
+                ->where('pages_constant.key_id',\request('id'))
+                ->select('pages_constant.*','pages.name as page_name','pages.website','pages.url')
                 ->first();
             //语言词库
             $language_select = $this->language_select;
