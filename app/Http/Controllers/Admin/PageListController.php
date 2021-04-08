@@ -95,6 +95,7 @@ class PageListController extends Controller
     public function delete()
     {
         $res = Model::findorFail(\request('id'));
+        //暂时不删除 其他关联的数据
         return $this->json(!intval( $res->delete()),[],'');
     }
 }

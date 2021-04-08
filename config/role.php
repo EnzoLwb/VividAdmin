@@ -24,6 +24,20 @@ return [
             "icon"=>"el-icon-files",
             "submenus"=> allModulesMenu('seo_list')
         ],
+        //Content List
+        [
+            "uri"=>"/admin/content_list",
+            "name"=>"Page Content",
+            "icon"=>"el-icon-files",
+            "submenus"=> allModulesMenu('content_list')
+        ],
+        //Constant List
+        [
+            "uri"=>"/admin/constant_list",
+            "name"=>"Constant List",
+            "icon"=>"el-icon-files",
+            "submenus"=> allModulesMenu('constant_list')
+        ],
         //Usr Roles
         [
             "uri"=>"/admin/role/list",

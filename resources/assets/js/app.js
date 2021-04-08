@@ -69,8 +69,13 @@ const app = new Vue({
         /*业务部分*/
         'page-list':()=>import('./components/page_list/Index'),
         'page-form':()=>import('./components/page_list/Form'),
+
         'seo-list':()=>import('./components/seo_list/Index'),
         'seo-form':()=>import('./components/seo_list/Form'),
         'seo-translate':()=>import('./components/seo_list/Translate'),
+
+        'content-list':()=>import('./components/content_list/Index'),
+        'content-form':()=>import('./components/content_list/Form'),
+        'content-translate':()=>import('./components/content_list/Translate'),
     }
 });

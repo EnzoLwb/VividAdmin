@@ -51,7 +51,7 @@
 						}
 				},
 				created() {
-						//获取屏幕宽度
+					//获取屏幕宽度
 					var windowWidth = document.documentElement.clientWidth;
 					if(windowWidth < 640){
 						this.isCollapse = true
@@ -61,17 +61,17 @@
 					}
 
 					// 获取 菜单
-						let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
-						if (!menus){
-								axios.post('/admin/left_menu')
-										.then(response => {
-												menus = response.data.data
-												window.sessionStorage.setItem("menus",JSON.stringify( menus))
-												this.menus =  this.opened_menu(menus);
-										})
-						}else{
-							this.menus =  this.opened_menu(menus);
-						}
+					let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
+					if (!menus){
+							axios.post('/admin/left_menu')
+									.then(response => {
+											menus = response.data.data
+											window.sessionStorage.setItem("menus",JSON.stringify( menus))
+											this.menus =  this.opened_menu(menus);
+									})
+					}else{
+						this.menus =  this.opened_menu(menus);
+					}
 
 				},
 				methods:{

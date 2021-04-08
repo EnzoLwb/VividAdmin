@@ -26,11 +26,28 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Column description" prop="key_value">
-                    <el-input v-model="article.key_value" type="textarea" @input="countWord"></el-input>
+                <el-form-item style="margin-bottom:0">
+                    <template slot="label">
+                        <span> Column description: </span>
+                        <p>( WordCount: <b style="color: red">{{this.article.word_count}}</b> )</p>
+                    </template>
                 </el-form-item>
-                <div class="word-count">WordCount: <b>{{this.article.word_count}}</b></div>
-                <el-input v-model="article.meta_id" type="hidden"></el-input>
+                <el-form-item
+                        v-for="(val, index) in article.key_value"
+                        :key="index"
+                        :prop="'key_value.' + index "
+                        :rules="{required: true, message: 'Required', trigger: 'blur'}">
+                    <el-row>
+                        <el-col :span="22">
+                            <el-input v-model="article.key_value[index]" @input="countWord" type="textarea"></el-input>
+                        </el-col>
+                        <el-col :span="1" :offset="1">
+                            <el-button @click.prevent="removeDesc(index)" type="danger" size="mini" round icon="el-icon-delete"></el-button>
+                        </el-col>
+                    </el-row>
+                </el-form-item>
+                <el-button @click="addDesc" icon="el-icon-plus" size="small" type="success">Add Desc</el-button>
+                <el-input v-model="article.key_id" type="hidden"></el-input>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">Submit</el-button>
                 </el-form-item>
@@ -42,22 +59,21 @@
 </template>
 
 <script type="text/javascript">
-    const current_url = '/admin/seo_list/'
+    const current_url = '/admin/content_list/'
     export default {
         data: function() {
             return {
                 article: this.originObj,
                 form: {
                     key_name: '',
-                    key_value: '',
+                    key_value: ["",],
                     page_id: '',
-                    meta_id: '',
+                    key_id: '',
                     word_count: 0,
                 },
                 rules: {
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
                     key_name: [{required: true, message: 'Required', trigger: 'blur'}],
-                    key_value: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 site:this.editSite,
                 pages:[],
@@ -90,14 +106,23 @@
             }
         },
         methods: {
+            /*动态添加*/
+            removeDesc(index) {
+                this.article.key_value.splice(index, 1)
+            },
+            addDesc() {
+                this.article.key_value.push('');
+            },
             countWord(){
-                var val = this.article.key_value.trim()
-                if (!val){
-                    this.article.word_count = 0
-                }else{
-                    var arr = val.split(" ")
-                    this.article.word_count = arr.length
-                }
+                //计算每个desc 的 countword
+                var count = 0;
+                this.article.key_value.forEach(item=>{
+                    var val = item.trim()
+                    if (val){
+                        count += val.split(" ").length
+                    }
+                })
+                this.article.word_count = count
             },
             getPages(){
                 this.pagesLoading = true
@@ -117,6 +142,7 @@
                     })
             },
             submitForm() {
+                console.log(this.article)
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         this.loading = true

@@ -30,6 +30,14 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/seo_list/{module?}', 'SEOListController@index');
             Route::post('/seo_list/{module?}', 'SEOListController@list');
             Route::delete('/seo_list', 'SEOListController@delete');
+            //Content List
+            Route::get('/content_list/add', 'ContentListController@add');
+            Route::get('/content_list/edit', 'ContentListController@edit');
+            Route::post('/content_list/save', 'ContentListController@save');
+            Route::any('/content_list/translate', 'ContentListController@translate');
+            Route::get('/content_list/{module?}', 'ContentListController@index');
+            Route::post('/content_list/{module?}', 'ContentListController@list');
+            Route::delete('/content_list', 'ContentListController@delete');
             //日志管理
             Route::group([
                 'prefix'=>'logs',

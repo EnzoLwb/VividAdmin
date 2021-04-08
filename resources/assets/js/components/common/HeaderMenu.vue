@@ -5,10 +5,6 @@
 			<el-menu :default-active="activeIndex" class="el-menu-demo"
 							 mode="horizontal" @select="handleSelect">
 				<el-menu-item :index="menu.uri" v-for="(menu,index) in menus" :key="index">{{menu.name}}</el-menu-item>
-				<el-menu-item index="1">DB Term</el-menu-item>
-				<el-menu-item index="2">DB Term2</el-menu-item>
-				<el-menu-item index="3">DB Term3</el-menu-item>
-				<el-menu-item index="4">DB Term4</el-menu-item>
 			</el-menu>
 		</div>
 		<div class="user-name">
@@ -30,14 +26,14 @@
 							修改密码
 						</a>
 					</el-dropdown-item>
-					<el-dropdown-item @click="window.sessionStorage.clear()">
-						<a href="/admin/clear-cache">
+					<el-dropdown-item>
+						<a href="#" @click.stop="clearCache('/admin/clear-cache')">
 							<i class="el-icon-delete"></i>
 							清除缓存
 						</a>
 					</el-dropdown-item>
-					<el-dropdown-item @click="window.sessionStorage.clear()">
-						<a href="/logout">
+					<el-dropdown-item>
+						<a href="#" @click.stop="clearCache('/logout')">
 							<i class="el-icon-refresh-left"></i>
 							退出登录
 						</a>
@@ -57,7 +53,6 @@
 						}
 				},
 				created() {
-					console.log(this.site)
 						//获取菜单 进行展示
 					var storage_key = 'header_menu'
 					let menus = JSON.parse(window.sessionStorage.getItem(storage_key)) ;
@@ -76,6 +71,10 @@
 
 				},
 				methods:{
+					clearCache(url){
+						window.sessionStorage.clear()
+						window.location.href = url
+					},
 					changeSite(){
 						axios.post('/admin/home/site',{site:this.site})
 								.then(res => {

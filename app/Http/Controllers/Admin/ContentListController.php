@@ -4,18 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\PageList;
-use App\Models\SeoList as Model;
-use App\Models\SeoListTranslation as TranslationModel;
+use App\Models\ContentList as Model;
+use App\Models\ContentListTranslation as TranslationModel;
 use App\Models\PageModule;
 use Illuminate\Http\Request;
 
-class SEOListController extends Controller
+class ContentListController extends Controller
 {
     protected $model_name;
     public function __construct()
     {
         parent::__construct();
-        $this->model_name = 'seo_list';
+        $this->model_name = 'content_list';
     }
 
     public function index($module='')
@@ -28,7 +28,7 @@ class SEOListController extends Controller
     public function add()
     {
         $obj = new \stdClass();
-        $title = 'Add SEO Column';
+        $title = 'Add a Column';
         return view($this->model_name.'.form',compact('obj','title'));
     }
 
@@ -37,7 +37,8 @@ class SEOListController extends Controller
         $obj = Model::query()->findOrFail(\request('id'));
         //返回默认的site
         $site = PageList::query()->findOrFail($obj->page_id)->website;
-        $title = 'Edit SEO Column';
+        $obj->key_value = json_decode($obj->key_value);
+        $title = 'Edit a Page Content';
         return view($this->model_name.'.form',compact('obj','site','title'));
     }
 
@@ -47,7 +48,7 @@ class SEOListController extends Controller
         $page_size = $request->per_page ?? $this->page_size;
         if ($request->has('module_id')) $module = "";//证明是搜索 即不考虑当前菜单的类别。
         $res = Model::query()
-            ->leftJoin('pages','pages.page_id','pages_seo_meta.page_id')
+            ->leftJoin('pages','pages.page_id','pages_contents.page_id')
             ->leftJoin('pages_modules','pages_modules.module_id','pages.module_id')
             ->when($module,function ($query)use($module){//菜单中的类别
                 return $query->where('pages_modules.module',$module);
@@ -59,7 +60,7 @@ class SEOListController extends Controller
                 return $query->where('pages.url','like','%'.$request->url.'%');
             })
             ->when($request->column_name,function ($query)use($request){
-                return $query->where('pages_seo_meta.key_name','like','%'.$request->column_name.'%');
+                return $query->where('pages_contents.key_name','like','%'.$request->column_name.'%');
             })
             ->when($request->name,function ($query)use($request){
                 return $query->where('pages.name','like','%'.$request->name.'%');
@@ -70,22 +71,25 @@ class SEOListController extends Controller
                 return $query->orderBy($field,$order);
             })
             ->where('pages.website',$site)
-            ->select('pages.name','pages.url','pages_seo_meta.meta_id as id','pages_seo_meta.*','pages_modules.module')
-            ->orderByDesc('meta_id')
+            ->select('pages.name','pages.url','pages_contents.key_id as id','pages_contents.*','pages_modules.module')
+            ->orderByDesc('key_id')
             ->paginate($page_size);
-
+        foreach ($res->items() as $item){
+            $item->key_value = json_decode($item->key_value,true) ;
+        }
         return $this->json(0,$res,'');
     }
 
     public function save(Request $request){
         $data = $request->all();
+        $data['key_value'] = json_encode($data['key_value']);
         //单词数
         $obj = Model::query()->updateOrInsert(
-            ['meta_id' => $request->meta_id],
+            ['key_id' => $request->key_id],
             $data
         );
-        if ($obj) return $this->json(0,[],$data['meta_id'] ? 'Edit Success!':'Add Success!');
-        if (!$obj) return $this->json(1,[],$data['meta_id'] ? 'Edit Failed!':'Add Failed!');
+        if ($obj) return $this->json(0,[],$data['key_id'] ? 'Edit Success!':'Add Success!');
+        if (!$obj) return $this->json(1,[],$data['key_id'] ? 'Edit Failed!':'Add Failed!');
     }
 
     public function delete()
@@ -99,6 +103,8 @@ class SEOListController extends Controller
         if ($request->isMethod('POST')){
             $data = $request->all();
             if (!isset($data['locale'])) return $this->json(1,[],'locale is required');
+            $data['key_value'] = json_encode($data['key_value']);
+
             //翻译内容 有则update 无则insert
             TranslationModel::query()->updateOrInsert(
                 ['translation_id' => $request->translation_id],
@@ -107,12 +113,13 @@ class SEOListController extends Controller
             return $this->json(0,[],'');
         }else{
             $obj = Model::query()
-                ->leftJoin('pages','pages.page_id','pages_seo_meta.page_id')
-                ->where('pages_seo_meta.meta_id',\request('id'))
-                ->select('pages_seo_meta.*','pages.name as page_name','pages.website','pages.url')
+                ->leftJoin('pages','pages.page_id','pages_contents.page_id')
+                ->where('pages_contents.key_id',\request('id'))
+                ->select('pages_contents.*','pages.name as page_name','pages.website','pages.url')
                 ->first();
             //语言词库
             $language_select = $this->language_select;
+            $obj->key_value = json_decode($obj->key_value,true) ;
             return view($this->model_name.'.translate',compact('language_select','obj'));
         }
     }

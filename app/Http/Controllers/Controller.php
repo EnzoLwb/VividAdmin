@@ -11,9 +11,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public  $page_size;
+    public  $language_select;
     public function __construct()
     {
         $this->page_size = 10;
+        $this->language_select = [
+            'Chinese' => 'zh',
+            'English' => 'en',
+        ];
     }
 
     public function json($code,$data=[],$message='')

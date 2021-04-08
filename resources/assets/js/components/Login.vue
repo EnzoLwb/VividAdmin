@@ -85,6 +85,7 @@
         },
         created: function(){
             console.log('created'+this.title)
+            console.log(window.sessionStorage)
         },
         methods: {
             showPwd() {

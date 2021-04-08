@@ -51,7 +51,7 @@
                 </el-form-item>
                 <el-input v-model="article.page_id" type="hidden"></el-input>
                 <el-form-item>
-                    <el-button type="primary" @click="submitForm()" :loading="loading">保存</el-button>
+                    <el-button type="primary" @click="submitForm()" :loading="loading">Submit</el-button>
                 </el-form-item>
             </el-form>
         </el-card>
