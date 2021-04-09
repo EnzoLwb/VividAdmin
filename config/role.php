@@ -38,6 +38,20 @@ return [
             "icon"=>"el-icon-files",
             "submenus"=> allModulesMenu('constant_list')
         ],
+        //Newsletter
+        [
+            "uri"=>"/admin/news_letter",
+            "name"=>"Newsletter",
+            "icon"=>"el-icon-files",
+            "submenus"=> []
+        ],
+        //Image List
+        [
+            "uri"=>"/admin/img_list",
+            "name"=>"Image List",
+            "icon"=>"el-icon-files",
+            "submenus"=> allModulesMenu('img_list')
+        ],
         //Usr Roles
         [
             "uri"=>"/admin/role/list",

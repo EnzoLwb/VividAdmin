@@ -11,7 +11,7 @@
             <p class="translate_desc">Constant types: {{obj.constant_type}}</p>
             <el-form ref="form" :model="translate" :rules="rules" size="medium" label-position="top">
                 <el-form-item label="Column description (English) :">
-                    <el-input v-model="obj.key_value" disabled type="textarea" :autosize="autosize" @input="countWord"></el-input>
+                    <el-input v-model="obj.key_value" disabled type="textarea" :autosize="autosize"></el-input>
                 </el-form-item>
                 <div class="word-count">WordCount: <b>{{this.obj.word_count}}</b></div>
                 <!--译文 ↓ -->
@@ -28,7 +28,6 @@
                     </template>
                     <el-input v-model="translate.key_value" type="textarea" :autosize="autosize"></el-input>
                 </el-form-item>
-<!--                <div class="word-count">WordCount: <b>{{this.obj.word_count}}</b></div>-->
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">Submit</el-button>
                 </el-form-item>
@@ -84,14 +83,6 @@
                         }
                         this.loading = false
                     })
-            },
-            countWord(){
-                let val = this.obj.key_value.trim()
-                if (!val){
-                    this.obj.word_count = 0
-                }else{
-                    this.obj.word_count = val.split(" ").length
-                }
             },
             submitForm() {
                 this.$refs['form'].validate((valid) => {

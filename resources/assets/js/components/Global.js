@@ -21,13 +21,13 @@
 										isJPG = true
 								};
 						})
-						const isLt2M = file.size / 1024 / 1024 < 10;
+						const isLt2M = file.size / 1024 / 1024 < 20;
 
 						if (!isJPG) {
 								this.$message.error('非规范内图片格式');
 						}
 						if (!isLt2M) {
-								this.$message.error('上传头像图片大小不能超过 10MB!');
+								this.$message.error('上传图片大小不能超过 20MB!');
 						}
 						return isJPG && isLt2M;
 				},

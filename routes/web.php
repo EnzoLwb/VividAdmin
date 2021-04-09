@@ -46,6 +46,14 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/constant_list/{module?}', 'ConstantListController@index');
             Route::post('/constant_list/{module?}', 'ConstantListController@list');
             Route::delete('/constant_list', 'ConstantListController@delete');
+            //Image List
+            Route::get('/img_list/add', 'ImageListController@add');
+            Route::get('/img_list/edit', 'ImageListController@edit');
+            Route::post('/img_list/save', 'ImageListController@save');
+            Route::any('/img_list/translate', 'ImageListController@translate');
+            Route::get('/img_list/{module?}', 'ImageListController@index');
+            Route::post('/img_list/{module?}', 'ImageListController@list');
+            Route::delete('/img_list', 'ImageListController@delete');
 
             //日志管理
             Route::group([

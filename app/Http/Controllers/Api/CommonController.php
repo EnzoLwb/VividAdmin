@@ -226,19 +226,18 @@ class CommonController extends Controller
         return $this->json(0,$res,1);
     }
 
-    //置顶       1 为 置顶 2为取消置顶
+    //调整置顶位数
     public function common_stick(Request $request)
     {
         $obj = "App\Models\\".$request->object;
         $obj = new $obj;
         $id = $request->id;
-        $type = $request->type;
-        $weight = $type == 1 ? $obj->query()->max('weight')+1:1000;
         $obj->find($id)->update([
-            'weight'=>$weight
+            'reorder'=>$request->weight
         ]);
-        return $this->json(0,['weight'=>$weight],$type == 1?'置顶成功':'取消置顶成功');
+        return $this->json(0,['reorder'=>$request->weight],'');
     }
+
     //上线or下线
     public function common_publish(Request $request)
     {
@@ -246,9 +245,9 @@ class CommonController extends Controller
         $obj = new $obj;
         $id = $request->id;
         $obj->find($id)->update([
-            'status'=>!(Boolean)$request->status
+            'display'=>!(Boolean)$request->display
         ]);
-        return $this->json(0,[],$request->status == 1?'下线成功':'发布成功');
+        return $this->json(0,[],$request->display == 1?'Offline Success':'Online Success');
     }
 
     //删除文件夹以及文件

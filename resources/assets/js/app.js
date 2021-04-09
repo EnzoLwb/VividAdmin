@@ -81,5 +81,9 @@ const app = new Vue({
         'constant-list':()=>import('./components/constant_list/Index'),
         'constant-form':()=>import('./components/constant_list/Form'),
         'constant-translate':()=>import('./components/constant_list/Translate'),
+
+        'img-list':()=>import('./components/img_list/Index'),
+        'img-form':()=>import('./components/img_list/Form'),
+        'img-translate':()=>import('./components/img_list/Translate'),
     }
 });
