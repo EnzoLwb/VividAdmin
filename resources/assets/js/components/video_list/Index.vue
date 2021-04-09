@@ -5,17 +5,13 @@
         <el-form-item >
           <el-input type="text" placeholder="Title" v-model="search_form.title"></el-input>
         </el-form-item>
-        <el-form-item >
-          <el-input type="text" placeholder="Page Name" v-model="search_form.name"></el-input>
-        </el-form-item>
-        <el-form-item >
-          <el-input type="text" placeholder="Page Url" v-model="search_form.page_url"></el-input>
-        </el-form-item>
-        <el-form-item label="Category">
-          <el-select  v-model="search_form.type" clearable style="width: 150px;">
+        <el-form-item>
+          <el-select  v-model="search_form.module_id" clearable style="width: 150px;">
             <el-option
-                    v-for="item in typeSelect"
-                    :key="item" :label="item" :value="item">
+                    v-for="item in moduleSelect"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -29,29 +25,12 @@
     </el-card>
     <el-card shadow="hover" class="margin_top" >
       <div slot="header" >
-        <el-button  type="primary" size="medium" @click="handleOperation('add')">Add a Image</el-button>
+        <el-button  type="primary" size="medium" @click="handleOperation('add')">Add a Video</el-button>
         <el-button type="text" class="word-count">WordCount: <b>{{this.wordCount}}</b></el-button>
       </div>
-      <el-table :data="tabledata.data" border v-loading="loading" size="small" @sort-change="sortChange">
+      <el-table :data="tabledata.data" v-loading="loading" size="medium" @sort-change="sortChange">
         <el-table-column resizable prop="title" label="Title" sortable="custom"> </el-table-column>
-        <el-table-column resizable label="Url" >
-          <template slot-scope="scope">
-            <a :href="scope.row.url | ContainsHttp">{{scope.row.url | ContainsHttp}}</a>
-          </template>
-        </el-table-column>
-        <el-table-column resizable label="Image" width="120">
-          <template slot-scope="scope">
-            <el-image class="table-image" :src="scope.row.pic"
-                      :preview-src-list="[scope.row.pic]">
-            </el-image>
-          </template>
-        </el-table-column>
-        <el-table-column resizable prop="pic_type" label="Category" sortable="custom"> </el-table-column>
-        <el-table-column resizable label="Sort" sortable="custom" prop="reorder" width="70">
-          <template slot-scope="scope">
-            <el-input v-model="scope.row.reorder"  @keyup.enter.native="sureSort(scope.$index,scope.row)"></el-input>
-          </template>
-        </el-table-column>
+        <el-table-column resizable prop="descriptions" label="Descriptions" width="250"> </el-table-column>
         <el-table-column resizable label="Display" sortable="custom" prop="display" width="150">
           <template slot-scope="scope">
             <el-switch
@@ -62,11 +41,11 @@
             </el-switch>
           </template>
         </el-table-column>
-        <el-table-column resizable prop="module" label="Module" sortable="custom"> </el-table-column>
+        <el-table-column resizable prop="module" label="Module"> </el-table-column>
         <el-table-column resizable prop="name" label="Page Name" sortable="custom"> </el-table-column>
-        <el-table-column resizable label="Page URL" prop="url" sortable="custom">
+        <el-table-column resizable label="URL" prop="url" sortable="custom">
           <template slot-scope="scope">
-            <a :href="scope.row.page_url | ContainsHttp">{{scope.row.page_url | ContainsHttp}}</a>
+            <a :href="scope.row.url | ContainsHttp">{{scope.row.url | ContainsHttp}}</a>
           </template>
         </el-table-column>
         <el-table-column resizable align="center" label="Operation">
@@ -96,16 +75,14 @@
 </template>
 
 <script type="text/javascript">
-  const current_url = '/admin/img_list/'
+  const current_url = '/admin/video_list/'
   export default {
       data:function() {
           return {
               loading: false,
               search_form:{
                 title:'',
-                name:'',
-                page_url:'',
-                type:'',
+                module_id:'',
                 sort_prop:'',
                 sort_order:'',
                 page:0,
@@ -118,51 +95,30 @@
         this.getData({})
       },
       methods: {
-        //update sort
-        sureSort(index,row){
-          this.loading = true
-          axios.post('/admin/common/common_stick',{object:'ImageList',id:row.pic_id,weight:row.reorder})
-            .then(res => {
-              if (res.data.code !== 0 || res.status !== 200) {
-                this.$notify({
-                  title: 'Error',
-                  message: res.data.message,
-                  type: 'error'
-                });
-              } else {
-                this.$notify({
-                  title: 'success',
-                  message: res.data.message,
-                  type: 'success'
-                });
-                row.reorder = res.data.data.reorder;
-              }
-              this.loading = false
-            })
-        },
         //update display
         changeDisplay(index,row){
           this.loading = true
-          axios.post('/admin/common/common_publish',{object:'ImageList',id:row.pic_id,display:row.display})
-            .then(res => {
-              if (res.data.code !== 0 || res.status !== 200) {
-                this.$notify({
-                  title: 'Error',
-                  message: res.data.message,
-                  type: 'error'
-                });
-              } else {
-                this.$notify({
-                  title: 'success',
-                  message: res.data.message,
-                  type: 'success'
-                });
-                row.display = res.data.data.result;
-              }
-              this.loading = false
-            })
+          axios.post('/admin/common/common_publish',{object:'VideoList',id:row.id,display:row.display})
+                  .then(res => {
+                    if (res.data.code !== 0 || res.status !== 200) {
+                      this.$notify({
+                        title: 'Error',
+                        message: res.data.message,
+                        type: 'error'
+                      });
+                    } else {
+                      this.$notify({
+                        title: 'success',
+                        message: res.data.message,
+                        type: 'success'
+                      });
+                      row.display = res.data.data.result;
+                    }
+                    this.loading = false
+                  })
         },
         sortChange(column) {
+          console.log(column.prop,column.order)
           this.search_form.sort_prop = column.prop
           this.search_form.sort_order = column.order === 'descending'? 'desc':'asc';
           this.getData(this.search_form)
@@ -230,7 +186,7 @@
           });
         },
       },
-      props: ['module','typeSelect','wordCount']
+      props: ['module','moduleSelect','wordCount']
   }
 </script>
 

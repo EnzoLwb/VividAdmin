@@ -84,7 +84,7 @@ class CommonController extends Controller
             return $this->json(0,$data);
         }
         $image_size = $tmp->getSize();//是否选择压缩图片
-        if($image_size/1024/1024>20) return $this->json(1,[],'视频不允许超过20M~');
+//        if($image_size/1024/1024>20) return $this->json(1,[],'视频不允许超过20M~');
         if ($tmp->isValid()) { //判断文件上传是否有效
             $FileType = $tmp->getClientOriginalExtension(); //获取文件后缀
             $FilePath = $tmp->getRealPath(); //获取文件临时存放位置
@@ -247,7 +247,7 @@ class CommonController extends Controller
         $obj->find($id)->update([
             'display'=>!(Boolean)$request->display
         ]);
-        return $this->json(0,[],$request->display == 1?'Offline Success':'Online Success');
+        return $this->json(0,['result'=>intval( !$request->display)],$request->display == 1?'Offline Success':'Online Success');
     }
 
     //删除文件夹以及文件

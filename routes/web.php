@@ -54,6 +54,14 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/img_list/{module?}', 'ImageListController@index');
             Route::post('/img_list/{module?}', 'ImageListController@list');
             Route::delete('/img_list', 'ImageListController@delete');
+            //Video List
+            Route::get('/video_list/add', 'VideoListController@add');
+            Route::get('/video_list/edit', 'VideoListController@edit');
+            Route::post('/video_list/save', 'VideoListController@save');
+            Route::any('/video_list/translate', 'VideoListController@translate');
+            Route::get('/video_list/{module?}', 'VideoListController@index');
+            Route::post('/video_list/{module?}', 'VideoListController@list');
+            Route::delete('/video_list', 'VideoListController@delete');
 
             //日志管理
             Route::group([

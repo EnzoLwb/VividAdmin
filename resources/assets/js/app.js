@@ -85,5 +85,9 @@ const app = new Vue({
         'img-list':()=>import('./components/img_list/Index'),
         'img-form':()=>import('./components/img_list/Form'),
         'img-translate':()=>import('./components/img_list/Translate'),
+
+        'video-list':()=>import('./components/video_list/Index'),
+        'video-form':()=>import('./components/video_list/Form'),
+        'video-translate':()=>import('./components/video_list/Translate'),
     }
 });

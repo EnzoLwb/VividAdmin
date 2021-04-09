@@ -52,10 +52,24 @@ return [
             "icon"=>"el-icon-files",
             "submenus"=> allModulesMenu('img_list')
         ],
-        //Usr Roles
+        //Video List
+        [
+            "uri"=>"/admin/video_list",
+            "name"=>"Video List",
+            "icon"=>"el-icon-files",
+            "submenus"=> allModulesMenu('video_list')
+        ],
+        //DB Terms
+        [
+            "uri"=>"/admin/db_terms",
+            "name"=>"DB Terms",
+            "icon"=>"el-icon-files",
+            "submenus"=> allModulesMenu('db_terms')
+        ],
+        //Usr Roles Settings
         [
             "uri"=>"/admin/role/list",
-            "name"=>"User Roles",
+            "name"=>"Settings",
             "icon"=>"el-icon-files",
             "submenus"=>[
                 [

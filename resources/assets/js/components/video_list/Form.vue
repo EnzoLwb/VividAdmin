@@ -6,9 +6,9 @@
             <div slot="header" class="clearfix">
                 <span>{{title}}</span>
             </div>
-            <el-form ref="form" :model="article" :rules="rules" size="medium" style="width: 80%" label-position="top">
-                <el-form-item label="Column Name" prop="key_name">
-                    <el-input v-model="article.key_name"></el-input>
+            <el-form ref="form" :model="article" :rules="rules" size="small" style="width: 80%" label-position="top">
+                <el-form-item label="Title" prop="title">
+                    <el-input v-model="article.title" placeholder="Enter the title"></el-input>
                 </el-form-item>
                 <el-form-item label="Site">
                     <el-select v-model="site" @change="getPages">
@@ -26,11 +26,21 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="Column description" prop="key_value">
-                    <el-input v-model="article.key_value" type="textarea" @input="countWord"></el-input>
+                <el-form-item label="Description" prop="descriptions">
+                    <el-input v-model="article.descriptions" type="textarea" @input="countWord"></el-input>
                 </el-form-item>
                 <div class="word-count">WordCount: <b>{{this.article.word_count}}</b></div>
-                <el-input v-model="article.meta_id" type="hidden"></el-input>
+                <el-form-item label="Upload video" prop="video">
+                    <el-upload
+                            class="upload-demo"
+                            :action = this.unils.upload_video_path
+                            :on-success="successUpload"
+                            :show-file-list="false">
+                        <video v-if="article.video" :src="article.video" class="avatar" controls="controls"></video>
+                        <el-button size="small" type="info">Browse</el-button>
+                    </el-upload>
+                </el-form-item>
+                <el-input v-model="article.video_id" type="hidden"></el-input>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">Submit</el-button>
                 </el-form-item>
@@ -42,22 +52,23 @@
 </template>
 
 <script type="text/javascript">
-    const current_url = '/admin/seo_list/'
+    const current_url = '/admin/video_list/'
     export default {
         data: function() {
             return {
                 article: this.originObj,
                 form: {
-                    key_name: '',
-                    key_value: '',
+                    title: '',
                     page_id: '',
-                    meta_id: '',
+                    video_id: '',
+                    video: '',
                     word_count: 0,
+                    descriptions: '',
                 },
                 rules: {
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
-                    key_name: [{required: true, message: 'Required', trigger: 'blur'}],
-                    key_value: [{required: true, message: 'Required', trigger: 'blur'}],
+                    video: [{required: true, message: 'Video Required', trigger: 'blur'}],
+                    title: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 site:this.editSite,
                 pages:[],
@@ -70,7 +81,7 @@
                 this.article = this.form
             }else{
                 //加载pages 和 默认选中的内容
-                var page_id = this.originObj.page_id
+                let page_id = this.originObj.page_id
                 this.pagesLoading = true
                 this.article.page_id = null
                 axios.post('/admin/pages_by_site',{site:this.site})
@@ -91,12 +102,16 @@
         },
         methods: {
             countWord(){
-                let val = this.article.key_value.trim()
+                let val = this.article.descriptions.trim()
                 if (!val){
                     this.article.word_count = 0
                 }else{
                     this.article.word_count = val.split(" ").length
                 }
+            },
+            successUpload(response, file, fileList) {
+                console.log(response.data)
+                this.article.video = response.data.path
             },
             getPages(){
                 this.pagesLoading = true
@@ -148,6 +163,6 @@
 
             },
         },
-        props: ['originObj','title','editSite']
+        props: ['originObj','title','editSite','typeSelect']
     }
 </script>
