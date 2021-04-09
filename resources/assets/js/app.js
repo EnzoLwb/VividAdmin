@@ -6,7 +6,6 @@ import _global from './components/Global.js';
 import BasicPaginator from './components/BasicPaginator'//分页
 import HeaderMenu from './components/common/HeaderMenu'//面包屑
 import MenuCollapse from './components/MenuCollapse'//左侧菜单
-import SearchTags from './components/common/SearchTags'//搜索标签
 import AdminUserRoleForm from './components/admin/RoleForm';
 import AdminForm from './components/admin/Form';
 
@@ -18,7 +17,6 @@ Vue.prototype.unils = _global;//引入公共文件 公共方法
 Vue.use(ElementUI, { locale });
 // 注册通用组件
 Vue.component('basic-paginator', BasicPaginator);
-Vue.component('search-tags', SearchTags);
 Vue.component('role-form',AdminUserRoleForm );
 Vue.component('admin-form',AdminForm );
 Vue.component('menu-collapse',MenuCollapse );
@@ -66,7 +64,7 @@ const app = new Vue({
         'password-form':()=>import('./components/admin/Password'),
         'role-list':()=>import('./components/admin/RoleList'),
 
-        /*业务部分*/
+        /*业务部分开始*/
         'page-list':()=>import('./components/page_list/Index'),
         'page-form':()=>import('./components/page_list/Form'),
 
@@ -89,5 +87,11 @@ const app = new Vue({
         'video-list':()=>import('./components/video_list/Index'),
         'video-form':()=>import('./components/video_list/Form'),
         'video-translate':()=>import('./components/video_list/Translate'),
+
+        'email-list':()=>import('./components/news_letter/Index'),
+        'email-form':()=>import('./components/news_letter/Form'),
+        'email-translate':()=>import('./components/news_letter/Translate'),
+
+        /*业务部分结束*/
     }
 });
