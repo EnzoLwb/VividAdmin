@@ -6,19 +6,21 @@
             <div slot="header" class="clearfix">
                 <span>Translate</span>
             </div>
-            <p class="translate_desc">Column name: {{obj.key_name}}</p>
-            <p class="translate_desc">Site URL：{{obj.website}}</p>
-            <p class="translate_desc">Web Page name: {{obj.page_name}}（<a href="#">{{obj.url}}</a> ）</p>
-            <el-form ref="form" :model="translate" :rules="rules"  size="medium" label-position="top" :inline="true">
-                <el-form-item label="Column description :" style="width: 45%">
-                    <el-input :value="item" v-for="(item,index) in obj.key_value" :key="index" style="margin-bottom: 10px"
-                              disabled type="textarea" :autosize="autosize"></el-input>
+            <p class="translate_desc">Template Name: <span>{{obj.emailName}}</span></p>
+            <p class="translate_desc">Subject：<span>{{obj.emailSubject}}</span></p>
+            <p class="translate_desc">Function Code：<span>{{obj.funcCode}}</span></p>
+            <el-form ref="form" :model="translate" :rules="rules" size="medium" label-position="top">
+                <el-form-item label="Column description (English) :">
+                    <ckeditor v-model="obj.emailText"  :config="{language:'en',readOnly:true}" id="origin"></ckeditor>
                 </el-form-item>
-
+                <div class="word-count">WordCount: <b>{{this.obj.wordCount}}</b></div>
                 <!--译文 ↓ -->
-                <el-form-item prop="locale"  style="width: 45%">
+                <el-form-item prop="emailText">
                     <template slot="label">Translated into :
-                        <el-select  v-model="translate.locale"  style="width: 120px;margin-left: 20px" size="mini" @change="translateRecord">
+                        <el-select  v-model="translate.locale"  style="width: 120px;margin-left: 20px" size="mini"
+                                    prop="locale"
+                                    :rules="{required: true, message: 'Required', trigger: 'blur'}"
+                                    @change="translateRecord">
                             <el-option
                                     v-for="(item,index) in languageSelect"
                                     :key="index"
@@ -27,12 +29,9 @@
                             </el-option>
                         </el-select>
                     </template>
-                    <el-input v-model="translate.key_value[index]" v-for="(item,index) in translate.key_value"
-                              :key="index" style="margin-bottom: 10px"
-                              type="textarea" :autosize="autosize"></el-input>
+                    <ckeditor v-model="translate.emailText" :config="editorConfig" id="translate"></ckeditor>
                 </el-form-item>
-                <div class="word-count">WordCount: <b>{{this.obj.word_count}}</b></div>
-                <el-form-item  style="width: 100%">
+                <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">Submit</el-button>
                 </el-form-item>
             </el-form>
@@ -43,36 +42,36 @@
 </template>
 
 <script type="text/javascript">
-    const current_url = '/admin/content_list/'
+    const current_url = '/admin/news_letter/'
     export default {
         data: function() {
             return {
+                editorConfig: {
+                    language:'en',
+                },
                 rules: {
-                    locale: [{required: true, message: 'Required', trigger: 'blur'}],
+                    emailText: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 translate:{
-                    key_id:this.obj.key_id,//此字段会不同
-                    word_count:this.obj.word_count,
+                    emailId:this.obj.emailId,//此字段会不同
+                    wordCount:this.obj.wordCount,
+                    emailSubject:this.obj.emailSubject,
                     locale:'',
-                    translation_id:null,
-                    key_value:[],//翻译后的内容
+                    translationId:null,
+                    emailText:"",//翻译后的内容
                 },
                 loading: false,
-                autosize: {minRows: 3,},
             }
         },
         created () {
-            //根据原文的个数 push 多个译文textarea
-            this.obj.key_value.forEach(item=>{
-                this.translate.key_value.push("")
-            })
+
         },
         methods: {
             //根据语言查询是否已有翻译记录
             translateRecord(){
                 this.loading = true
                 axios.post( '/admin/translate/record',
-                    {model:'ContentListTranslation',relate_id:'key_id', id:this.translate.key_id, locale:this.translate.locale})
+                    {model:'NewsLetterTranslation',relate_id:'emailId', id:this.translate.emailId, locale:this.translate.locale})
                     .then(res => {
                         if (res.data.code != 0 || res.status != 200) {
                             this.$notify({
@@ -81,16 +80,17 @@
                             });
                         } else {
                             if (res.data.data){
-                                this.translate.translation_id = res.data.data.translation_id
-                                this.translate.key_value = JSON.parse(res.data.data.key_value) //此字段会不同
+                                this.translate.translationId = res.data.data.translationId
+                                //url decode
+                                this.translate.emailText = decodeURIComponent(res.data.data.emailText.replace(/\+/g,'%20'));
                             }else{
-                                this.translate.translation_id = null
-                                this.translate.key_value = []
-                                this.obj.key_value.forEach(item=>{
-                                    this.translate.key_value.push("")
-                                })
+                                this.$notify({
+                                    message: "No translation result, default to original content",
+                                    type: 'info'
+                                });
+                                this.translate.translationId = null
+                                this.translate.emailText = this.obj.emailText;
                             }
-
                         }
                         this.loading = false
                     })
@@ -98,21 +98,6 @@
             submitForm() {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        // 处理翻译内容不填或为空情况
-                        var trim = false
-                        this.translate.key_value.forEach(item => {
-                            if (!item.trim()) {
-                                trim = true;
-                                return ;
-                            }
-                        })
-                        if (trim){
-                            this.$notify({
-                                message: 'translate content required',
-                                type: 'error'
-                            });
-                            return;
-                        }
                         this.loading = true
                         axios.post( current_url + 'translate',this.translate)
                             .then(res => {

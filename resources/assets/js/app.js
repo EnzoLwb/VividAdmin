@@ -1,6 +1,7 @@
 import ElementUI from 'element-ui';
 import locale from 'element-ui/lib/locale/lang/en'
 import Vue from 'vue';
+import CKEditor from 'ckeditor4-vue';
 import _global from './components/Global.js';
 /*组件*/
 import BasicPaginator from './components/BasicPaginator'//分页
@@ -15,6 +16,7 @@ window.Vue = Vue;
 Vue.prototype.unils = _global;//引入公共文件 公共方法
 
 Vue.use(ElementUI, { locale });
+Vue.use( CKEditor );
 // 注册通用组件
 Vue.component('basic-paginator', BasicPaginator);
 Vue.component('role-form',AdminUserRoleForm );

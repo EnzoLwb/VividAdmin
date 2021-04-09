@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\PageList;
 use App\Models\NewsLetter as Model;
 use App\Models\NewsLetterTranslation as TranslationModel;
 use Illuminate\Http\Request;
@@ -33,10 +32,10 @@ class NewsLetterController extends Controller
     public function edit()
     {
         $obj = Model::query()->findOrFail(\request('id'));
+        $obj->emailText = urldecode($obj->emailText);
         //返回默认的site
-        $site = PageList::query()->findOrFail($obj->page_id)->website;
         $title = 'Edit Template';
-        return view($this->model_name.'.form',compact('obj','site','title'));
+        return view($this->model_name.'.form',compact('obj','title'));
     }
 
     public function list(Request $request)
@@ -62,7 +61,7 @@ class NewsLetterController extends Controller
 
     public function save(Request $request){
         $data = $request->all();
-        //单词数
+        $data['emailText'] = urlencode($data['emailText']);
         $obj = Model::query()->updateOrInsert(
             ['emailId' => $request->emailId],
             $data
@@ -82,14 +81,16 @@ class NewsLetterController extends Controller
         if ($request->isMethod('POST')){
             $data = $request->all();
             if (!isset($data['locale'])) return $this->json(1,[],'locale is required');
+            $data['emailText'] = urlencode($data['emailText']);
             //翻译内容 有则update 无则insert
             TranslationModel::query()->updateOrInsert(
-                ['translationId' => $request->translation_id],
+                ['translationId' => $request->translationId],
                 $data
             );
             return $this->json(0,[],'Translate Success');
         }else{
-            $obj = Model::findOrFail($request->emailId);
+            $obj = Model::findOrFail($request->id);
+            $obj->emailText = urldecode($obj->emailText);
             //语言词库
             $language_select = $this->language_select;
             return view($this->model_name.'.translate',compact('language_select','obj'));

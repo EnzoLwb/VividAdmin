@@ -6,9 +6,12 @@
             <div slot="header" class="clearfix">
                 <span>{{title}}</span>
             </div>
-            <el-form ref="form" :model="article" :rules="rules" size="mini" style="width: 80%" label-position="top">
+            <el-form ref="form" :model="article" :rules="rules" size="medium" style="width: 80%" label-position="top">
                 <el-form-item label="Templete Name" prop="emailName">
                     <el-input v-model="article.emailName"></el-input>
+                </el-form-item>
+                <el-form-item label="Function Code" prop="funcCode">
+                    <el-input v-model="article.funcCode"></el-input>
                 </el-form-item>
                 <el-form-item label="Subject" prop="emailSubject">
                     <el-input v-model="article.emailSubject"></el-input>
@@ -26,17 +29,18 @@
                             inactive-color="#ff4949">
                     </el-switch>
                 </el-form-item>
-                <el-form-item label="Site">
-                    <el-select v-model="site">
-                        <el-option label="Service" value="Service"></el-option>
-                        <el-option label="Media" value="Media"></el-option>
+                <el-form-item label="Module" prop="module">
+                    <el-select v-model="article.module">
+                        <el-option label="console" value="console"></el-option>
+                        <el-option label="online" value="online"></el-option>
+                        <el-option label="hawk" value="hawk"></el-option>
                     </el-select>
                 </el-form-item>
                 <!--editor-->
                 <el-form-item label="Column description">
-
+                    <ckeditor v-model="article.emailText" @input="countWord" :config="editorConfig"></ckeditor>
                 </el-form-item>
-                <div class="word-count">WordCount: <b>{{this.article.word_count}}</b></div>
+                <div class="word-count">WordCount: <b>{{this.article.wordCount}}</b></div>
                 <el-input v-model="article.emailId" type="hidden"></el-input>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">Submit</el-button>
@@ -54,21 +58,28 @@
         data: function() {
             return {
                 article: this.originObj,
+                editorConfig: {
+                    language:'en',
+                },
                 form: {
                     emailName: '',
+                    funcCode: '',
                     emailSubject: '',
                     emailFrom: '',
                     emailText: '',
                     fromName: '',
                     Disabled: 0,
-                    word_count: 0,
-                    emailId: 0,
+                    wordCount: 0,
+                    emailId: '',
+                    module: '',
                 },
                 rules: {
                     emailName: [{required: true, message: 'Required', trigger: 'blur'}],
                     emailSubject: [{required: true, message: 'Required', trigger: 'blur'}],
                     fromName: [{required: true, message: 'Required', trigger: 'blur'}],
                     emailFrom: [{required: true, message: 'Required', trigger: 'blur'}],
+                    module: [{required: true, message: 'Required', trigger: 'blur'}],
+                    funcCode: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 site:this.editSite,
                 pages:[],
@@ -85,9 +96,9 @@
             countWord(){
                 let val = this.article.emailText.trim()
                 if (!val){
-                    this.article.word_count = 0
+                    this.article.wordCount = 0
                 }else{
-                    this.article.word_count = val.split(" ").length
+                    this.article.wordCount = val.split(" ").length
                 }
             },
             submitForm() {
