@@ -62,6 +62,14 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/video_list/{module?}', 'VideoListController@index');
             Route::post('/video_list/{module?}', 'VideoListController@list');
             Route::delete('/video_list', 'VideoListController@delete');
+            //DB Terms
+            Route::get('/db_terms/add', 'DbTermsController@add');
+            Route::get('/db_terms/edit', 'DbTermsController@edit');
+            Route::post('/db_terms/save', 'DbTermsController@save');
+            Route::any('/db_terms/translate', 'DbTermsController@translate');
+            Route::get('/db_terms/{module?}', 'DbTermsController@index');
+            Route::post('/db_terms/{module?}', 'DbTermsController@list');
+            Route::delete('/db_terms', 'DbTermsController@delete');
             //News letter
             Route::get('/news_letter/add', 'NewsLetterController@add');
             Route::get('/news_letter/edit', 'NewsLetterController@edit');
@@ -79,7 +87,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::post('/delete/{id}', 'LogsController@delete');
                 Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
             });
-            Route::post('/pages_by_site', 'IndexController@getPagesBySite');
 
             //菜单
             Route::post('/left_menu', 'MenuController@leftMenu');
@@ -87,7 +94,9 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::post('/home/site', 'MenuController@changeSite');
 
             //通用查询
-            Route::post('/translate/record', 'IndexController@translateRecord');
+            Route::post('/translate/record', 'IndexController@translateRecord');//查询该语种的翻译结果
+            Route::post('/pages_by_site', 'IndexController@getPagesBySite');//根据site查询pages
+            Route::post('/repeat_word', 'IndexController@repeatWord');//关键词是否重复
         });
 
         //用户修改密码

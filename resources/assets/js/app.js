@@ -94,6 +94,8 @@ const app = new Vue({
         'email-form':()=>import('./components/news_letter/Form'),
         'email-translate':()=>import('./components/news_letter/Translate'),
 
+        'word-list':()=>import('./components/word/Index'),
+        'word-form':()=>import('./components/word/Form'),
         /*业务部分结束*/
     }
 });

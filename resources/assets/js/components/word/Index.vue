@@ -3,21 +3,7 @@
     <el-card shadow="hover" >
       <el-form :inline="true"  class="search-form-inline" size="mini">
         <el-form-item >
-          <el-input type="text" placeholder="Title" v-model="search_form.title"></el-input>
-        </el-form-item>
-        <el-form-item >
-          <el-input type="text" placeholder="Page Name" v-model="search_form.name"></el-input>
-        </el-form-item>
-        <el-form-item >
-          <el-input type="text" placeholder="Page Url" v-model="search_form.page_url"></el-input>
-        </el-form-item>
-        <el-form-item label="Category">
-          <el-select  v-model="search_form.type" clearable style="width: 150px;">
-            <el-option
-                    v-for="item in typeSelect"
-                    :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
+          <el-input type="text" placeholder="Word" v-model="search_form.word"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="warning" @click="search">Search</el-button>
@@ -29,53 +15,45 @@
     </el-card>
     <el-card shadow="hover" class="margin_top" >
       <div slot="header" >
-        <el-button  type="primary" size="medium" @click="handleOperation('add')">Add a Image</el-button>
-        <el-button type="text" class="word-count">WordCount: <b>{{this.wordCount}}</b></el-button>
+        <el-button type="primary" size="medium" @click="handleOperation('add')">New Word</el-button>
+        <el-button type="text" class="word-count">WordCount: <b>{{this.tabledata.total ? this.tabledata.total : 0}}</b></el-button>
       </div>
-      <el-table :data="tabledata.data" border v-loading="loading" size="small" @sort-change="sortChange">
-        <el-table-column resizable prop="title" label="Title" sortable="custom"> </el-table-column>
-        <el-table-column resizable label="Url" >
-          <template slot-scope="scope">
-            <a :href="scope.row.url | ContainsHttp">{{scope.row.url | ContainsHttp}}</a>
+      <el-table :data="tabledata.data" border v-loading="loading" size="medium" @sort-change="sortChange">
+        <el-table-column resizable prop="word" label="Word" sortable="custom"> </el-table-column>
+        <!--translate start-->
+        <el-table-column align="center">
+          <template slot="header" slot-scope="scope"><!--选择语言后查询所有翻译记录-->
+            <el-select  v-model="locale"  size="mini" @change="getAllTranslateRecord()">
+              <el-option v-for="(item,index) in languageSelect" :key="index" :label="index" :value="item"></el-option>
+            </el-select>
+          </template>
+          <template slot-scope="scope"><!--失去焦点直接update翻译结果-->
+              <el-input v-model="scope.row.translate" size="small" @blur="translateWord(scope.row.word_id,scope.row.translate)"></el-input>
           </template>
         </el-table-column>
-        <el-table-column resizable label="Image" width="120">
+        <!--translate end-->
+        <el-table-column resizable label="Module">
           <template slot-scope="scope">
-            <el-image class="table-image" :src="scope.row.pic"
-                      :preview-src-list="[scope.row.pic]">
-            </el-image>
+            <p v-for="(item,index) in scope.row.page_detail" :key="index">{{item.module}}</p>
           </template>
         </el-table-column>
-        <el-table-column resizable prop="pic_type" label="Category" sortable="custom"> </el-table-column>
-        <el-table-column resizable label="Sort" sortable="custom" prop="reorder" width="100">
+        <el-table-column resizable label="Page Name" >
           <template slot-scope="scope">
-            <el-input v-model="scope.row.reorder" size="mini" @blur="sureSort(scope.$index,scope.row)"></el-input>
+            <p v-for="(item,index) in scope.row.page_detail" :key="index">{{item.name}}</p>
           </template>
         </el-table-column>
-        <el-table-column resizable label="Display" sortable="custom" prop="display" width="150">
+        <el-table-column resizable label="URL" >
           <template slot-scope="scope">
-            <el-switch
-                    v-model="scope.row.display === 1"
-                    @change="changeDisplay(scope.$index,scope.row)"
-                    active-text="Yes"
-                    inactive-text="No">
-            </el-switch>
-          </template>
-        </el-table-column>
-        <el-table-column resizable prop="module" label="Module" sortable="custom"> </el-table-column>
-        <el-table-column resizable prop="name" label="Page Name" sortable="custom"> </el-table-column>
-        <el-table-column resizable label="Page URL" prop="url" sortable="custom">
-          <template slot-scope="scope">
-            <a :href="scope.row.page_url | ContainsHttp">{{scope.row.page_url | ContainsHttp}}</a>
+            <p v-for="(item,index) in scope.row.page_detail" :key="index">
+              <a :href="item.url | ContainsHttp">{{item.url | ContainsHttp}}</a>
+            </p>
           </template>
         </el-table-column>
         <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
-            <el-button style="color: rgb(0, 0, 255)" type="text" @click="handleOperation('edit',scope.row.id)">Edit</el-button>
+            <el-button style="color: rgb(0, 0, 255)" type="text" @click="handleOperation('edit',scope.row.word_id)">Edit</el-button>
             |
             <el-button type="text" @click="handleDelete(scope.$index,scope.row)">Delete</el-button>
-            |
-            <el-button type="text" @click="handleOperation('translate',scope.row.id)">Translate</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -96,16 +74,16 @@
 </template>
 
 <script type="text/javascript">
-  const current_url = '/admin/img_list/'
+  const current_url = '/admin/db_terms/'
   export default {
       data:function() {
           return {
               loading: false,
+              locale: "",//当前表格翻译语种 默认为中文
               search_form:{
-                title:'',
-                name:'',
-                page_url:'',
-                type:'',
+                word:'',
+                locale:"",
+                word_ids:[],
                 sort_prop:'',
                 sort_order:'',
                 page:0,
@@ -118,49 +96,34 @@
         this.getData({})
       },
       methods: {
-        //update sort
-        sureSort(index,row){
-          this.loading = true
-          axios.post('/admin/common/common_stick',{object:'ImageList',id:row.pic_id,weight:row.reorder})
+        translateWord(word_id,translate){
+          axios.post('/admin/db_terms/translate',{word_id:word_id,locale:this.locale,translate:translate})
             .then(res => {
-              if (res.data.code !== 0 || res.status !== 200) {
+              if (res.data.code != 0 || res.status != 200) {
                 this.$notify({
-                  title: 'Error',
                   message: res.data.message,
                   type: 'error'
                 });
               } else {
                 this.$notify({
-                  title: 'success',
                   message: res.data.message,
                   type: 'success'
                 });
-                row.reorder = res.data.data.reorder;
               }
               this.loading = false
             })
         },
-        //update display
-        changeDisplay(index,row){
+        //根据语言查询是否已有翻译记录
+        getAllTranslateRecord(){
           this.loading = true
-          axios.post('/admin/common/common_publish',{object:'ImageList',id:row.pic_id,display:row.display})
-            .then(res => {
-              if (res.data.code !== 0 || res.status !== 200) {
-                this.$notify({
-                  title: 'Error',
-                  message: res.data.message,
-                  type: 'error'
-                });
-              } else {
-                this.$notify({
-                  title: 'success',
-                  message: res.data.message,
-                  type: 'success'
-                });
-                row.display = res.data.data.result;
-              }
-              this.loading = false
-            })
+          let word_ids = []
+          this.tabledata.data.forEach(item => {
+            word_ids.push(item.word_id)
+          })
+          this.search_form.word_ids = word_ids
+          this.search_form.locale = this.locale
+          console.log(this.search_form)
+          this.getData(this.search_form)
         },
         sortChange(column) {
           this.search_form.sort_prop = column.prop
@@ -175,8 +138,7 @@
           this.search_form.page = this.tabledata.current_page
           this.getData(this.search_form);
         },
-        getData(data)
-        {
+        getData(data) {
           this.loading = true
           axios.post(current_url + this.module,data)
             .then(res => {
@@ -209,7 +171,7 @@
             type: 'warning'
           }).then(() => {
             this.loading = true
-            axios.delete(current_url + '?id=' + row.id)
+            axios.delete(current_url + '?id=' + row.word_id)
               .then(res => {
                 if (res.data.code != 0 || res.status != 200) {
                   this.$notify({
@@ -230,7 +192,7 @@
           });
         },
       },
-      props: ['module','typeSelect','wordCount']
+      props: ['module','languageSelect']
   }
 </script>
 

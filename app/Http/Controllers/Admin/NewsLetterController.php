@@ -73,6 +73,7 @@ class NewsLetterController extends Controller
     public function delete()
     {
         $res = Model::findorFail(\request('emailId'));
+        TranslationModel::query()->where('emailId',\request('emailId'))->delete();
         return $this->json(!intval( $res->delete()),[],'');
     }
 

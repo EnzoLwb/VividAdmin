@@ -88,6 +88,7 @@ class VideoListController extends Controller
     public function delete()
     {
         $res = Model::findorFail(\request('id'));
+        TranslationModel::query()->where('video_id',\request('id'))->delete();
         return $this->json(!intval( $res->delete()),[],'');
     }
 

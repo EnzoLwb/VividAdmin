@@ -42,4 +42,19 @@ class IndexController extends Controller
         ])->first();
         return $this->json(0,$data,'');
     }
+
+    public function repeatWord()
+    {
+        $model = \request('model');
+        $key = \request('key'); //检查的字段
+        $value = \request('value');
+        $current_id = \request('current_id');
+        $primary_key = \request('primary_key');
+        $obj = "App\Models\\".$model;
+        $obj = new $obj;
+        $data = $obj->query()->where($key,$value)
+            ->where($primary_key,'!=',$current_id)
+            ->exists();
+        return $this->json(0,['exist'=>$data],'');
+    }
 }

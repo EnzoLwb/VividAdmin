@@ -94,6 +94,7 @@ class SEOListController extends Controller
     public function delete()
     {
         $res = Model::findorFail(\request('id'));
+        TranslationModel::query()->where('meta_id',\request('id'))->delete();
         return $this->json(!intval( $res->delete()),[],'');
     }
 
