@@ -1,11 +1,6 @@
 /node_modules
 /public/hot
 /public/storage
-/public/async
-/public/zip
-/public/js
-/public/css
-/public/*.zip
 /storage/*.key
 /vendor
 .env
