@@ -36,7 +36,7 @@
 		</el-card>
 		<el-card class="margin_top" shadow="hover">
 			<div slot="header" >
-				<el-button  icon="el-icon-user" type="primary" size="mini">添加会员</el-button>
+				<el-button  icon="el-icon-plus" type="primary" size="mini">添加会员</el-button>
 				<el-button  icon="el-icon-download" type="warning" size="mini">导出</el-button>
 			</div>
 			<el-table :data="tableData" v-loading="loading">

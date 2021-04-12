@@ -64,5 +64,9 @@ const app = new Vue({
         'member-list':()=>import('./components/membership/List'),
         'member-register':()=>import('./components/membership/Register'),
 
+        'service-list':()=>import('./components/service/List'),
+        /*会员卡*/
+        'card-deposit':()=>import('./components/card/Deposit'),
+        'card-consume':()=>import('./components/card/Consume'),
     }
 });

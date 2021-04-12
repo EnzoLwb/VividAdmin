@@ -13,7 +13,7 @@ class SettingController extends Controller
     //服务列表
     public function service()
     {
-
+        return view('setting.service');
     }
 
     //首页设置

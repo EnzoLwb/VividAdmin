@@ -6,6 +6,33 @@
 				upload_no_return_path : '/api/noReturn',
 				page_size : [10, 20, 60,1000],//分页
 				per_page : 10,
+				consumeOptions:{
+					shortcuts: [{
+						text: '一个月',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
+							picker.$emit('pick', [start, end]);
+						}
+					}, {
+						text: '一季度',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
+							picker.$emit('pick', [start, end]);
+						}
+					}, {
+						text: '一年',
+						onClick(picker) {
+							const end = new Date();
+							const start = new Date();
+							end.setTime(end.getTime() + 3600 * 1000 * 24 * 365);
+							picker.$emit('pick', [start, end]);
+						}
+					}]
+				},
 				pickerOptions: {
 					disabledDate(time) {
 						return time.getTime() > Date.now();

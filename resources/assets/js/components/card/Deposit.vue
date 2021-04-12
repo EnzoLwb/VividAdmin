@@ -2,38 +2,28 @@
 	<div>
 		<el-card shadow="hover">
 			<div slot="header" class="clearfix">
-				<span>注册信息</span>
+				<span>充值</span>
 			</div>
 			<el-row  :gutter="20">
 				<el-col :span="12" :offset="6">
-					<el-form ref="form" :model="article" label-width="140px" size="small" :rules="rules">
+					<el-form ref="form" :model="article" label-width="140px" :rules="rules">
 						<el-form-item label="会员卡号" prop="card_no">
 							<el-input v-model="article.card_no" placeholder="读卡器读取"></el-input>
 						</el-form-item>
-						<el-form-item label="姓名" prop="name">
-							<el-input v-model="article.name"></el-input>
+						<el-form-item label="会员姓名">
+							<el-input value="" placeholder="读取后自动显示"></el-input>
 						</el-form-item>
-						<el-form-item label="身份证号">
-							<el-input v-model="article.id_number"></el-input>
+						<el-form-item label="原充值金额" prop="origin_account">
+							<el-input-number v-model="article.origin_account" :step="100" :min="1" controls-position="right"></el-input-number>
 						</el-form-item>
-						<el-form-item label="性别" prop="gender">
-							<el-radio v-model="article.gender" label="1">男</el-radio>
-							<el-radio v-model="article.gender" label="2">女</el-radio>
+						<el-form-item label="赠送金额">
+							<el-input-number v-model="article.gift_account" :step="100"  controls-position="right"></el-input-number>
 						</el-form-item>
-						<el-form-item label="手机号">
-							<el-input v-model="article.phone"></el-input>
+						<el-form-item label="总金额" >
+							<el-input-number v-model="sumAccount" :step="100" :min="1" controls-position="right"></el-input-number>
 						</el-form-item>
-						<el-form-item label="入会时间" prop="register_date">
-							<el-date-picker
-									v-model="article.register_date"
-									align="right"
-									type="date"
-									placeholder="选择日期"
-									:picker-options="this.unils.pickerOptions">
-							</el-date-picker>
-						</el-form-item>
-						<el-form-item  label="教练">
-							<el-select v-model="article.coach" multiple placeholder="请选择">
+						<el-form-item  label="销售">
+							<el-select v-model="article.saleperson"  placeholder="请选择">
 								<el-option-group
 										v-for="group in options"
 										:key="group.label"
@@ -47,7 +37,10 @@
 								</el-option-group>
 							</el-select>
 						</el-form-item>
-						<el-form-item label="照片">
+						<el-form-item label="备注">
+							<el-input v-model="article.remark"></el-input>
+						</el-form-item>
+						<el-form-item label="上传凭证">
 							<el-upload
 									class="upload-demo" drag
 									:action = this.unils.upload_img_path
@@ -56,10 +49,9 @@
 									:show-file-list="false">  <i class="el-icon-upload"></i>
 								<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 								<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过5000kb</div>
-								<img :src="article.pic" alt="照片" v-if="article.pic">
+								<img :src="article.receipt" alt="照片" v-if="article.receipt">
 							</el-upload>
 						</el-form-item>
-
 						<el-form-item>
 							<el-button type="primary" @click="submitForm()" :loading="loading">保存</el-button>
 						</el-form-item>
@@ -72,23 +64,35 @@
 
 <script type="text/javascript">
 	export default {
+		computed: {
+			// 计算属性的 getter
+			sumAccount:{
+				get: function () {
+					return this.article.gift_account + this.article.origin_account
+				},
+				// setter set时触发
+				set: function (newValue) {
+					this.article.account = newValue
+				}
+			}
+		},
 		data: function() {
 			return {
 				loading: false,
 				article: {
 					card_no:'',
-					gender:'',
+					remark:'',
 					name:'',
-					id_number:'',
-					coach:[],
-					register_date:new Date(),
-					phone:'',
+					account:'',
+					gift_account:'',
+					origin_account:'',
+					saleperson:'',
+					receipt:'',
 				},
 				rules: {
 					card_no: [{required: true, message: '必填项', trigger: 'blur'}],
-					gender: [{required: true, message: '必选项', trigger: 'blur'}],
-					name: [{required: true, message: '必填项', trigger: 'blur'}],
-					register_date: [{required: true, message: '必填项', trigger: 'blur'}],
+					account: [{required: true, message: '必选项', trigger: 'blur'}],
+					origin_account: [{required: true, message: '必填项', trigger: 'blur'}],
 				},
 				options: [{
 					label: '拳击教练',
@@ -122,7 +126,7 @@
 				this.loginCover = response.data.path
 			},
 			submitForm() {
-
+				console.log(this.article)
 			},
 		},
 		props: []
