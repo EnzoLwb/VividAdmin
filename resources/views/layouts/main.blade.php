@@ -106,10 +106,6 @@
 	.el-dialog__body{
 		padding-top: 30px;
 	}
-	/*按钮 应该靠右*/
-	.el-form-item__content button:not(.button-new-tag,.origin) {
-		float: right;
-	}
 	.el-select-dropdown__wrap{
 		margin-bottom:0px !important;
 	}

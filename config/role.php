@@ -89,17 +89,10 @@ return [
             ],
         ],
         [
-            "uri"=>"#",
-            "name"=>"日志管理",
+            "uri"=>"/admin/logs/list",
+            "name"=>"查看日志",
             "icon"=>"el-icon-tickets",
-            "submenus"=>[
-                [
-                    "uri" => "/admin/logs/list",
-                    "name" => "日志查看",
-                    "icon" => "",
-                    "submenus" => [],
-                ],
-            ],
+            "submenus"=>[],
         ],
         /*系统设置*/
 /*        [

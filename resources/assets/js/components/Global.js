@@ -6,6 +6,31 @@
 				upload_no_return_path : '/api/noReturn',
 				page_size : [10, 20, 60,1000],//分页
 				per_page : 10,
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					},
+					shortcuts: [{
+						text: '今天',
+						onClick(picker) {
+							picker.$emit('pick', new Date());
+						}
+					}, {
+						text: '昨天',
+						onClick(picker) {
+							const date = new Date();
+							date.setTime(date.getTime() - 3600 * 1000 * 24);
+							picker.$emit('pick', date);
+						}
+					}, {
+						text: '一周前',
+						onClick(picker) {
+							const date = new Date();
+							date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+							picker.$emit('pick', date);
+						}
+					}]
+				},
 				setQueryConfig(queryConfig) {
 					console.log('setQueryConfig')
 						var _str = "";

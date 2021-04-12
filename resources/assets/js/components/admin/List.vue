@@ -14,15 +14,10 @@
         </el-form-item>
         <el-form-item label="职务:">
           <el-select v-model="search_form.group" size="mini">
-            <el-option label="高新区总工会" :value="1" ></el-option>
-            <el-option label="基层工会" :value="2" ></el-option>
-            <el-option label="基层团组织" :value="3" ></el-option>
-            <el-option label="基层妇联" :value="4" ></el-option>
-            <el-option label="网格员" :value="5" ></el-option>
-            <el-option label="基层工会、团组织" :value="6" ></el-option>
-            <el-option label="基层工会、妇联" :value="7" ></el-option>
-            <el-option label="基层团组织、妇联" :value="8" ></el-option>
-            <el-option label="基层工会、团组织、妇联" :value="9" ></el-option>
+            <el-option label="管理人员" :value="1" ></el-option>
+            <el-option label="私教" :value="2" ></el-option>
+            <el-option label="销售人员" :value="3" ></el-option>
+            <el-option label="其他" :value="4" ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="状态:" >
@@ -47,32 +42,16 @@
         <el-button  icon="el-icon-user" type="primary" size="mini" @click="showForm('add')">新增用户</el-button>
       </div>
       <el-table :data="tabledata.data" v-loading="loading" size="medium">
-        <el-table-column type="expand">
-          <template slot-scope="props">
-            <el-form label-position="left" inline class="demo-table-expand">
-              <el-form-item label="所属企业单位" v-if="props.row.group!==1 && props.row.group!==5">
-                <span>{{ props.row.company_name }}</span>
-              </el-form-item>
-              <el-form-item label="手机号">
-                <span>{{ props.row.mobile }}</span>
-              </el-form-item>
-              <el-form-item label="创建时间">
-                <span>{{ props.row.created_at }}</span>
-              </el-form-item>
-            </el-form>
-          </template>
-        </el-table-column>
         <el-table-column resizable prop="id" label="序号" width="70" > </el-table-column>
         <el-table-column resizable prop="username"  label="登录名" > </el-table-column>
         <el-table-column resizable prop="real_name" label="用户名" > </el-table-column>
         <el-table-column resizable prop="name" label="权限组" > </el-table-column>
         <el-table-column resizable label="职务" >
           <template  slot-scope="scope">
-            <span v-if="scope.row.group == 1">高新区总工会</span>
-            <span v-else-if="scope.row.group == 2">基层工会</span>
-            <span v-else-if="scope.row.group == 3">基层团组织</span>
-            <span v-else-if="scope.row.group == 4">基层妇联</span>
-            <span v-else-if="scope.row.group == 5">网格员</span>
+            <span v-if="scope.row.group == 1">管理人员</span>
+            <span v-else-if="scope.row.group == 2">私教</span>
+            <span v-else-if="scope.row.group == 3">销售人员</span>
+            <span v-else-if="scope.row.group == 4">其他</span>
           </template>
         </el-table-column>
         <el-table-column resizable prop="login_at" label="登录时间" > </el-table-column>

@@ -6,9 +6,9 @@
 			</div>
 			<el-row  :gutter="20">
 				<el-col :span="12" :offset="6">
-					<el-form ref="form" :model="article" label-width="140px" size="small" label-position="top">
+					<el-form ref="form" :model="article" label-width="140px" size="small">
 						<el-form-item label="会员卡号">
-							<el-input v-model="article.card_no"></el-input>
+							<el-input v-model="article.card_no" placeholder="读卡器读取"></el-input>
 						</el-form-item>
 						<el-form-item label="姓名">
 							<el-input v-model="article.name"></el-input>
@@ -17,13 +17,35 @@
 							<el-input v-model="article.id_number"></el-input>
 						</el-form-item>
 						<el-form-item label="性别">
-							<el-select v-model="article.gender" placeholder="请选择">
-								<el-option label="男" :value="1"></el-option>
-								<el-option label="女" :value="2"></el-option>
-							</el-select>
+							<el-radio v-model="article.gender" label="1">男</el-radio>
+							<el-radio v-model="article.gender" label="2">女</el-radio>
 						</el-form-item>
 						<el-form-item label="手机号">
 							<el-input v-model="article.phone"></el-input>
+						</el-form-item>
+						<el-form-item label="入会时间">
+							<el-date-picker
+									v-model="article.register_date"
+									align="right"
+									type="date"
+									placeholder="选择日期"
+									:picker-options="this.unils.pickerOptions">
+							</el-date-picker>
+						</el-form-item>
+						<el-form-item  label="教练">
+							<el-select v-model="article.coach" multiple placeholder="请选择">
+								<el-option-group
+										v-for="group in options"
+										:key="group.label"
+										:label="group.label">
+									<el-option
+											v-for="item in group.options"
+											:key="item.value"
+											:label="item.label"
+											:value="item.value">
+									</el-option>
+								</el-option-group>
+							</el-select>
 						</el-form-item>
 						<el-form-item label="照片">
 							<el-upload
@@ -37,6 +59,7 @@
 								<img :src="article.pic" alt="照片" v-if="article.pic">
 							</el-upload>
 						</el-form-item>
+
 						<el-form-item>
 							<el-button type="primary" @click="submitForm()" :loading="loading">保存</el-button>
 						</el-form-item>
@@ -58,8 +81,32 @@
 					gender:'',
 					name:'',
 					id_number:'',
+					coach:[],
+					register_date:'',
 					phone:'',
 				},
+				options: [{
+					label: '拳击教练',
+					options: [{
+						value: 3,
+						label: '张三'
+					}, {
+						value: 4,
+						label: '李四'
+					}]
+				}, {
+					label: '瑜伽教练',
+					options: [{
+						value: 5,
+						label: '王五'
+					}, {
+						value: 6,
+						label: '赵六'
+					}, {
+						value: 7,
+						label: '田七'
+					}]
+				}],
 			}
 		},
 		created () {

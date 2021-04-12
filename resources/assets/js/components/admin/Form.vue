@@ -1,6 +1,6 @@
 <template>
 	<div v-loading="loading">
-		<el-form ref="form" :model="articles" :rules="rules" label-width="120px" enctype="multipart/form-data" size="mini">
+		<el-form ref="form" :model="articles" :rules="rules" label-width="120px">
 			<el-form-item label="登录名" prop="username">
 				<el-input v-model="articles.username"></el-input>
 			</el-form-item>
@@ -26,21 +26,21 @@
 					</el-option>
 				</el-select>
 			</el-form-item>
+			<el-form-item label="职务">
+				<el-radio-group v-model="articles.group" size="mini">
+					<el-radio-button  :label="1" >管理人员</el-radio-button>
+					<el-radio-button  :label="2" >私教</el-radio-button>
+					<el-radio-button  :label="3" >销售人员</el-radio-button>
+					<el-radio-button  :label="4" >其他</el-radio-button>
+				</el-radio-group>
+				<p class="desc"><i class="el-icon-question"></i>管理人员：最高权限 可以修改内容 </p>
+				<p class="desc"><i class="el-icon-question"></i>其余职务：拥有添加权限但不能修改内容 </p>
+			</el-form-item>
 			<el-form-item label="状态">
 				<el-radio-group v-model="articles.status">
 					<el-radio :label="1" >启用</el-radio>
 					<el-radio :label="0" >禁用</el-radio>
 				</el-radio-group>
-			</el-form-item>
-			<el-form-item label="职务">
-				<el-radio-group v-model="articles.group" size="mini">
-					<el-radio-button  :label="1" >高新区总工会</el-radio-button>
-					<el-radio-button  :label="2" >基层工会</el-radio-button>
-					<el-radio-button  :label="3" >基层团组织</el-radio-button>
-					<el-radio-button  :label="4" >基层妇联</el-radio-button>
-					<el-radio-button  :label="5" >网格员</el-radio-button>
-				</el-radio-group>
-<!--				<p class="desc"><i class="el-icon-question"></i>高新区总工会：可以管理所有企业信息 </p>-->
 			</el-form-item>
 			<el-form-item style="display: none">
 				<el-input type="hidden" name="_token" v-model="token"></el-input>

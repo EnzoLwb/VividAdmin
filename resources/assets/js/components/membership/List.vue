@@ -26,7 +26,7 @@
 							v-model="search_form.register_date">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item><el-button type="primary"   >查询</el-button></el-form-item>
+				<el-form-item><el-button type="primary" >查询</el-button></el-form-item>
 				<el-form-item><el-button type="info">重置</el-button></el-form-item>
 				<button class="el-button el-button--text el-button--small" type="button" style="margin-left: 8px;" @click="searchCollapse=!searchCollapse">
 					<span v-if="searchCollapse"> 收起 <i class="el-icon-arrow-up"></i></span>
@@ -35,17 +35,27 @@
 			</el-form>
 		</el-card>
 		<el-card class="margin_top" shadow="hover">
-			<el-table :data="tableData" v-loading="loading" size="small">
-				<el-table-column prop="id" label="序号" width="70px"></el-table-column>
-				<el-table-column prop="created_at" label="日期"></el-table-column>
-				<el-table-column prop="log_name" label="模块"></el-table-column>
-				<el-table-column prop="description" label="动作"></el-table-column>
-				<el-table-column label="操作人" prop="real_name"></el-table-column>
+			<div slot="header" >
+				<el-button  icon="el-icon-user" type="primary" size="mini">添加会员</el-button>
+				<el-button  icon="el-icon-download" type="warning" size="mini">导出</el-button>
+			</div>
+			<el-table :data="tableData" v-loading="loading">
+				<el-table-column type="selection" width="55"></el-table-column>
+				<el-table-column prop="card_no" label="会员卡号"></el-table-column>
+				<el-table-column prop="name" label="姓名"></el-table-column>
+				<el-table-column prop="id_number" label="身份证号"></el-table-column>
+				<el-table-column prop="gender" label="性别" width="70px">
+					<template slot-scope="scope">
+						<span>{{scope.row.gender === 1 ? '男' : '女'}}</span>
+					</template>
+				</el-table-column>
+				<el-table-column prop="register_date" label="入会时间"></el-table-column>
+				<el-table-column prop="coach" label="教练"></el-table-column>
 				<el-table-column label="操作">
 					<template slot-scope="scope">
-						<el-button slot="reference" size="small" type="text">编辑</el-button>
+						<el-button type="text">编辑</el-button>
 						|
-						<el-button slot="reference" size="small" type="text">删除</el-button>
+						<el-button type="text">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -57,7 +67,41 @@
 		export default {
 				data() {
 						return {
-							tableData:[],
+							tableData:[
+								{
+									card_no: '2324877',
+									name: '王小虎',
+									gender: 1,
+									id_number: '120104199405237979',
+									coach:'张三 李四 王五',
+									register_date:'2021-04-11',
+									phone:'17602658233',
+								}, {
+									card_no: '2324877',
+									name: '王小虎2',
+									gender: 1,
+									id_number: '120104199405237979',
+									coach:'张三',
+									register_date:'2021-04-11',
+									phone:'17602658233',
+								},{
+									card_no: '2324877',
+									name: '王大虎',
+									gender: 1,
+									id_number: '120104199405237979',
+									coach:'铁柱',
+									register_date:'2021-04-11',
+									phone:'17602658233',
+								},{
+									card_no: '2324877',
+									name: '王小虎4',
+									gender: 1,
+									id_number: '120104199405237979',
+									coach:'张三 李四 王五',
+									register_date:'2021-04-11',
+									phone:'17602658234',
+								}
+							],
 							searchCollapse:false,//搜索内容是否展开
 							search_form:{
 								card_no:'',
