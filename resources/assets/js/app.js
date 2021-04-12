@@ -2,12 +2,10 @@ import ElementUI from 'element-ui';
 import Vue from 'vue';
 import _global from './components/Global.js';
 /*组件*/
-import BasicPaginator from './components/BasicPaginator'//分页
+import BasicPaginator from './components/BasicPaginator'//分页(废弃)
 import BreadCrumb from './components/common/BreadCrumb'//面包屑
 import MenuCollapse from './components/MenuCollapse'//左侧菜单
 import SearchTags from './components/common/SearchTags'//搜索标签
-import MessageNotify from './components/common/MessageNotify'
-import DragAds from './components/common/DragAds'
 import AdminUserRoleForm from './components/admin/RoleForm';
 import AdminForm from './components/admin/Form';
 
@@ -18,8 +16,6 @@ Vue.prototype.unils = _global;//引入公共文件 公共方法
 
 Vue.use(ElementUI);
 // 注册通用组件
-Vue.component('message-notify', MessageNotify);
-Vue.component('drag-ads', DragAds);
 Vue.component('basic-paginator', BasicPaginator);
 Vue.component('search-tags', SearchTags);
 Vue.component('role-form',AdminUserRoleForm );
@@ -50,17 +46,13 @@ Vue.filter('Ellipsis', function (value,len) {
     }
     return value
 });
-import store from './store/index'
 const app = new Vue({
     el: '#app',
-    store,
     components: {
-
-        /*系统设置*/
         'setting-list':()=>import('./components/setting/SystemSetting'),
         'tags-list':()=>import('./components/tags/TagsList'),//标签
         'logs-list':()=>import('./components/logs/LogsList'),//日志
-        'login':()=>import('./components/Login2'),//登录
+        'login':()=>import('./components/Login'),//登录
 
         /*权限部分*/
         'admin-list':()=>import('./components/admin/List'),
@@ -68,8 +60,9 @@ const app = new Vue({
         'my-profile':()=>import('./components/admin/Profile'),//个人介绍
         'role-list':()=>import('./components/admin/RoleList'),
 
-        'news-list':()=>import('./components/news/List'),
-        'news-form':()=>import('./components/news/Form'),
+        /*会员*/
+        'member-list':()=>import('./components/membership/List'),
+        'member-register':()=>import('./components/membership/Register'),
 
     }
 });

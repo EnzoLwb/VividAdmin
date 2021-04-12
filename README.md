@@ -8,11 +8,9 @@
 - laravel-echo-server init
 - laravel-echo-server start
 - php artisan queue:work 安装supervisor
-- 测试一系列接口 例如申请转会测试发送邮件
+
 ### 可复用
 - getCode 获取代码表数据以下拉框形式展示
-- getCompanyByLevelId 获取层级下的公司返回id和名称
-- getCompanyList 通过搜索 返回公司列表
 - common_stick 置顶和上下线
 - getCommonCodeNameById 获取代码表的名称  --连接的形式
 

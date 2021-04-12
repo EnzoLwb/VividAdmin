@@ -66,7 +66,6 @@
 						</el-dropdown-menu>
 					</el-dropdown>
 				</div>
-				<message-notify></message-notify>
 
 			</el-header>
 			<el-main id="container" style="padding:0">

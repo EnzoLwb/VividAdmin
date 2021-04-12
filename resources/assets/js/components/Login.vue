@@ -1,15 +1,18 @@
 <template>
-    <div class="login-container" style="background:url('/images/bg.jpg') no-repeat">
+    <div class="login-container">
         <el-form ref="loginForm" :model="loginForm" :rules="loginRules"
                  class="login-form"
+                 @keyup.enter.native="handleLogin"
                  auto-complete="on" label-position="left">
+
             <div class="title-container">
                 <h3 class="title">{{title}}</h3>
             </div>
+
             <el-form-item prop="username">
-                <span class="svg-container">
-                  <i class="el-icon-user-solid gray"></i>
-                </span>
+        <span class="svg-container">
+          <i class="el-icon-user-solid gray"></i>
+        </span>
                 <el-input
                         ref="username"
                         v-model="loginForm.username"
@@ -22,9 +25,9 @@
             </el-form-item>
 
             <el-form-item prop="password">
-                <span class="svg-container">
-                  <i class="el-icon-lock gray"></i>
-                </span>
+        <span class="svg-container">
+          <i class="el-icon-lock gray"></i>
+        </span>
                 <el-input
                         :key="passwordType"
                         ref="password"
@@ -36,39 +39,18 @@
                         auto-complete="on"
                         @keyup.enter.native="handleLogin"
                 />
-                <span class="show-pwd" @click="showPwd"><i class="el-icon-view"></i></span>
+                <span class="show-pwd" @click="showPwd">
+        </span>
             </el-form-item>
-
-            <el-form-item prop="code">
-                <el-row :span="24">
-                    <el-col :span="2">
-                         <span class="svg-container">
-                          <i class="el-icon-s-claim gray"></i>
-                        </span>
-
-                    </el-col>
-                    <el-col :span="14" >
-                        <el-input v-model="loginForm.code" name="code" ref="code" tabindex="3" placeholder="请输入验证码" @keyup.enter.native="handleLogin" />
-                    </el-col>
-                    <el-col :span="6" :offset="1">
-                        <div class="login-code" @click="refreshCode">
-                            <!--验证码组件-->
-                            <s-identify :identifyCode="identifyCode" :contentHeight="47"></s-identify>
-                        </div>
-                    </el-col>
-                </el-row>
-            </el-form-item>
-
-            <el-button :loading="loading" type="primary"  style="width:100%;"  @click.stop="handleLogin">登录</el-button>
+            <el-button :loading="loading" type="primary"  style="width:100%;margin-bottom:30px;"  @click="handleLogin">登录</el-button>
         </el-form>
     </div>
 </template>
 
 <script>
-    import SIdentify from './captcha/SIdentify'
+
     export default {
         name: 'Login',
-        components: { SIdentify },
         data() {
             const validateUsername = (rule, value, callback) => {
                 if (value) {
@@ -84,44 +66,28 @@
                     callback()
                 }
             }
-            const validateCode = (rule, value, callback) => {
-                if (!value) {
-                    callback(new Error('请输入验证码'))
-                }else if (value !== this.identifyCode) {
-                    this.refreshCode()
-                    callback(new Error('验证码错误~请重新输入'))
-                } else {
-                    callback()
-                }
-            }
             return {
                 loginForm: {
                     username: '',
-                    password: '',
-                    code: '',
+                    password: ''
                 },
                 loginRules: {
                     username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-                    password: [{ required: true, trigger: 'blur', validator: validatePassword }],
-                    code: [{ required: true, trigger: 'blur', validator: validateCode }]
+                    password: [{ required: true, trigger: 'blur', validator: validatePassword }]
                 },
                 loading: false,
                 passwordType: 'password',
-                identifyCode: '',
-                identifyCodes: 'abcdedfghijkmnpqrstuvwxyz23456789',
                 redirect: undefined
             }
         },
         mounted: function(){
-
+            console.log(this.title)
         },
         created: function(){
-            this.makeCode(this.identifyCodes, 4)
+            console.log('created'+this.title)
+            console.log(window.sessionStorage)
         },
         methods: {
-            onSubmit(){
-                return false;
-            },
             showPwd() {
                 if (this.passwordType === 'password') {
                     this.passwordType = ''
@@ -135,39 +101,25 @@
             handleLogin() {
                 this.$refs.loginForm.validate(valid => {
                     if (valid) {
-                        window.sessionStorage.clear()
+                        window.sessionStorage.removeItem('menus')
+
                         this.loading = true;
                         axios.post('/login', this.loginForm)
                             .then((res) => {
                                 if (res.data.code == 0) {
+                                    console.log(res.data)
                                     location.href = res.data.data.redirectTo;
                                 } else {
                                     this.$alert(res.data.message);
                                     this.loading = false;
                                 }
                             })
-                            .catch((err) => {
-                                this.loading = false;
-                            });
+
                     } else {
                         console.log('error submit!!')
                         return false
                     }
                 })
-            },
-            randomNum (min, max) {
-                return Math.floor(Math.random() * (max - min) + min)
-            },
-            refreshCode () {
-                this.identifyCode = ''
-                this.makeCode(this.identifyCodes, 4)
-            },
-            makeCode (o, l) {
-                for (let i = 0; i < l; i++) {
-                    this.identifyCode += this.identifyCodes[
-                            this.randomNum(0, this.identifyCodes.length)
-                            ]
-                }
             }
         },
         props: ['title']
@@ -237,15 +189,12 @@
         overflow: hidden;
 
         .login-form {
-          position: relative;
-          width: 36em;
-          max-width: 100%;
-          padding: 3em;
-          margin: 16em auto;
-          overflow: hidden;
-          opacity: 0.9;
-          background-color: darkslateblue;
-          border-radius: 5%;
+            position: relative;
+            width: 520px;
+            max-width: 100%;
+            padding: 160px 35px 0;
+            margin: 0 auto;
+            overflow: hidden;
         }
 
         .tips {

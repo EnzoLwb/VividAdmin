@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
+    //服务列表
+    public function service()
+    {
+
+    }
+
     //首页设置
     public function home(Request $request)
     {

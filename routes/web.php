@@ -1,18 +1,8 @@
 <?php
-
 //后台管理
 Route::get('/login', 'UserController@login')->name('login');
 Route::post('/login', 'UserController@loginPost');
 Route::any('/logout', 'UserController@logout');
-
-/*测试接口*/
-
-/*移动端*/
-Route::group([
-    'prefix'=>'mobile',//手机查看的
-],function (){
-
-});
 
 /*PC端*/
 Route::group(['middleware' => ['needlogin','menunorm']], function () {
@@ -21,6 +11,47 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
     Route::group([
         'prefix'=>'admin',
     ],function (){
+        Route::group([
+            'namespace'=>'Admin',
+        ],function (){
+            //首页直接刷卡
+            Route::get('/home', 'IndexController@index');
+
+            //会员管理
+            Route::group([
+                'prefix'=>'membership',
+            ],function (){
+                Route::get('/', 'MemberController@index');
+                Route::get('/add', 'MemberController@add');
+
+            });
+
+            //会员卡管理
+            Route::group([
+                'prefix'=>'card',
+            ],function (){
+                Route::get('/deposit', 'CardController@deposit');
+                Route::get('/consume', 'CardController@consume');
+            });
+
+            //业务设置
+            Route::group([
+                'prefix'=>'setting',
+            ],function (){
+                Route::get('/service', 'SettingController@service');
+
+            });
+
+            //日志管理
+            Route::group([
+                'prefix'=>'logs',
+            ],function (){
+                Route::get('/list', 'LogsController@logList');
+                Route::post('/delete/{id}', 'LogsController@delete');
+                Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
+            });
+
+        });
         //用户修改密码
         Route::get('/changepassword', 'UserController@changepassword');
         Route::get('/profile', 'UserController@profile');
@@ -54,52 +85,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::post('/common/zzjs_export', 'CommonController@zzjsExport');//导出
             Route::post('/common/common_stick', 'CommonController@common_stick');//置顶
             Route::post('/common/common_publish', 'CommonController@common_publish');//发布
-        });
-
-        Route::group([
-            'namespace'=>'Admin',
-        ],function (){
-
-            //资讯管理
-            Route::group([
-                'prefix'=>'news',
-            ],function (){
-//                Route::get('/', 'NewsController@index');
-                Route::get('/oa/federation/{type}', 'NewsController@index');
-                Route::get('/add/{type?}', 'NewsController@add');
-                Route::post('/save', 'NewsController@save');
-                Route::post('/delete', 'NewsController@delete');
-                Route::get('/show/{article}', 'NewsController@show');
-                Route::get('/edit/{article}', 'NewsController@edit');
-            });
-
-            //标签管理
-            Route::group([
-                'prefix'=>'tags',
-            ],function (){
-                Route::post('/', 'TagsController@getType');
-                Route::get('/list', 'TagsController@index');
-                Route::post('/update', 'TagsController@update');
-                Route::post('/search', 'TagsController@search');
-                Route::post('/delete/{id}', 'TagsController@delete');
-            });
-
-            //日志管理
-            Route::group([
-                'prefix'=>'logs',
-            ],function (){
-                Route::get('/list', 'LogsController@logList');
-                Route::post('/delete/{id}', 'LogsController@delete');
-                Route::post('/get_model_name_by_id', 'LogsController@getModelNameById');
-            });
-
-            //总系统设置
-            Route::group([
-                'prefix'=>'setting',
-            ],function (){
-                Route::any('/home', 'SettingController@home');
-            });
-
         });
 
     });

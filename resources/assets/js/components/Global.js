@@ -5,6 +5,7 @@
 				upload_video_path : '/api/saveVideo',
 				upload_no_return_path : '/api/noReturn',
 				page_size : [10, 20, 60,1000],//分页
+				per_page : 10,
 				setQueryConfig(queryConfig) {
 					console.log('setQueryConfig')
 						var _str = "";
