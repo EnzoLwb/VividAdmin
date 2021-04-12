@@ -96,7 +96,7 @@ class AuthController extends Controller
         foreach ($menu as $k=>$v){
             if (isset($v['submenus'])){
                 $roles[$k] = [
-                    'uri'=>$v['uri'] == '#',
+                    'uri'=>$v['uri'],
                     'label'=>$v['name'],
                     'children' => [],
                 ];

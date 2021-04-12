@@ -4,35 +4,40 @@
 			<i class="el-icon-s-fold icon-color"  v-if="isCollapse==false" @click="change_collapse"></i>
 			<i class="el-icon-s-unfold icon-color" v-else  @click="change_collapse"></i>
 		</div>
-		<el-menu
-						:default-active="menu_index"
+		<el-menu :default-active="menu_index"
 						class="el-menu-vertical-demo"
 						:unique-opened="true"
 						:collapse="isCollapse"
 						background-color="#222834"
 						text-color="#fff"
 						active-text-color="#ffd04b">
-			<el-submenu :index="menu.name" v-for="(menu,key) in menus" :key="key"><!--导航一-->
+			<!--下拉菜单情况-->
+			<el-submenu :index="menu.name" v-if="menu.submenus.length > 0" v-for="(menu,key) in menus" :key="key">
 				<template slot="title">
 					<i :class="menu.icon"></i>
 					<span slot="title">{{menu.name}}</span>
 				</template>
-				<el-menu-item-group  v-if="submenus.submenus.length ==0" v-for="(submenus,sub_key) in menu.submenus" :key="sub_key">
+				<el-menu-item-group  v-if="submenus.submenus.length === 0" v-for="(submenus,sub_key) in menu.submenus" :key="sub_key">
 					<a :href="submenus.uri">
 						<el-menu-item class="select_index" :index="submenus.uri"><i :class="submenus.icon =='' ? 'el-icon-sort-up':submenus.icon"></i>{{submenus.name}}</el-menu-item>
 					</a>
 				</el-menu-item-group>
-
-				<el-submenu :index="submenus.name"  v-if="submenus.submenus.length>0" v-for="(submenus,sub_key) in menu.submenus" :key="sub_key">
+				<el-submenu :index="submenus.name"  v-else v-for="(submenus,sub_key) in menu.submenus" :key="sub_key">
 					<template slot="title">
 						<i :class="submenus.icon =='' ? 'el-icon-sort-up':submenus.icon">	</i>
 						<span slot="title">{{submenus.name}}</span>
 					</template>
+					<!--三级菜单-->
 					<el-menu-item class="select_index" @click="href(submenu.uri)" :index="submenu.uri" v-for="(submenu,sub_child_key) in submenus.submenus" :key="sub_child_key">
 						{{submenu.name}}
 					</el-menu-item>
 				</el-submenu>
 			</el-submenu>
+			<!--无下拉菜单情况-->
+			<el-menu-item :index="menu.uri" v-else @click="href(menu.uri)">
+				<i :class="menu.icon"></i>
+				<span slot="title">{{menu.name}}</span>
+			</el-menu-item>
 		</el-menu>
 	</div>
 </template>
@@ -45,16 +50,11 @@
 								isCollapse : JSON.parse( window.localStorage.getItem("isCollapse") ),
 								loading:true,
 								menus:[],
-								// menu_index:window.location.pathname+window.location.search
 								menu_index:window.location.pathname
 						}
 				},
-				/*created(){
-						this.$store.dispatch( 'loadMenu' );//获取vuex state中的action 方法
-				},*/
 				created() {
 						// 获取 菜单
-						// storage.removeItem('menus')
 						let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
 						if (!menus){
 								axios.post('/admin/getMenu')
