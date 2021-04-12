@@ -56,15 +56,34 @@
 						<el-button type="text">编辑</el-button>
 						|
 						<el-button type="text">删除</el-button>
+						|
+						<el-button type="text" @click="cardVisible = true">会员卡记录</el-button>
+						|
+						<el-button type="text" @click="personVisible = true">消费入场记录</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
+			<el-pagination class="fenye" layout="prev, pager, next" :total="20" >
+			</el-pagination>
 		</el-card>
+		<!--卡的记录-->
+		<el-dialog :visible.sync="cardVisible" :close-on-click-modal="false"
+							 width="70%" title="会员卡（56454）的消费记录" v-if="cardVisible">
+			<card-history></card-history>
+		</el-dialog>
+		<!--服务消费入场记录-->
+		<el-dialog :visible.sync="personVisible" :close-on-click-modal="false"
+							 width="70%" title="王小五的消费入场记录" v-if="personVisible">
+			<person-consume-history></person-consume-history>
+		</el-dialog>
 	</div>
 </template>
 
 <script>
-		export default {
+	import CardHistory from '../common/CardHistory'
+	import PersonConsumeHistory from '../common/PersonConsumeHistory'
+	export default {
+		components:{CardHistory,PersonConsumeHistory},
 				data() {
 						return {
 							tableData:[
@@ -112,6 +131,8 @@
 								per_page:this.unils.per_page,
 							},
 							loading:false,
+							cardVisible:false,
+							personVisible:false,
 						}
 				},
 				methods: {

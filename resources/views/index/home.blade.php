@@ -1,5 +1,5 @@
 @extends('layouts.main')
 @section('title', '首页')
 @section('content')
-Index
+    <consume-index></consume-index>
 @stop

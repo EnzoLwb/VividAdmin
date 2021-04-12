@@ -12,6 +12,7 @@ class IndexController extends Controller
     {
         return view('index.home');
     }
+
     public function home()
     {
         //查看是否有首页的权限 没有则权限列表第一个地址

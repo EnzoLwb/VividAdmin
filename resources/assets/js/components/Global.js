@@ -132,4 +132,5 @@
 							wx: u.indexOf("MicroMessenger") > 0 //是否是微信
 						}
 				},
+
 		}

@@ -1,5 +1,5 @@
 <template>
-	<div class="my_breadcrumb" v-show="breads">
+	<div class="my_breadcrumb" v-show="breads && this.menu_index !== '/admin/home'">
 		<el-breadcrumb separator-class="el-icon-arrow-right">
 			<el-breadcrumb-item :to="{ path: '/' }"><i class="el-icon-s-promotion" style="margin: 0px 18px 0 10px"></i>
 				首页</el-breadcrumb-item>

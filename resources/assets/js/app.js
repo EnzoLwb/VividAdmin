@@ -68,5 +68,7 @@ const app = new Vue({
         /*会员卡*/
         'card-deposit':()=>import('./components/card/Deposit'),
         'card-consume':()=>import('./components/card/Consume'),
+        //首页
+        'consume-index':()=>import('./components/service/Consume'),
     }
 });

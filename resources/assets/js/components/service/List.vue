@@ -16,6 +16,8 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<el-pagination class="fenye" layout="prev, pager, next" :total="20" >
+			</el-pagination>
 		</el-card>
 		<el-dialog :visible.sync="outerVisible"
 							 :close-on-click-modal="false"

@@ -75,18 +75,18 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="pull-right">
-        <el-pagination
-                style="margin:15px 0"
-                @size-change="handleSizeChange"
-                @current-change="handleCurrentChange"
-                :current-page.sync="tabledata.current_page"
-                :total="tabledata.total"
-                :page-sizes="this.unils.page_size"
-                :page-size="parseInt(tabledata.per_page)"
-                layout="total, sizes, prev, pager, next, jumper">
-        </el-pagination>
-      </div>
+
+      <el-pagination
+              class="fenye"
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="tabledata.current_page"
+              :total="tabledata.total"
+              :page-sizes="this.unils.page_size"
+              :page-size="parseInt(tabledata.per_page)"
+              layout="total, sizes, prev, pager, next, jumper">
+      </el-pagination>
+
     </el-card>
     <el-dialog :visible.sync="outerVisible"
                :close-on-click-modal="false"
