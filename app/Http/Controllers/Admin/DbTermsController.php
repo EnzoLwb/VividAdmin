@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminGroups;
 use App\Models\PageList;
 use App\Models\DbTerm as Model;
 use App\Models\DbTermsTranslation as TranslationModel;
 use App\Models\PageModule;
 use App\Models\WordPageDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DbTermsController extends Controller
 {
@@ -22,7 +24,8 @@ class DbTermsController extends Controller
     public function index(Request $request,$module='')
     {
         $language_select = $this->language_select;
-        return view($this->model_name.'.list',compact('module','language_select'));
+        $group = AdminGroups::query()->where('admin_id',Auth::id())->value('type');
+        return view($this->model_name.'.list',compact('module','language_select','group'));
     }
 
     public function add()

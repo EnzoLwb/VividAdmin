@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminGroups;
 use App\Models\PageList as Model;
 use App\Models\PageModule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PageListController extends Controller
 {
@@ -19,7 +21,8 @@ class PageListController extends Controller
     public function index($module='')
     {
         $module_select = PageModule::query()->select('module_id as id','module as name')->get();
-        return view($this->model_name.'.list',compact('module','module_select'));
+        $group = AdminGroups::query()->where('admin_id',Auth::id())->value('type');
+        return view($this->model_name.'.list',compact('module','module_select','group'));
     }
 
     public function add()

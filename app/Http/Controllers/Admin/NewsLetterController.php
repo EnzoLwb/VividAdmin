@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminGroups;
 use App\Models\NewsLetter as Model;
 use App\Models\NewsLetterTranslation as TranslationModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NewsLetterController extends Controller
 {
@@ -19,7 +21,8 @@ class NewsLetterController extends Controller
     public function index(Request $request)
     {
         $word_count = Model::query()->sum('wordCount');
-        return view($this->model_name.'.list',compact('word_count'));
+        $group = AdminGroups::query()->where('admin_id',Auth::id())->value('type');
+        return view($this->model_name.'.list',compact('word_count','group'));
     }
 
     public function add()

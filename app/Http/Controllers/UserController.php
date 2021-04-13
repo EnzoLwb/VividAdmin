@@ -151,13 +151,10 @@ class UserController extends Controller
             $update_param['password'] = Hash::make($params['password']);
             \DB::transaction(function() use($update_param,$params){
                 $id = Admin::query()->insertGetId($update_param);
-                /*AdminGroups::insert([
+                AdminGroups::insert([
                     'type' => $params['group'],
                     'admin_id' => $id,
-                    'grid_id' => $params['grid_id'],
-                    'company_name' => $params['company_name'],
-                    'company_id' => $params['company_id'],
-                ]);*/
+                ]);
                 activity()
                     ->useLog('系统用户')
                     ->performedOn(Admin::find($id))

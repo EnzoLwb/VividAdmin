@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminGroups;
 use App\Models\PageList;
 use App\Models\PageModule;
 use App\Models\VideoList as Model;
 use App\Models\VideoListTranslation as TranslationModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VideoListController extends Controller
 {
@@ -25,7 +27,8 @@ class VideoListController extends Controller
         $word_count = Model::query()
             ->leftJoin('pages','pages.page_id','pages_video.page_id')
             ->where('website',$site)->sum('word_count');
-        return view($this->model_name.'.list',compact('module','module_select','word_count'));
+        $group = AdminGroups::query()->where('admin_id',Auth::id())->value('type');
+        return view($this->model_name.'.list',compact('module','module_select','word_count','group'));
     }
 
     public function add()

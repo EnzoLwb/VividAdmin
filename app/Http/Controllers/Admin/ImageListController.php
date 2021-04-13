@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdminGroups;
 use App\Models\PageList;
 use App\Models\ImageList as Model;
 use App\Models\ImageListTranslation as TranslationModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ImageListController extends Controller
 {
@@ -28,7 +30,8 @@ class ImageListController extends Controller
             ->leftJoin('pages','pages.page_id','pages_pics.page_id')
             ->where('website',$site)->sum('word_count');
         $type_select = $this->type_select;
-        return view($this->model_name.'.list',compact('module','type_select','word_count'));
+        $group = AdminGroups::query()->where('admin_id',Auth::id())->value('type');
+        return view($this->model_name.'.list',compact('module','type_select','word_count','group'));
     }
 
     public function add()

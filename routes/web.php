@@ -15,69 +15,79 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
         Route::group([
             'namespace'=>'Admin',
         ],function (){
-            //Page List
-            Route::get('/page_list/add', 'PageListController@add');
-            Route::get('/page_list/edit', 'PageListController@edit');
-            Route::post('/page_list/save', 'PageListController@save');
+            Route::group(['middleware' => ['editor']], function () {
+                //Page List
+                Route::get('/page_list/add', 'PageListController@add');
+                Route::get('/page_list/edit', 'PageListController@edit');
+                Route::post('/page_list/save', 'PageListController@save');
+                Route::delete('/page_list', 'PageListController@delete');
+                //SEO List
+                Route::get('/seo_list/add', 'SEOListController@add');
+                Route::get('/seo_list/edit', 'SEOListController@edit');
+                Route::post('/seo_list/save', 'SEOListController@save');
+                Route::delete('/seo_list', 'SEOListController@delete');
+                //Content List
+                Route::get('/content_list/add', 'ContentListController@add');
+                Route::get('/content_list/edit', 'ContentListController@edit');
+                Route::post('/content_list/save', 'ContentListController@save');
+                Route::delete('/content_list', 'ContentListController@delete');
+                //Constant List
+                Route::get('/constant_list/add', 'ConstantListController@add');
+                Route::get('/constant_list/edit', 'ConstantListController@edit');
+                Route::post('/constant_list/save', 'ConstantListController@save');
+                Route::delete('/constant_list', 'ConstantListController@delete');
+                //Image List
+                Route::get('/img_list/add', 'ImageListController@add');
+                Route::get('/img_list/edit', 'ImageListController@edit');
+                Route::post('/img_list/save', 'ImageListController@save');
+                Route::delete('/img_list', 'ImageListController@delete');
+                //Video List
+                Route::get('/video_list/add', 'VideoListController@add');
+                Route::get('/video_list/edit', 'VideoListController@edit');
+                Route::post('/video_list/save', 'VideoListController@save');
+                Route::delete('/video_list', 'VideoListController@delete');
+                //DB Terms
+                Route::get('/db_terms/add', 'DbTermsController@add');
+                Route::get('/db_terms/edit', 'DbTermsController@edit');
+                Route::post('/db_terms/save', 'DbTermsController@save');
+                Route::delete('/db_terms', 'DbTermsController@delete');
+                //News letter
+                Route::get('/news_letter/add', 'NewsLetterController@add');
+                Route::get('/news_letter/edit', 'NewsLetterController@edit');
+                Route::post('/news_letter/save', 'NewsLetterController@save');
+                Route::delete('/news_letter', 'NewsLetterController@delete');
+            });
+
             Route::get('/page_list/{module?}', 'PageListController@index');
             Route::post('/page_list/{module?}', 'PageListController@list');
-            Route::delete('/page_list', 'PageListController@delete');
-            //SEO List
-            Route::get('/seo_list/add', 'SEOListController@add');
-            Route::get('/seo_list/edit', 'SEOListController@edit');
-            Route::post('/seo_list/save', 'SEOListController@save');
-            Route::any('/seo_list/translate', 'SEOListController@translate');
+
+            Route::any('/seo_list/translate', 'SEOListController@translate')->middleware('translator');
             Route::get('/seo_list/{module?}', 'SEOListController@index');
             Route::post('/seo_list/{module?}', 'SEOListController@list');
-            Route::delete('/seo_list', 'SEOListController@delete');
-            //Content List
-            Route::get('/content_list/add', 'ContentListController@add');
-            Route::get('/content_list/edit', 'ContentListController@edit');
-            Route::post('/content_list/save', 'ContentListController@save');
-            Route::any('/content_list/translate', 'ContentListController@translate');
+
+            Route::any('/content_list/translate', 'ContentListController@translate')->middleware('translator');
             Route::get('/content_list/{module?}', 'ContentListController@index');
             Route::post('/content_list/{module?}', 'ContentListController@list');
-            Route::delete('/content_list', 'ContentListController@delete');
-            //Constant List
-            Route::get('/constant_list/add', 'ConstantListController@add');
-            Route::get('/constant_list/edit', 'ConstantListController@edit');
-            Route::post('/constant_list/save', 'ConstantListController@save');
-            Route::any('/constant_list/translate', 'ConstantListController@translate');
+
+            Route::any('/constant_list/translate', 'ConstantListController@translate')->middleware('translator');
             Route::get('/constant_list/{module?}', 'ConstantListController@index');
             Route::post('/constant_list/{module?}', 'ConstantListController@list');
-            Route::delete('/constant_list', 'ConstantListController@delete');
-            //Image List
-            Route::get('/img_list/add', 'ImageListController@add');
-            Route::get('/img_list/edit', 'ImageListController@edit');
-            Route::post('/img_list/save', 'ImageListController@save');
-            Route::any('/img_list/translate', 'ImageListController@translate');
+
+            Route::any('/img_list/translate', 'ImageListController@translate')->middleware('translator');
             Route::get('/img_list/{module?}', 'ImageListController@index');
             Route::post('/img_list/{module?}', 'ImageListController@list');
-            Route::delete('/img_list', 'ImageListController@delete');
-            //Video List
-            Route::get('/video_list/add', 'VideoListController@add');
-            Route::get('/video_list/edit', 'VideoListController@edit');
-            Route::post('/video_list/save', 'VideoListController@save');
-            Route::any('/video_list/translate', 'VideoListController@translate');
+
+            Route::any('/video_list/translate', 'VideoListController@translate')->middleware('translator');
             Route::get('/video_list/{module?}', 'VideoListController@index');
             Route::post('/video_list/{module?}', 'VideoListController@list');
-            Route::delete('/video_list', 'VideoListController@delete');
-            //DB Terms
-            Route::get('/db_terms/add', 'DbTermsController@add');
-            Route::get('/db_terms/edit', 'DbTermsController@edit');
-            Route::post('/db_terms/save', 'DbTermsController@save');
-            Route::any('/db_terms/translate', 'DbTermsController@translate');
+
+            Route::any('/db_terms/translate', 'DbTermsController@translate')->middleware('translator');
             Route::get('/db_terms/{module?}', 'DbTermsController@index');
             Route::post('/db_terms/{module?}', 'DbTermsController@list');
-            Route::delete('/db_terms', 'DbTermsController@delete');
-            //News letter
-            Route::get('/news_letter/add', 'NewsLetterController@add');
-            Route::get('/news_letter/edit', 'NewsLetterController@edit');
-            Route::post('/news_letter/save', 'NewsLetterController@save');
-            Route::any('/news_letter/translate', 'NewsLetterController@translate');
+
+            Route::any('/news_letter/translate', 'NewsLetterController@translate')->middleware('translator');
             Route::get('/news_letter', 'NewsLetterController@index');
             Route::post('/news_letter', 'NewsLetterController@list');
-            Route::delete('/news_letter', 'NewsLetterController@delete');
 
             //日志管理
             Route::group([

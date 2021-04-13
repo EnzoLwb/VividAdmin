@@ -70,7 +70,6 @@
 							form: {
 									username: '',
 									id: '',
-									grid_id: '',
 									real_name: '',
 									work_no: '',
 									status: 1,
@@ -78,8 +77,6 @@
 									password: '',
 									role_id: '',
 									group: 3,
-									company_name: '',
-									company_id: ''
 							},
 							rules: {
 								username: [

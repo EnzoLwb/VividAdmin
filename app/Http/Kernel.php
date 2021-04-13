@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\EditorOperation;
 use App\Http\Middleware\MenuNorm;
+use App\Http\Middleware\TranslatorOperation;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -67,6 +69,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 //        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'menunorm' => MenuNorm::class,
+        'editor' => EditorOperation::class,
+        'translator' => TranslatorOperation::class,
 
     ];
 

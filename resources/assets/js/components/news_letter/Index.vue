@@ -29,11 +29,9 @@
         <el-table-column resizable prop="emailFrom" label="From Address"> </el-table-column>
         <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
-            <el-button style="color: rgb(0, 0, 255)" type="text" @click="handleOperation('edit',scope.row.emailId)">Edit</el-button>
-            |
-            <el-button type="text" @click="handleDelete(scope.$index,scope.row)">Delete</el-button>
-            |
-            <el-button type="text" @click="handleOperation('translate',scope.row.emailId)">Translate</el-button>
+            <el-button style="color: rgb(0, 0, 255)" type="text" v-show="group != 3" @click="handleOperation('edit',scope.row.id)">Edit | </el-button>
+            <el-button type="text" v-show="group != 3" @click="handleDelete(scope.$index,scope.row)">Delete | </el-button>
+            <el-button type="text" v-show="group != 2" @click="handleOperation('translate',scope.row.id)"> Translate</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -142,7 +140,7 @@
           });
         },
       },
-      props: ['wordCount']
+      props: ['wordCount','group']
   }
 </script>
 

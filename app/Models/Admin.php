@@ -29,7 +29,6 @@ class Admin extends Authenticatable
      */
 
     protected $primaryKey = 'id';
-    public static $admin_group = [1,5];//工会领导 和 网格员
 
     protected $fillable = [
                             'id',
@@ -63,18 +62,11 @@ class Admin extends Authenticatable
                 'role_id' => $params['role_id'],
             ];
 
-//            \DB::transaction(function() use($userId,$update_param,$params){
-                Admin::where('id',$userId)->update($update_param);
-                if ($params['group'] ==1) {
-                    $params['company_name'] = $params['company_id'] = null;
-                }
-                /*AdminGroups::query()->where('admin_id',$userId)->update([
-                    'type' => $params['group'],
-                    'company_name' => $params['company_name'],
-                    'company_id' => $params['company_id'],
-                    'grid_id' => $params['grid_id'],
-                ]);*/
-//            });
+            Admin::where('id',$userId)->update($update_param);
+            AdminGroups::query()->where('admin_id',$userId)->update([
+                'type' => $params['group'],
+            ]);
+
             activity()
                 ->useLog('系统用户')
                 ->performedOn(Admin::find($userId))
