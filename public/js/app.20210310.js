@@ -3910,7 +3910,7 @@ __webpack_require__.r(__webpack_exports__);
 
     var validatePsd = function validatePsd(rule, value, callback) {
       if (_this.articles.id == '' && value === '') {
-        callback(new Error('请输入密码'));
+        callback(new Error('Required'));
       } else {
         callback();
       }
@@ -3923,26 +3923,23 @@ __webpack_require__.r(__webpack_exports__);
       form: {
         username: '',
         id: '',
-        grid_id: '',
         real_name: '',
         work_no: '',
         status: 1,
         mobile: '',
         password: '',
         role_id: '',
-        group: 3,
-        company_name: '',
-        company_id: ''
+        group: 3
       },
       rules: {
         username: [{
           required: true,
-          message: '请输入登录名',
+          message: 'Required',
           trigger: 'blur'
         }, {
           min: 3,
-          max: 15,
-          message: '长度在 3 到 15 个字符',
+          max: 25,
+          message: '3~25 characters',
           trigger: 'blur'
         }],
         password: [{
@@ -3952,17 +3949,17 @@ __webpack_require__.r(__webpack_exports__);
         }],
         role_id: [{
           required: true,
-          message: '请选择角色',
+          message: 'Required',
           trigger: 'blur'
         }],
         real_name: [{
           required: true,
-          message: '请输入姓名(用于登录展示)',
+          message: 'Required',
           trigger: 'blur'
         }, {
-          min: 2,
-          max: 15,
-          message: '长度在 3 到 15 个字符',
+          min: 3,
+          max: 25,
+          message: '3~25 characters',
           trigger: 'blur'
         }]
       }
@@ -3983,7 +3980,7 @@ __webpack_require__.r(__webpack_exports__);
           axios.post('/admin/user/update', _this2.articles).then(function (res) {
             if (res.data.code != 0 || res.status != 200) {
               _this2.$notify({
-                title: '失败',
+                title: 'Failed',
                 message: res.data.message,
                 type: 'error'
               });
@@ -3991,7 +3988,7 @@ __webpack_require__.r(__webpack_exports__);
               _this2.loading = false;
             } else {
               _this2.$notify({
-                title: '成功',
+                title: 'Success',
                 message: res.data.message,
                 type: 'success'
               });
@@ -4074,8 +4071,8 @@ __webpack_require__.r(__webpack_exports__);
         id: ''
       },
       defaultProps: {
-        children: 'children',
-        label: 'label'
+        children: 'submenus',
+        label: 'name'
       },
       roles: '',
       loading: false
@@ -4094,7 +4091,7 @@ __webpack_require__.r(__webpack_exports__);
     axios.post('/admin/role/get_menu').then(function (res) {
       if (res.data.code !== 0 || res.status !== 200) {
         _this.$notify({
-          title: '获取角色菜单失败',
+          title: 'Failed',
           message: res.data.message,
           type: 'error'
         });
@@ -4112,13 +4109,13 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/admin/role/save', this.articles).then(function (res) {
         if (res.data.code !== 0 || res.status !== 200) {
           _this2.$notify({
-            title: '失败',
+            title: 'Failed',
             message: res.data.message,
             type: 'error'
           });
         } else {
           _this2.$notify({
-            title: '成功',
+            title: 'Success',
             message: res.data.message,
             type: 'success'
           });
@@ -83255,7 +83252,7 @@ var render = function() {
         [
           _c(
             "el-form-item",
-            { attrs: { label: "登录名", prop: "username" } },
+            { attrs: { label: "UserName", prop: "username" } },
             [
               _c("el-input", {
                 model: {
@@ -83272,7 +83269,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "手机号" } },
+            { attrs: { label: "Mobile" } },
             [
               _c("el-input", {
                 model: {
@@ -83289,10 +83286,9 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "姓名", prop: "real_name" } },
+            { attrs: { label: "RealName", prop: "real_name" } },
             [
               _c("el-input", {
-                attrs: { placeholder: "请填写真实的姓名" },
                 model: {
                   value: _vm.articles.real_name,
                   callback: function($$v) {
@@ -83307,7 +83303,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "密码", prop: "password" } },
+            { attrs: { label: "Password", prop: "password" } },
             [
               _c("el-input", {
                 attrs: {
@@ -83328,7 +83324,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "工号" } },
+            { attrs: { label: "WorkNo" } },
             [
               _c("el-input", {
                 model: {
@@ -83345,12 +83341,11 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "权限/角色组", prop: "role_id" } },
+            { attrs: { label: "Role", prop: "role_id" } },
             [
               _c(
                 "el-select",
                 {
-                  attrs: { placeholder: "请选择" },
                   model: {
                     value: _vm.articles.role_id,
                     callback: function($$v) {
@@ -83373,7 +83368,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "状态" } },
+            { attrs: { label: "State" } },
             [
               _c(
                 "el-radio-group",
@@ -83387,9 +83382,9 @@ var render = function() {
                   }
                 },
                 [
-                  _c("el-radio", { attrs: { label: 1 } }, [_vm._v("启用")]),
+                  _c("el-radio", { attrs: { label: 1 } }, [_vm._v("Enable")]),
                   _vm._v(" "),
-                  _c("el-radio", { attrs: { label: 0 } }, [_vm._v("禁用")])
+                  _c("el-radio", { attrs: { label: 0 } }, [_vm._v("Disable")])
                 ],
                 1
               )
@@ -83399,7 +83394,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "职务" } },
+            { attrs: { label: "Job" } },
             [
               _c(
                 "el-radio-group",
@@ -83489,7 +83484,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("提交")]
+                [_vm._v("Submit")]
               )
             ],
             1
@@ -83549,7 +83544,7 @@ var render = function() {
         [
           _c(
             "el-form-item",
-            { attrs: { label: "角色名称" } },
+            { attrs: { label: "Title" } },
             [
               _c("el-input", {
                 model: {
@@ -83566,14 +83561,14 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-form-item",
-            { attrs: { label: "权限" } },
+            { attrs: { label: "Role" } },
             [
               _c("el-tree", {
                 ref: "tree",
                 attrs: {
                   data: _vm.roles,
                   "show-checkbox": "",
-                  "node-key": "uri",
+                  "node-key": "url",
                   "highlight-current": "",
                   "default-checked-keys": _vm.policy_uri,
                   props: _vm.defaultProps
@@ -83625,7 +83620,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("确定")]
+                [_vm._v("Submit")]
               )
             ],
             1
@@ -83741,7 +83736,7 @@ var render = function() {
                     _c("el-dropdown-item", [
                       _c("a", { attrs: { href: "/admin/changepassword" } }, [
                         _c("i", { staticClass: "el-icon-unlock" }),
-                        _vm._v("\n\t\t\t\t\t\t修改密码\n\t\t\t\t\t")
+                        _vm._v("\n\t\t\t\t\t\tChange Password\n\t\t\t\t\t")
                       ])
                     ]),
                     _vm._v(" "),
@@ -83758,8 +83753,8 @@ var render = function() {
                           }
                         },
                         [
-                          _c("i", { staticClass: "el-icon-delete" }),
-                          _vm._v("\n\t\t\t\t\t\t清除缓存\n\t\t\t\t\t")
+                          _c("i", { staticClass: "el-icon-brush" }),
+                          _vm._v("\n\t\t\t\t\t\tClear Cache\n\t\t\t\t\t")
                         ]
                       )
                     ]),
@@ -83778,7 +83773,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "el-icon-refresh-left" }),
-                          _vm._v("\n\t\t\t\t\t\t退出登录\n\t\t\t\t\t")
+                          _vm._v("\n\t\t\t\t\t\tLogout\n\t\t\t\t\t")
                         ]
                       )
                     ])
@@ -96079,6 +96074,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
     'role-list': function roleList() {
       return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/admin/RoleList */ "./resources/assets/js/components/admin/RoleList.vue"));
     },
+    'routes-list': function routesList() {
+      return __webpack_require__.e(/*! import() */ 27).then(__webpack_require__.bind(null, /*! ./components/admin/RouteList */ "./resources/assets/js/components/admin/RouteList.vue"));
+    },
 
     /*业务部分开始*/
     'page-list': function pageList() {
@@ -96762,8 +96760,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\code_test\gym\resources\assets\js\app.js */"./resources/assets/js/app.js");
-module.exports = __webpack_require__(/*! E:\code_test\gym\resources\assets\sass\app.scss */"./resources/assets/sass/app.scss");
+__webpack_require__(/*! E:\code_test\cms\resources\assets\js\app.js */"./resources/assets/js/app.js");
+module.exports = __webpack_require__(/*! E:\code_test\cms\resources\assets\sass\app.scss */"./resources/assets/sass/app.scss");
 
 
 /***/ })

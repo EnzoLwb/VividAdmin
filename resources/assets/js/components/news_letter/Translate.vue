@@ -64,7 +64,7 @@
             }
         },
         created () {
-
+            this.obj.emailText = decodeURIComponent(this.obj.emailText.replace(/\+/g,'%20'));
         },
         methods: {
             //根据语言查询是否已有翻译记录

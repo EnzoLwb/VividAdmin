@@ -128,13 +128,13 @@
 										.then(res => {
 												if (res.data.code != 0 || res.status != 200) {
 														this.$notify({
-																title: '删除失败',
+																title: 'Failed',
 																message: res.data.message,
 																type: 'error'
 														});
 												} else {
 														this.$notify({
-																title: '删除成功',
+																title: 'Success',
 																message: '',
 																type: 'success'
 														});

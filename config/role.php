@@ -68,7 +68,7 @@ return [
         ],
         //Usr Roles Settings
         [
-            "uri"=>"/admin/role/list",
+            "uri"=>"/admin/settings",
             "name"=>"Settings",
             "icon"=>"el-icon-files",
             "submenus"=>[

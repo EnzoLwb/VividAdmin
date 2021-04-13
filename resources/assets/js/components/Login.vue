@@ -16,7 +16,7 @@
                 <el-input
                         ref="username"
                         v-model="loginForm.username"
-                        placeholder="用户名"
+                        placeholder="Username"
                         name="username"
                         type="text"
                         tabindex="1"
@@ -33,7 +33,7 @@
                         ref="password"
                         v-model="loginForm.password"
                         :type="passwordType"
-                        placeholder="密码"
+                        placeholder="Password"
                         name="password"
                         tabindex="2"
                         auto-complete="on"
@@ -42,7 +42,7 @@
                 <span class="show-pwd" @click="showPwd">
         </span>
             </el-form-item>
-            <el-button :loading="loading" type="primary"  style="width:100%;margin-bottom:30px;"  @click="handleLogin">登录</el-button>
+            <el-button :loading="loading" type="primary"  style="width:100%;margin-bottom:30px;"  @click="handleLogin">Sign In</el-button>
         </el-form>
     </div>
 </template>
@@ -56,12 +56,12 @@
                 if (value) {
                     callback()
                 } else {
-                    callback(new Error('请输入正确的用户名'))
+                    callback(new Error('Required'))
                 }
             }
             const validatePassword = (rule, value, callback) => {
                 if (value.length < 4) {
-                    callback(new Error('密码不能少于4个字符'))
+                    callback(new Error('Password cannot be less than 4 characters'))
                 } else {
                     callback()
                 }

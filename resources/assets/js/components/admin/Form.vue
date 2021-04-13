@@ -1,23 +1,23 @@
 <template>
 	<div v-loading="loading">
 		<el-form ref="form" :model="articles" :rules="rules" label-width="120px" enctype="multipart/form-data" size="mini">
-			<el-form-item label="登录名" prop="username">
+			<el-form-item label="UserName" prop="username">
 				<el-input v-model="articles.username"></el-input>
 			</el-form-item>
-			<el-form-item label="手机号">
+			<el-form-item label="Mobile">
 				<el-input  v-model="articles.mobile"></el-input>
 			</el-form-item>
-			<el-form-item label="姓名" prop="real_name">
-				<el-input  v-model="articles.real_name" placeholder="请填写真实的姓名"></el-input>
+			<el-form-item label="RealName" prop="real_name">
+				<el-input  v-model="articles.real_name"></el-input>
 			</el-form-item>
-			<el-form-item label="密码" prop="password">
+			<el-form-item label="Password" prop="password">
 				<el-input  :type="is_add ? 'text': 'password'" v-model="articles.password"  :disabled="Boolean(articles.id)" ></el-input>
 			</el-form-item>
-			<el-form-item label="工号">
+			<el-form-item label="WorkNo">
 				<el-input  v-model="articles.work_no"></el-input>
 			</el-form-item>
-			<el-form-item label="权限/角色组" prop="role_id">
-				<el-select v-model="articles.role_id"  placeholder="请选择">
+			<el-form-item label="Role" prop="role_id">
+				<el-select v-model="articles.role_id" >
 					<el-option
 									v-for="item in roles"
 									:key="item.id"
@@ -26,13 +26,13 @@
 					</el-option>
 				</el-select>
 			</el-form-item>
-			<el-form-item label="状态">
+			<el-form-item label="State">
 				<el-radio-group v-model="articles.status">
-					<el-radio :label="1" >启用</el-radio>
-					<el-radio :label="0" >禁用</el-radio>
+					<el-radio :label="1" >Enable</el-radio>
+					<el-radio :label="0" >Disable</el-radio>
 				</el-radio-group>
 			</el-form-item>
-			<el-form-item label="职务">
+			<el-form-item label="Job">
 				<el-radio-group v-model="articles.group" size="mini">
 					<el-radio-button  :label="1" >Admin</el-radio-button>
 					<el-radio-button  :label="2" >Marketing Manager</el-radio-button>
@@ -47,7 +47,7 @@
 				<el-input type="hidden" name="id" v-model="articles.id"></el-input>
 			</el-form-item>
 				<el-form-item>
-					<el-button type="primary" @click="submitForm()">提交</el-button>
+					<el-button type="primary" @click="submitForm()">Submit</el-button>
 				</el-form-item>
 		</el-form>
 	</div>
@@ -58,7 +58,7 @@
 				data: function() {
 					var validatePsd = (rule, value, callback) => {
 						if (this.articles.id=='' && value === '') {
-							callback(new Error('请输入密码'));
+							callback(new Error('Required'));
 						} else {
 							callback();
 						}
@@ -80,18 +80,18 @@
 							},
 							rules: {
 								username: [
-									{ required: true, message: '请输入登录名', trigger: 'blur' },
-									{ min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+									{ required: true, message: 'Required', trigger: 'blur' },
+									{ min: 3, max: 25, message: '3~25 characters', trigger: 'blur' }
 								],
 								password: [
 									{ validator: validatePsd,required: true, trigger: 'blur' },
 								],
 								role_id: [
-									{ required: true, message: '请选择角色', trigger: 'blur' },
+									{ required: true, message: 'Required', trigger: 'blur' },
 								],
 								real_name: [
-									{ required: true, message: '请输入姓名(用于登录展示)', trigger: 'blur' },
-									{ min: 2, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+									{ required: true, message: 'Required', trigger: 'blur' },
+									{ min: 3, max: 25, message: '3~25 characters', trigger: 'blur' }
 								],
 							},
 						}
@@ -110,14 +110,14 @@
 													.then(res => {
 														if (res.data.code != 0 || res.status != 200) {
 															this.$notify({
-																title: '失败',
+																title: 'Failed',
 																message: res.data.message,
 																type: 'error'
 															});
 																this.loading = false
 														} else {
 															this.$notify({
-																title: '成功',
+																title: 'Success',
 																message: res.data.message,
 																type: 'success'
 															});

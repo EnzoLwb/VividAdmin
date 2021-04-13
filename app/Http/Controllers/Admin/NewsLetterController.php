@@ -35,7 +35,6 @@ class NewsLetterController extends Controller
     public function edit()
     {
         $obj = Model::query()->findOrFail(\request('id'));
-        $obj->emailText = urldecode($obj->emailText);
         //返回默认的site
         $title = 'Edit Template';
         return view($this->model_name.'.form',compact('obj','title'));
@@ -94,7 +93,6 @@ class NewsLetterController extends Controller
             return $this->json(0,[],'Translate Success');
         }else{
             $obj = Model::findOrFail($request->id);
-            $obj->emailText = urldecode($obj->emailText);
             //语言词库
             $language_select = $this->language_select;
             return view($this->model_name.'.translate',compact('language_select','obj'));

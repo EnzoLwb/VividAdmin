@@ -67,11 +67,11 @@ __webpack_require__.r(__webpack_exports__);
 
       if (action != 'add') {
         //编辑
-        this.dialog_title = '编辑';
+        this.dialog_title = 'Edit';
         this.articles = param;
         this.policy_uri = JSON.parse(param.policy_uri);
       } else {
-        this.dialog_title = '新增';
+        this.dialog_title = 'Add';
       }
 
       this.outerVisible = true;
@@ -82,9 +82,9 @@ __webpack_require__.r(__webpack_exports__);
     handleDelete: function handleDelete(index, row) {
       var _this = this;
 
-      this.$confirm('此操作将删除该角色, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm('Delete it?', 'Notice', {
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No',
         type: 'warning'
       }).then(function () {
         _this.loading = true;
@@ -93,14 +93,14 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           if (res.data.code != 0 || res.status != 200) {
             _this.$notify({
-              title: '失败',
+              title: 'Failed',
               message: res.data.message,
               type: 'error'
             });
           } else {
             _this.$notify({
-              title: '成功',
-              message: '已删除',
+              title: 'Success',
+              message: 'Deleted',
               type: 'success'
             });
 
@@ -108,11 +108,6 @@ __webpack_require__.r(__webpack_exports__);
           }
 
           _this.loading = false;
-        });
-      })["catch"](function () {
-        _this.$message({
-          type: 'info',
-          message: '已取消删除'
         });
       });
     }
@@ -173,7 +168,7 @@ var render = function() {
                     }
                   }
                 },
-                [_vm._v("新增角色")]
+                [_vm._v("Add a role")]
               )
             ],
             1
@@ -184,19 +179,23 @@ var render = function() {
             { attrs: { data: _vm.tabledata.data, size: "medium" } },
             [
               _c("el-table-column", {
-                attrs: { resizable: "", prop: "id", label: "序号", width: "70" }
+                attrs: { resizable: "", prop: "id", label: "ID", width: "70" }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { resizable: "", prop: "name", label: "名称" }
+                attrs: { resizable: "", prop: "name", label: "Title" }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { resizable: "", prop: "created_at", label: "创建时间" }
+                attrs: {
+                  resizable: "",
+                  prop: "created_at",
+                  label: "Created_time"
+                }
               }),
               _vm._v(" "),
               _c("el-table-column", {
-                attrs: { resizable: "", align: "center", label: "操作" },
+                attrs: { resizable: "", align: "center", label: "Operation" },
                 scopedSlots: _vm._u([
                   {
                     key: "default",
@@ -212,7 +211,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("编辑")]
+                          [_vm._v("Edit")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -225,7 +224,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("删除")]
+                          [_vm._v("Delete")]
                         )
                       ]
                     }

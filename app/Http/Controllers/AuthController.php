@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RouteSetting;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Admin;
@@ -90,46 +91,19 @@ class AuthController extends Controller
     //获取全部权限树
     public function getMenuRole()
     {
-        $role = Config::get('role');
-        $menu = $role['menu'];
-        $roles = [];
-        foreach ($menu as $k=>$v){
-            if (isset($v['submenus'])){
-                $roles[$k] = [
-                    'uri'=>$v['uri'],
-                    'label'=>$v['name'],
-                    'children' => [],
-                ];
-                if (count( $v['submenus']) > 0 ){
-                    //有子菜单
-                    $children = [];
-                    foreach ($v['submenus'] as $key=>$submenu){
-                        $data = [
-                            'uri'=>$submenu['uri'],
-                            'label'=>$submenu['name'],
-                            'children' => [],
-                        ];
-                        //禁用某个地址
-                        if ($submenu['uri'] == "/admin/wyw/zzjs"){
-                            $data['disabled'] = true;
-                        }
-                        $children[] = $data;
-                        if (count( $submenu['submenus']) > 0 ){
-                            $root = [];
-                            foreach ($submenu['submenus'] as $root_submenu){
-                                $root[] = [
-                                    'uri'=>$root_submenu['uri'],
-                                    'label'=>$root_submenu['name'],
-                                    'children' => [],
-                                ];
-                            }
-                            $children[$key]['children'] = $root;
-                        }
-                    }
-                    $roles[$k]['children'] = $children;
-                }
+        $roles = RouteSetting::query()->where('pid',0)
+            ->orderBy('id','asc')
+            ->select('name','url','icon','id','pid')->get()->toArray();
 
-            }
+        foreach ($roles as $k=>$first_menu){
+            //查询二级菜单 在所属权限内的菜单
+            $sec_menu = RouteSetting::query()->where('pid',$first_menu['id'])
+                ->select('name','url','icon','pid','id')->get();
+            //虽然没有三级菜单 但还是需要返回submenus key
+            $sec_menu->each(function ($item,$key){
+                $item->submenus = [];
+            });
+            $roles[$k]['submenus'] = $sec_menu;
         }
         return $this->json(0,$roles,'');
     }

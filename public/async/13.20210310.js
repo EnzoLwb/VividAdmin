@@ -146,13 +146,13 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/admin/logs/delete/' + row).then(function (res) {
         if (res.data.code != 0 || res.status != 200) {
           _this2.$notify({
-            title: '删除失败',
+            title: 'Failed',
             message: res.data.message,
             type: 'error'
           });
         } else {
           _this2.$notify({
-            title: '删除成功',
+            title: 'Success',
             message: '',
             type: 'success'
           });

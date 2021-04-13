@@ -29,9 +29,9 @@
         <el-table-column resizable prop="emailFrom" label="From Address"> </el-table-column>
         <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
-            <el-button style="color: rgb(0, 0, 255)" type="text" v-show="group != 3" @click="handleOperation('edit',scope.row.id)">Edit | </el-button>
+            <el-button style="color: rgb(0, 0, 255)" type="text" v-show="group != 3" @click="handleOperation('edit',scope.row.emailId)">Edit | </el-button>
             <el-button type="text" v-show="group != 3" @click="handleDelete(scope.$index,scope.row)">Delete | </el-button>
-            <el-button type="text" v-show="group != 2" @click="handleOperation('translate',scope.row.id)"> Translate</el-button>
+            <el-button type="text" v-show="group != 2" @click="handleOperation('translate',scope.row.emailId)"> Translate</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -119,7 +119,7 @@
             type: 'warning'
           }).then(() => {
             this.loading = true
-            axios.delete(current_url + '?emailId=' + row.id)
+            axios.delete(current_url + '?emailId=' + row.emailId)
               .then(res => {
                 if (res.data.code != 0 || res.status != 200) {
                   this.$notify({

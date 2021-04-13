@@ -83,7 +83,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var current_url = '/admin/db_terms/';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -215,7 +214,7 @@ var current_url = '/admin/db_terms/';
       });
     }
   },
-  props: ['module', 'languageSelect']
+  props: ['module', 'languageSelect', 'group']
 });
 
 /***/ }),
@@ -493,23 +492,36 @@ var render = function() {
                         _c(
                           "el-button",
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.group != 3,
+                                expression: "group != 3"
+                              }
+                            ],
                             staticStyle: { color: "rgb(0, 0, 255)" },
                             attrs: { type: "text" },
                             on: {
                               click: function($event) {
-                                return _vm.handleOperation(
-                                  "edit",
-                                  scope.row.word_id
-                                )
+                                return _vm.handleOperation("edit", scope.row.id)
                               }
                             }
                           },
-                          [_vm._v("Edit")]
+                          [_vm._v("Edit | ")]
                         ),
-                        _vm._v("\n          |\n          "),
+                        _vm._v(" "),
                         _c(
                           "el-button",
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.group != 3,
+                                expression: "group != 3"
+                              }
+                            ],
                             attrs: { type: "text" },
                             on: {
                               click: function($event) {

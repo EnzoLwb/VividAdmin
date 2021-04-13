@@ -3,10 +3,10 @@
 		<el-row>
 			<el-col :span="10">
 				<el-form ref="form" :model="form" label-width="100px" enctype="multipart/form-data">
-					<el-form-item label="原密码">
+					<el-form-item label="Old password">
 						<el-input  type="password" v-model="form.prepassword" ></el-input>
 					</el-form-item>
-					<el-form-item label="新密码">
+					<el-form-item label="New password">
 						<el-input v-model="form.password" ></el-input>
 					</el-form-item>
 					<el-form-item >
@@ -14,7 +14,7 @@
 					</el-form-item>
 					<div v-if="show!=1">
 						<el-form-item>
-							<el-button type="primary" @click="submitForm()">提交</el-button>
+							<el-button type="primary" @click="submitForm()">Submit</el-button>
 						</el-form-item>
 					</div>
 				</el-form>
@@ -40,13 +40,13 @@
 										.then(res => {
 												if (res.data.code !== 0 || res.status !== 200) {
 														this.$notify({
-																title: '失败',
+																title: 'Failed',
 																message: res.data.message,
 																type: 'error'
 														});
 												} else {
 														this.$notify({
-																title: '成功',
+																title: 'Success',
 																message: res.data.message,
 																type: 'success'
 														});

@@ -209,13 +209,13 @@ __webpack_require__.r(__webpack_exports__);
         }).then(function (res) {
           if (res.data.code != 0 || res.status != 200) {
             _this2.$notify({
-              title: 'Fail',
+              title: 'Failed',
               message: res.data.message,
               type: 'error'
             });
           } else {
             _this2.$notify({
-              title: '成功',
+              title: 'Success',
               message: res.data.message,
               type: 'success'
             });

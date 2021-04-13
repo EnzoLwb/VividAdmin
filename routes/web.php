@@ -128,6 +128,15 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::post('/roles','UserController@roles');
         });
 
+        Route::group([
+            'prefix'=>'settings',
+        ],function (){
+            Route::get('/', 'Admin\SettingController@index');
+            Route::any('/routes', 'Admin\SettingController@routes');
+            Route::get('/user', 'UserController@userList');
+            Route::get('/role', 'AuthController@roleList');
+        });
+
         //添加角色
         Route::group([
             'prefix'=>'role',

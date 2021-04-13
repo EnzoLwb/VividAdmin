@@ -65,6 +65,7 @@ const app = new Vue({
         'admin-list':()=>import('./components/admin/List'),
         'password-form':()=>import('./components/admin/Password'),
         'role-list':()=>import('./components/admin/RoleList'),
+        'routes-list':()=>import('./components/admin/RouteList'),
 
         /*业务部分开始*/
         'page-list':()=>import('./components/page_list/Index'),

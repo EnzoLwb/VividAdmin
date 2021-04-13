@@ -23,19 +23,19 @@
 					<el-dropdown-item>
 						<a href="/admin/changepassword">
 							<i class="el-icon-unlock"></i>
-							修改密码
+							Change Password
 						</a>
 					</el-dropdown-item>
 					<el-dropdown-item>
 						<a href="#" @click.stop="clearCache('/admin/clear-cache')">
-							<i class="el-icon-delete"></i>
-							清除缓存
+							<i class="el-icon-brush"></i>
+							Clear Cache
 						</a>
 					</el-dropdown-item>
 					<el-dropdown-item>
 						<a href="#" @click.stop="clearCache('/logout')">
 							<i class="el-icon-refresh-left"></i>
-							退出登录
+							Logout
 						</a>
 					</el-dropdown-item>
 				</el-dropdown-menu>

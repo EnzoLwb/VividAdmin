@@ -11,11 +11,15 @@ class ModulesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('pages_modules')->insert([
-           ['module' => 'main','note' => 'main'],
-           ['module' => 'common','note' => 'common'],
-           ['module' => 'client_account','note' => 'client_account'],
-        ]);
+        $modules = [
+            'main','common','client_account','client_order','client_project',
+            'client_support','provider_account','provider_support','provider_test','other'
+        ];
+        $data = [];
+        foreach ($modules as $module){
+            $data[] =  ['module' => $module,'note' => $module];
+        }
+        DB::table('pages_modules')->insert($data);
 
     }
 }

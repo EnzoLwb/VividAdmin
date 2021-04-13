@@ -51,13 +51,13 @@ __webpack_require__.r(__webpack_exports__);
       axios.post('/admin/changepassword', this.form).then(function (res) {
         if (res.data.code !== 0 || res.status !== 200) {
           _this.$notify({
-            title: '失败',
+            title: 'Failed',
             message: res.data.message,
             type: 'error'
           });
         } else {
           _this.$notify({
-            title: '成功',
+            title: 'Success',
             message: res.data.message,
             type: 'success'
           });
@@ -112,7 +112,7 @@ var render = function() {
                 [
                   _c(
                     "el-form-item",
-                    { attrs: { label: "原密码" } },
+                    { attrs: { label: "Old password" } },
                     [
                       _c("el-input", {
                         attrs: { type: "password" },
@@ -130,7 +130,7 @@ var render = function() {
                   _vm._v(" "),
                   _c(
                     "el-form-item",
-                    { attrs: { label: "新密码" } },
+                    { attrs: { label: "New password" } },
                     [
                       _c("el-input", {
                         model: {
@@ -179,7 +179,7 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("提交")]
+                                [_vm._v("Submit")]
                               )
                             ],
                             1

@@ -1,14 +1,14 @@
 <template>
 	<div v-loading="loading">
 		<el-form ref="form" :model="article" label-width="100px" enctype="multipart/form-data">
-			<el-form-item label="角色名称">
+			<el-form-item label="Title">
 				<el-input v-model="articles.name"></el-input>
 			</el-form-item>
-			<el-form-item label="权限">
+			<el-form-item label="Role">
 				<el-tree
 								:data="roles"
 								show-checkbox
-								node-key="uri"
+								node-key="url"
 								ref="tree"
 								highlight-current
 								:default-checked-keys="policy_uri"
@@ -20,7 +20,7 @@
 				<el-input type="hidden" name="id" v-model="articles.id"></el-input>
 			</el-form-item>
 			<el-form-item>
-				<el-button type="primary" @click="submitForm()">确定</el-button>
+				<el-button type="primary" @click="submitForm()">Submit</el-button>
 			</el-form-item>
 		</el-form>
 	</div>
@@ -38,8 +38,8 @@
 										id: '',
 								},
 								defaultProps: {
-										children: 'children',
-										label: 'label'
+										children: 'submenus',
+										label: 'name'
 								},
 								roles:'',
 								loading:false,
@@ -58,7 +58,7 @@
 							.then(res => {
 								if (res.data.code !== 0 || res.status !== 200) {
 									this.$notify({
-										title: '获取角色菜单失败',
+										title: 'Failed',
 										message: res.data.message,
 										type: 'error'
 									});
@@ -75,13 +75,13 @@
 										.then(res => {
 												if (res.data.code !== 0 || res.status !== 200) {
 														this.$notify({
-																title: '失败',
+																title: 'Failed',
 																message: res.data.message,
 																type: 'error'
 														});
 												} else {
 														this.$notify({
-																title: '成功',
+																title: 'Success',
 																message: res.data.message,
 																type: 'success'
 														});

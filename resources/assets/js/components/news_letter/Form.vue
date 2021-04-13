@@ -90,6 +90,8 @@
         created () {
             if(Object.keys(this.originObj).length==0){
                 this.article = this.form
+            }else{
+                this.article.emailText = decodeURIComponent(this.article.emailText.replace(/\+/g,'%20'));
             }
         },
         methods: {

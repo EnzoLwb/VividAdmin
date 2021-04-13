@@ -53,16 +53,17 @@ if (!function_exists('array2csv')) {
     }
 }
 
-function allModulesMenu($first_menu){
+function allModulesMenu($first_menu,$pid=0){
     $modules = ['main','common','client_account','client_order','client_project',
         'client_support','provider_account','provider_support','provider_test','other'];
     $data = [];
     foreach ($modules as $module){
         $data[] = [
-            "uri" => "/admin/".$first_menu."/".$module,
+            "url" => "/admin/".$first_menu."/".$module,
             "name" => $module,
             "icon" => "",
-            "submenus" => [],
+            "pid" => $pid,
+            "site" => "service",
         ];
     }
     return $data;

@@ -59,7 +59,6 @@
 					if(windowWidth >= 640){
 						this.isCollapse = false
 					}
-
 					// 获取 菜单
 					let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
 					if (!menus){

@@ -196,13 +196,13 @@ export default {
                   .then(res => {
                     if (res.data.code != 0 || res.status != 200) {
                       this.$notify({
-                        title: 'Fail',
+                        title: 'Failed',
                         message: res.data.message,
                         type: 'error'
                       });
                     } else {
                       this.$notify({
-                        title: '成功',
+                        title: 'Success',
                         message: res.data.message,
                         type: 'success'
                       });

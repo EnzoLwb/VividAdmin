@@ -80,8 +80,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 var current_url = '/admin/seo_list/';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -178,7 +176,7 @@ var current_url = '/admin/seo_list/';
       });
     }
   },
-  props: ['module', 'moduleSelect', 'wordCount']
+  props: ['module', 'moduleSelect', 'wordCount', 'group']
 });
 
 /***/ }),
@@ -454,6 +452,14 @@ var render = function() {
                         _c(
                           "el-button",
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.group != 3,
+                                expression: "group != 3"
+                              }
+                            ],
                             staticStyle: { color: "rgb(0, 0, 255)" },
                             attrs: { type: "text" },
                             on: {
@@ -462,12 +468,20 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Edit")]
+                          [_vm._v("Edit | ")]
                         ),
-                        _vm._v("\n          |\n          "),
+                        _vm._v(" "),
                         _c(
                           "el-button",
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.group != 3,
+                                expression: "group != 3"
+                              }
+                            ],
                             attrs: { type: "text" },
                             on: {
                               click: function($event) {
@@ -475,12 +489,20 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Delete")]
+                          [_vm._v("Delete | ")]
                         ),
-                        _vm._v("\n          |\n          "),
+                        _vm._v(" "),
                         _c(
                           "el-button",
                           {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.group != 2,
+                                expression: "group != 2"
+                              }
+                            ],
                             attrs: { type: "text" },
                             on: {
                               click: function($event) {
@@ -491,7 +513,7 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Translate")]
+                          [_vm._v(" Translate")]
                         )
                       ]
                     }

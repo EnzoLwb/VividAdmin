@@ -65,13 +65,13 @@ __webpack_require__.r(__webpack_exports__);
       if (value) {
         callback();
       } else {
-        callback(new Error('请输入正确的用户名'));
+        callback(new Error('Required'));
       }
     };
 
     var validatePassword = function validatePassword(rule, value, callback) {
       if (value.length < 4) {
-        callback(new Error('密码不能少于4个字符'));
+        callback(new Error('Password cannot be less than 4 characters'));
       } else {
         callback();
       }
@@ -305,7 +305,7 @@ var render = function() {
               _c("el-input", {
                 ref: "username",
                 attrs: {
-                  placeholder: "用户名",
+                  placeholder: "Username",
                   name: "username",
                   type: "text",
                   tabindex: "1",
@@ -336,7 +336,7 @@ var render = function() {
                 ref: "password",
                 attrs: {
                   type: _vm.passwordType,
-                  placeholder: "密码",
+                  placeholder: "Password",
                   name: "password",
                   tabindex: "2",
                   "auto-complete": "on"
@@ -376,7 +376,7 @@ var render = function() {
               attrs: { loading: _vm.loading, type: "primary" },
               on: { click: _vm.handleLogin }
             },
-            [_vm._v("登录")]
+            [_vm._v("Sign In")]
           )
         ],
         1
