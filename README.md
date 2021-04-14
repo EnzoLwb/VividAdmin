@@ -6,6 +6,6 @@
 - composer dump-autoload
 - php artisan migrate && php artisan db:seed
 - php artisan storage:link 
-- 导入sql建表 插入邮件数据
-- cm_eml_template `emailId` update Primary and AUTO_INCREMENT
+- 导入 ./newtac_one_cms.sql 
+- alter table cm_eml_template modify emailId int auto_increment primary key
 
