@@ -72,7 +72,7 @@
 </template>
 
 <script type="text/javascript">
-  const current_url = '/admin/page_list/'
+  const current_url = '/admin/page_list'
   export default {
       data:function() {
           return {
