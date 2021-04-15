@@ -53,13 +53,25 @@
 </template>
 
 <script type="text/javascript">
-    const current_url = '/admin/news_letter/'
+    const current_url = '/admin/news_letter'
     export default {
         data: function() {
             return {
                 article: this.originObj,
                 editorConfig: {
-                    language:'en',
+                    filebrowserBrowseUrl :  '/ckeditor/ckfinder/ckfinder.html?admin_userid=2' ,
+                    filebrowserImageBrowseUrl :  '/ckeditor/ckfinder/ckfinder.html?type=Images&admin_userid=2' ,
+                    filebrowserFlashBrowseUrl :  '/ckeditor/ckfinder/ckfinder.html?type=Flash&admin_userid=2' ,
+                    filebrowserUploadUrl :  '/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files' ,
+                    filebrowserImageUploadUrl :  '/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images' ,
+                    filebrowserFlashUploadUrl :  '/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash' ,
+                    // filebrowserWindowWidth : '600',     //文件浏览宽
+                    // filebrowserWindowHeight : '300',     //文件浏览宽
+                    height:425,
+                    allowedContent:true,
+                    toolbarCanCollapse :false,
+                    language:'en'
+
                 },
                 form: {
                     emailName: '',
@@ -108,7 +120,7 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         this.loading = true
-                        axios.post( current_url + 'save',this.article)
+                        axios.post( current_url + '/save',this.article)
                             .then(res => {
                                 if (res.data.code != 0 || res.status != 200) {
                                     this.$notify({

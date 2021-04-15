@@ -43,7 +43,7 @@
 </template>
 
 <script type="text/javascript">
-    const current_url = '/admin/content_list/'
+    const current_url = '/admin/content_list'
     export default {
         data: function() {
             return {
@@ -114,7 +114,7 @@
                             return;
                         }
                         this.loading = true
-                        axios.post( current_url + 'translate',this.translate)
+                        axios.post( current_url + '/translate',this.translate)
                             .then(res => {
                                 if (res.data.code != 0 || res.status != 200) {
                                     this.$notify({

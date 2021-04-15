@@ -94,7 +94,7 @@
 </template>
 
 <script type="text/javascript">
-  const current_url = '/admin/img_list/'
+  const current_url = '/admin/img_list'
   export default {
       data:function() {
           return {
@@ -176,7 +176,7 @@
         getData(data)
         {
           this.loading = true
-          axios.post(current_url + this.module,data)
+          axios.post(current_url +'/' + this.module,data)
             .then(res => {
               if (res.data.code != 0 || res.status != 200) {
                 this.$notify({
@@ -197,7 +197,7 @@
           this.getData(this.search_form);
         },
         handleOperation(operation,id=null) {
-          var url = current_url + operation
+          var url = current_url +'/' + operation
           window.location.href = id ? url+'?id='+id : url
         },
         handleDelete(index,row) {

@@ -42,7 +42,7 @@
 </template>
 
 <script type="text/javascript">
-    const current_url = '/admin/news_letter/'
+    const current_url = '/admin/news_letter'
     export default {
         data: function() {
             return {
@@ -99,7 +99,7 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         this.loading = true
-                        axios.post( current_url + 'translate',this.translate)
+                        axios.post( current_url + '/translate',this.translate)
                             .then(res => {
                                 if (res.data.code != 0 || res.status != 200) {
                                     this.$notify({

@@ -52,7 +52,7 @@
 </template>
 
 <script type="text/javascript">
-  const current_url = '/admin/news_letter/'
+  const current_url = '/admin/news_letter'
   export default {
       data:function() {
           return {
@@ -109,7 +109,7 @@
           this.getData(this.search_form);
         },
         handleOperation(operation,id=null) {
-          var url = current_url + operation
+          var url = current_url +'/'+ operation
           window.location.href = id ? url+'?id='+id : url
         },
         handleDelete(index,row) {

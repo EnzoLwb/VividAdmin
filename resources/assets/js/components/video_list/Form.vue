@@ -52,7 +52,7 @@
 </template>
 
 <script type="text/javascript">
-    const current_url = '/admin/video_list/'
+    const current_url = '/admin/video_list'
     export default {
         data: function() {
             return {
@@ -134,7 +134,7 @@
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         this.loading = true
-                        axios.post( current_url + 'save',this.article)
+                        axios.post( current_url + '/save',this.article)
                             .then(res => {
                                 if (res.data.code != 0 || res.status != 200) {
                                     this.$notify({
