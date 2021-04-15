@@ -59,12 +59,12 @@
             return {
                 article: this.originObj,
                 editorConfig: {
-                    filebrowserBrowseUrl :  '/ckeditor/ckfinder/ckfinder.html?admin_userid=2' ,
-                    filebrowserImageBrowseUrl :  '/ckeditor/ckfinder/ckfinder.html?type=Images&admin_userid=2' ,
-                    filebrowserFlashBrowseUrl :  '/ckeditor/ckfinder/ckfinder.html?type=Flash&admin_userid=2' ,
-                    filebrowserUploadUrl :  '/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files' ,
-                    filebrowserImageUploadUrl :  '/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images' ,
-                    filebrowserFlashUploadUrl :  '/ckeditor/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash' ,
+                    filebrowserBrowseUrl :  '/ckfinder/browser' ,
+                    filebrowserImageBrowseUrl :  '/ckfinder/browser?type=Images' ,
+                    filebrowserFlashBrowseUrl :  '/ckfinder/browser?type=Flash' ,
+                    filebrowserUploadUrl :  '/ckfinder/connector?command=QuickUpload&type=Files' ,
+                    filebrowserImageUploadUrl :  '/ckfinder/connector?command=QuickUpload&type=Images' ,
+                    filebrowserFlashUploadUrl :  '/ckfinder/connector?command=QuickUpload&type=Flash' ,
                     // filebrowserWindowWidth : '600',     //文件浏览宽
                     // filebrowserWindowHeight : '300',     //文件浏览宽
                     height:425,

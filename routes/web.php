@@ -5,6 +5,13 @@ Route::get('/login', 'UserController@login')->name('login');
 Route::post('/login', 'UserController@loginPost');
 Route::any('/logout', 'UserController@logout');
 
+//ckfinder
+Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
+    ->name('ckfinder_connector');
+
+Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
+    ->name('ckfinder_browser');
+
 /*PC端*/
 Route::group(['middleware' => ['needlogin','menunorm']], function () {
     Route::get('/', 'Admin\IndexController@home');//首页

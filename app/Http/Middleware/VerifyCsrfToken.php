@@ -19,10 +19,6 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/pic/upload',
-        '/pic/verify',
-        '/test',
-        '/setLogo',
-        '/antiScreenshots/{image_name}'
+        'ckfinder/*',
     ];
 }
