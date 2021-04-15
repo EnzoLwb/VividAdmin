@@ -62,7 +62,7 @@ return [
             "submenus"=>[
                 [
                     "uri" => "/admin/setting/service",
-                    "name" => "服务列表",
+                    "name" => "服务项目管理",
                     "icon" => "",
                     "submenus" => [],
                 ],

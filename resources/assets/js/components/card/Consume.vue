@@ -13,6 +13,9 @@
 						<el-form-item label="会员姓名">
 							<el-input :value="article.name" placeholder="读取后显示"></el-input>
 						</el-form-item>
+						<el-form-item label="卡内余额">
+							<el-input value="3000" disabled placeholder="读取后显示" prefix-icon="el-icon-coin"></el-input>
+						</el-form-item>
 						<el-form-item label="服务项目" prop="service">
 							<el-select v-model="article.service" placeholder="请选择">
 								<el-option
