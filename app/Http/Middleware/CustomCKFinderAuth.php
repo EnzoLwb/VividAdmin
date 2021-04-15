@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class CustomCKFinderAuth
 {
@@ -15,9 +16,11 @@ class CustomCKFinderAuth
      */
     public function handle($request, Closure $next)
     {
-        config(['ckfinder.authentication' => function() {
-            return true;
-        }]);
+        if (Auth::check()){
+            config(['ckfinder.authentication' => function() {
+                return true;
+            }]);
+        }
         return $next($request);
     }
 }

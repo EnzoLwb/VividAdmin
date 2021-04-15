@@ -239,10 +239,7 @@ var render = function() {
                         { attrs: { label: "Column description (English) :" } },
                         [
                           _c("ckeditor", {
-                            attrs: {
-                              config: { language: "en", readOnly: true },
-                              id: "origin"
-                            },
+                            attrs: { "read-only": "true", id: "origin" },
                             model: {
                               value: _vm.obj.emailText,
                               callback: function($$v) {

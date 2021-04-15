@@ -11,7 +11,7 @@
             <p class="translate_desc">Function Code：<span>{{obj.funcCode}}</span></p>
             <el-form ref="form" :model="translate" :rules="rules" size="medium" label-position="top">
                 <el-form-item label="Column description (English) :">
-                    <ckeditor v-model="obj.emailText"  :config="{language:'en',readOnly:true}" id="origin"></ckeditor>
+                    <ckeditor v-model="obj.emailText"   read-only="true" id="origin"></ckeditor>
                 </el-form-item>
                 <div class="word-count">WordCount: <b>{{this.obj.wordCount}}</b></div>
                 <!--译文 ↓ -->
