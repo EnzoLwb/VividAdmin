@@ -16,13 +16,33 @@
 			<el-form-item label="WorkNo">
 				<el-input  v-model="articles.work_no"></el-input>
 			</el-form-item>
-			<el-form-item label="Role" prop="role_id">
+			<el-form-item label="Site Auth">
+				<el-checkbox-group v-model="articles.site_auth" :min="1">
+					<el-checkbox label="service">Service</el-checkbox>
+					<el-checkbox label="media">Media</el-checkbox>
+				</el-checkbox-group>
+			</el-form-item>
+			<el-form-item label="Service Role" prop="role_id" :rules="[
+									{ required: true, message: 'Required', trigger: 'blur' },
+								]" v-if="articles.site_auth.indexOf('service') !== -1">
 				<el-select v-model="articles.role_id" >
 					<el-option
 									v-for="item in roles"
 									:key="item.id"
 									:label="item.name"
 									:value="item.id">
+					</el-option>
+				</el-select>
+			</el-form-item>
+			<el-form-item label="Media Role" prop="media_role_id" :rules="[
+									{ required: true, message: 'Required', trigger: 'blur' },
+								]" v-if="articles.site_auth.indexOf('media') !== -1">
+				<el-select v-model="articles.media_role_id" >
+					<el-option
+							v-for="item in media_roles"
+							:key="item.id"
+							:label="item.name"
+							:value="item.id">
 					</el-option>
 				</el-select>
 			</el-form-item>
@@ -73,9 +93,11 @@
 									real_name: '',
 									work_no: '',
 									status: 1,
+									site_auth: ['service','media'],
 									mobile: '',
 									password: '',
 									role_id: '',
+									media_role_id: '',
 									group: 3,
 							},
 							rules: {
@@ -85,9 +107,6 @@
 								],
 								password: [
 									{ validator: validatePsd,required: true, trigger: 'blur' },
-								],
-								role_id: [
-									{ required: true, message: 'Required', trigger: 'blur' },
 								],
 								real_name: [
 									{ required: true, message: 'Required', trigger: 'blur' },
@@ -100,12 +119,14 @@
 						if(Object.keys(this.articles).length==0){
 								this.articles = this.form
 						}
+						console.log(this.articles)
 				},
 				methods: {
 						submitForm() {
 							this.$refs['form'].validate((valid) => {
 										if (valid) {
 											this.loading = true
+											this.articles.site_auth = this.articles.site_auth.join(',')
 											axios.post('/admin/user/update',this.articles)
 													.then(res => {
 														if (res.data.code != 0 || res.status != 200) {
@@ -143,6 +164,10 @@
 						default: {}
 					},
 					roles:{
+						type: Array,
+						default: []
+					},
+					media_roles:{
 						type: Array,
 						default: []
 					},

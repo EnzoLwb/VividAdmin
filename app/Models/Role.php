@@ -55,8 +55,13 @@ class Role extends Model
      	$this->save();
      }
 
-     public static function getRoles()
+     public static function getServiceRoles()
      {
-		     return DB::select('select id,name from roles');
+		     return DB::select('select id,name from roles where resources="service" ');
      }
+
+    public static function getMediaRoles()
+    {
+        return DB::select('select id,name from roles where resources="media" ');
+    }
 }

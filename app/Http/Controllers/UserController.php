@@ -87,32 +87,13 @@ class UserController extends Controller
     //用户管理
     public function addUser()
     {
-        $roles = Role::getRoles();
+        $roles = Role::getServiceRoles();
+        $media_roles = Role::getMediaRoles();
         $show = 3;
         $article= json_encode(new \stdclass());
-        return view('admin.form',compact('roles','show','article'));
+        return view('admin.form',compact('roles','show','article','media_roles'));
     }
 
-    //编辑用户
-    public function editUser(Request $request)
-    {
-        $id = $request->input("id");
-        if (empty($id))
-        {
-            return Redirect('/admin/user/add');
-        }
-
-        $user = Admin::find($id);
-        if (empty($user))
-        {
-            return Redirect('/admin/user/add');
-        }
-
-        $roles = Role::getRoles();
-        $show = 2;
-        $article= $user;
-        return view('admin.form',compact('user','roles','show','article'));
-    }
 
     //更新用户
     public function updateUserPost(Request $request)
@@ -121,7 +102,6 @@ class UserController extends Controller
         if (!$request->username
             || !$request->real_name
             || !$request->password
-            || !$request->role_id
         )
         {
             return $this->json(1,[],"请完善用户信息");
@@ -143,9 +123,11 @@ class UserController extends Controller
                 'username' => $params['username'],
                 'real_name' => $params['real_name'],
                 'mobile' => $params['mobile'],
+                'site_auth' => $params['site_auth'],
+                'media_role_id' => $params['media_role_id'] ?? 0,
                 'work_no' => $params['work_no'] ?? 1000,
                 'status' => $params['status'],
-                'role_id' => $params['role_id'],
+                'role_id' => $params['role_id'] ?? 0,
                 'created_at' => date("Y-m-d H:i:s")
             ];
             $update_param['password'] = Hash::make($params['password']);
@@ -160,7 +142,6 @@ class UserController extends Controller
                     ->performedOn(Admin::find($id))
                     ->log('新增用户');
             });
-
         }
         return $this->json(0,[],$msg);
     }
@@ -173,10 +154,10 @@ class UserController extends Controller
                 ->leftJoin('admin_group','admin_group.admin_id','admins.id');
             $page_size = \request('per_page',15);
 
-            $role_id = $request->input('role_id');
-            if (!empty($role_id))
+            $site = $request->input('site');
+            if (!empty($site))
             {
-                $users = $users->where('role_id',$role_id);
+                $users = $users->where('site_auth','like','%'.$site.'%');
             }
             $group = $request->input('group');
             if (!empty($group))
@@ -194,13 +175,17 @@ class UserController extends Controller
                 $users = $users->where('real_name','like',"%$realName%");
             }
 
-            $users = $users->select('admins.*','admin_group.type as group','admin_group.grid_id','roles.id as role_id','roles.name')
+            $users = $users->select('admins.*','admins.site_auth as site','admin_group.type as group','admin_group.grid_id','roles.id as role_id','roles.name')
                 ->orderBy('admins.id','desc')
                 ->paginate($page_size);
+            foreach ($users as $user){
+                $user->site_auth = explode(',',$user->site_auth);
+            }
             return $this->json(0,$users,'');
         }else{
-            $roles = Role::getRoles();
-            return view('admin.adminlist',compact('roles'));
+            $roles = Role::getServiceRoles();
+            $media_roles = Role::getMediaRoles();
+            return view('admin.adminlist',compact('roles','media_roles'));
         }
 
 

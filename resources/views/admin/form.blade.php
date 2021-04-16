@@ -7,6 +7,6 @@
 	@section('title', '查看用户')
 @endif
 @section('content')
-	<admin-form   :articles='{{$article}}' :show="{{$show}}" :roles="{{json_encode($roles)}}">
+	<admin-form   :articles='{{$article}}' :show="{{$show}}" :roles="{{json_encode($roles)}}" :media_roles="{{json_encode($media_roles)}}">
 	</admin-form>
 @stop

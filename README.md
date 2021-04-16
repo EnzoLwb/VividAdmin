@@ -12,4 +12,6 @@
 
 ### 测试环境 二次部署
 - composer install (必须执行)
+- php artisan migrate
+- php artisan db:seed --class=RoutesMediaTableSeeder
 - chmod -R 777 public/userfiles

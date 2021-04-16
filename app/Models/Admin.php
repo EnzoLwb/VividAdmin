@@ -37,6 +37,8 @@ class Admin extends Authenticatable
                             'work_no',
                             'password',
                             'status',
+                            'media_role_id',
+                            'site_auth',
                             'role_id',
                             'created_at',
                             'updated_at',
@@ -57,9 +59,11 @@ class Admin extends Authenticatable
                 'username' => $params['username'],
                 'real_name' => $params['real_name'],
                 'mobile' => $params['mobile'],
+                'site_auth' => $params['site_auth'],
+                'media_role_id' => $params['media_role_id'] ?? 0,
                 'work_no' => $params['work_no'] ?? 1000,
                 'status' => $params['status'],
-                'role_id' => $params['role_id'],
+                'role_id' => $params['role_id'] ?? 0,
             ];
 
             Admin::where('id',$userId)->update($update_param);
