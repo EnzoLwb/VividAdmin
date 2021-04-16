@@ -30,7 +30,13 @@
         <el-button type="text" class="word-count">WordCount: <b>{{this.wordCount}}</b></el-button>
       </div>
       <el-table :data="tabledata.data" v-loading="loading" size="medium" @sort-change="sortChange">
-        <el-table-column resizable prop="key_id" label="ID" width="70" > </el-table-column>
+        <el-table-column resizable prop="key_id" label="ID" width="70" >
+          <template slot-scope="scope">
+            {{scope.row.id}}
+            <i class="el-icon-copy-document" v-show="group != 3"
+               title="Copy This Information" @click="copyShow(scope.row)"></i>
+          </template>
+        </el-table-column>
         <el-table-column resizable prop="key_name" label="Column name" sortable="custom"> </el-table-column>
         <el-table-column resizable prop="key_value" label="Column description" > </el-table-column>
         <el-table-column resizable prop="constant_type" label="Constant types" sortable="custom"> </el-table-column>
@@ -62,15 +68,26 @@
         </el-pagination>
       </div>
     </el-card>
+    <!--一键复制-->
+    <el-dialog :visible.sync="copyDialog" v-if="copyDialog" width="40%" :close-on-click-modal="false">
+      <template slot="title"><span style="font-size: 16px" v-html="copyTitle"></span></template>
+      <copy-object :origin-id="copyData.key_id" meta-key="key_name" :meta-val="copyData.key_name"
+                   model="ConstantList" @CopySubmit="CopySubmit"></copy-object>
+    </el-dialog>
   </div>
 </template>
 
 <script type="text/javascript">
   const current_url = '/admin/constant_list'
+  import CopyObject from '../common/CopyObject'
   export default {
+    components:{CopyObject},
       data:function() {
           return {
               loading: false,
+              copyData: {},
+              copyDialog: false,
+              copyTitle: "",
               search_form:{
                 column_name:'',
                 desc:'',
@@ -87,6 +104,16 @@
         this.getData({})
       },
       methods: {
+        //一键复制
+        copyShow(data){
+          this.copyData = data
+          this.copyDialog = true
+          this.copyTitle = "Copy <i style='color: green'>" + data.key_name +"</i>"
+        },
+        CopySubmit(obj){
+          this.copyDialog = false
+          window.location.href = window.location.href
+        },
         sortChange(column) {
           this.search_form.sort_prop = column.prop
           this.search_form.sort_order = column.order === 'descending'? 'desc':'asc';

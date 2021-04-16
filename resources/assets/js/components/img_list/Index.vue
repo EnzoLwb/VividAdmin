@@ -33,6 +33,13 @@
         <el-button type="text" class="word-count">WordCount: <b>{{this.wordCount}}</b></el-button>
       </div>
       <el-table :data="tabledata.data" border v-loading="loading" size="small" @sort-change="sortChange">
+        <el-table-column resizable prop="pic_id" label="ID" width="70" >
+          <template slot-scope="scope">
+            {{scope.row.id}}
+            <i class="el-icon-copy-document" v-show="group != 3"
+               title="Copy This Information" @click="copyShow(scope.row)"></i>
+          </template>
+        </el-table-column>
         <el-table-column resizable prop="title" label="Title" sortable="custom"> </el-table-column>
         <el-table-column resizable label="Url" >
           <template slot-scope="scope">
@@ -90,15 +97,25 @@
         </el-pagination>
       </div>
     </el-card>
+    <el-dialog :visible.sync="copyDialog" v-if="copyDialog" width="40%" :close-on-click-modal="false">
+      <template slot="title"><span style="font-size: 16px" v-html="copyTitle"></span></template>
+      <copy-object :origin-id="copyData.pic_id" meta-key="title" :meta-val="copyData.title"
+                   model="ImageList" @CopySubmit="CopySubmit"></copy-object>
+    </el-dialog>
   </div>
 </template>
 
 <script type="text/javascript">
   const current_url = '/admin/img_list'
+  import CopyObject from '../common/CopyObject'
   export default {
+    components:{CopyObject},
       data:function() {
           return {
               loading: false,
+              copyData: {},
+              copyDialog: false,
+              copyTitle: "",
               search_form:{
                 title:'',
                 name:'',
@@ -116,6 +133,16 @@
         this.getData({})
       },
       methods: {
+        //一键复制
+        copyShow(data){
+          this.copyData = data
+          this.copyDialog = true
+          this.copyTitle = "Copy <i style='color: green'>" + data.title +"</i>"
+        },
+        CopySubmit(obj){
+          this.copyDialog = false
+          window.location.href = window.location.href
+        },
         //update sort
         sureSort(index,row){
           this.loading = true

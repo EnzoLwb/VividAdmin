@@ -56,7 +56,7 @@ class RoutesTableSeeder extends Seeder
             'site' => 'service',
         ]);
         DB::table('route_settings')->insert([
-            'name' => 'Route List',
+            'name' => 'SubModule List',
             'icon' => 'el-icon-menu',
             'url' => '/admin/settings/routes',
             'pid' => $s_id,

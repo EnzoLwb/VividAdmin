@@ -103,7 +103,7 @@ class DbTermsController extends Controller
     public function save(Request $request){
         $data = $request->all();
         $page_ids = $data['page_ids'];
-        unset($data['page_ids']);
+        $data['page_ids'] = implode(',',$data['page_ids']);
         if ($request->word_id){
             //Update 先删除之前记录 然后再insert到关联表
             $obj = Model::query()->find($request->word_id);
