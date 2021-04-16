@@ -51,7 +51,7 @@
         </el-table-column>
         <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
-            <el-button style="color: rgb(0, 0, 255)" type="text" v-show="group != 3" @click="handleOperation('edit',scope.row.id)">Edit | </el-button>
+            <el-button style="color: rgb(0, 0, 255)" type="text" v-show="group != 3" @click="handleOperation('edit',scope.row.word_id)">Edit | </el-button>
             <el-button type="text" v-show="group != 3" @click="handleDelete(scope.$index,scope.row)">Delete</el-button>
           </template>
         </el-table-column>
@@ -121,7 +121,6 @@
           })
           this.search_form.word_ids = word_ids
           this.search_form.locale = this.locale
-          console.log(this.search_form)
           this.getData(this.search_form)
         },
         sortChange(column) {
@@ -139,7 +138,7 @@
         },
         getData(data) {
           this.loading = true
-          axios.post(current_url + '/' +this.module,data)
+          axios.post(current_url + (this.module ? '/' : '') + this.module,data)
             .then(res => {
               if (res.data.code != 0 || res.status != 200) {
                 this.$notify({

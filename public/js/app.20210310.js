@@ -6110,7 +6110,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, ".open {\n  padding: 20px;\n  background-color: #ffd04b;\n  font-size: 26px;\n}\n\n.el-menu {\n  border-right: none;\n}\n\n.table-image {\n  width: 120px;\n  display: inline-block;\n  margin-right: 15px;\n}\n\n.login_cover {\n  width: 100px;\n}\n\n.search-form-inline .el-form-item {\n  margin-bottom: 0 !important;\n}\n\n.word-count {\n  float: right;\n}\n.word-count b {\n  color: red;\n}\n\n.translate_desc {\n  font-size: 16px;\n}\n.translate_desc span {\n  color: grey;\n}\n\n@media (max-width: 768px) {\n  .el-dialog {\n    width: 100% !important;\n  }\n\n  .mobile-header {\n    display: flex;\n    overflow: auto;\n    overflow-y: hidden;\n    min-height: 60px;\n  }\n\n  #body_content {\n    margin: 20px 0 !important;\n  }\n\n  .search-form-inline .el-form-item {\n    margin-bottom: 18px !important;\n  }\n}\n.el-aside {\n  display: block;\n  position: relative;\n  overflow-y: scroll;\n}\n\n.close {\n  padding: 10px;\n  background-color: #ffd04b;\n  font-size: 26px;\n}\n\n.el-tree-node__content {\n  margin: 8px 0px;\n}\n\n.el-transfer-panel {\n  width: 250px;\n}\n\n.el-transfer-panel__list.is-filterable {\n  height: 390px;\n  padding-top: 0;\n}\n\n.el-transfer-panel__body {\n  height: 440px;\n}\n\n.el-tree-node__content {\n  margin: 8px 0px;\n}\n\n.el-autocomplete-suggestion__wrap {\n  margin-bottom: 0px !important;\n}\n\n.el-scrollbar .el-scrollbar__wrap {\n  overflow-x: hidden;\n}\n\n.el-tree > .el-tree-node {\n  min-width: 100%;\n  display: inline-block;\n}\n\n.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {\n  background-color: #e4e7ed;\n}\n\n.my-autocomplete li {\n  line-height: normal;\n  padding: 7px;\n}\n.my-autocomplete li .name {\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n.my-autocomplete li .addr {\n  font-size: 12px;\n  color: #b4b4b4;\n}\n.my-autocomplete li .highlighted .addr {\n  color: #ddd;\n}\n\n.el-tag + .el-tag {\n  margin-left: 10px;\n}\n\n.button-new-tag {\n  margin-left: 10px;\n  height: 32px;\n  line-height: 30px;\n  padding-top: 0;\n  padding-bottom: 0;\n}\n\n.input-new-tag {\n  width: 90px;\n  margin-left: 10px;\n  vertical-align: bottom;\n}\n\n.el-dialog__body {\n  padding: 0 20px 20px 20px;\n}\n\n.avatar {\n  width: 178px;\n  display: block;\n  margin-bottom: 30px;\n}\n\n.demo-table-expand {\n  font-size: 0;\n}\n\n.demo-table-expand label {\n  width: 130px;\n  color: #99a9bf;\n}\n\n.demo-table-expand .el-form-item {\n  margin-right: 0;\n  margin-bottom: 0;\n  width: 50%;\n}\n\n.el-timeline {\n  -webkit-padding-start: 0;\n          padding-inline-start: 0;\n  margin: 15px 0px;\n}\n\n.desc {\n  color: grey;\n}\n\n.el-collapse-item__content {\n  padding: 15px 0;\n}\n\n.el-collapse-item .el-collapse-item__header {\n  font-size: 16px;\n}\n\n.el-collapse-item .el-collapse-item__wrap {\n  font-size: 14px;\n}\n\n.clearfix:before,\n.clearfix:after {\n  display: table;\n  content: \"\";\n}\n\n.clearfix:after {\n  clear: both;\n}\n\n.box-card {\n  margin: 15px 0;\n}", ""]);
+exports.push([module.i, ".open {\n  padding: 20px;\n  background-color: #ffd04b;\n  font-size: 26px;\n}\n\n.el-menu {\n  border-right: none;\n}\n\n.table-image {\n  width: 120px;\n  display: inline-block;\n  margin-right: 15px;\n}\n\n.login_cover {\n  width: 100px;\n}\n\n.search-form-inline .el-form-item {\n  margin-bottom: 0 !important;\n}\n\n.dialog-footer {\n  display: flex;\n  justify-content: flex-end;\n}\n\n.el-icon-copy-document {\n  margin-left: 10px;\n  cursor: pointer;\n  color: deepskyblue;\n}\n\n.word-count {\n  float: right;\n}\n.word-count b {\n  color: red;\n}\n\n.translate_desc {\n  font-size: 16px;\n}\n.translate_desc span {\n  color: grey;\n}\n\n@media (max-width: 768px) {\n  .el-dialog {\n    width: 100% !important;\n  }\n\n  .mobile-header {\n    display: flex;\n    overflow: auto;\n    overflow-y: hidden;\n    min-height: 60px;\n  }\n\n  #body_content {\n    margin: 20px 0 !important;\n  }\n\n  .search-form-inline .el-form-item {\n    margin-bottom: 18px !important;\n  }\n}\n.el-aside {\n  display: block;\n  position: relative;\n  overflow-y: scroll;\n}\n\n.close {\n  padding: 10px;\n  background-color: #ffd04b;\n  font-size: 26px;\n}\n\n.el-tree-node__content {\n  margin: 8px 0px;\n}\n\n.el-transfer-panel {\n  width: 250px;\n}\n\n.el-transfer-panel__list.is-filterable {\n  height: 390px;\n  padding-top: 0;\n}\n\n.el-transfer-panel__body {\n  height: 440px;\n}\n\n.el-tree-node__content {\n  margin: 8px 0px;\n}\n\n.el-autocomplete-suggestion__wrap {\n  margin-bottom: 0px !important;\n}\n\n.el-scrollbar .el-scrollbar__wrap {\n  overflow-x: hidden;\n}\n\n.el-tree > .el-tree-node {\n  min-width: 100%;\n  display: inline-block;\n}\n\n.el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content {\n  background-color: #e4e7ed;\n}\n\n.my-autocomplete li {\n  line-height: normal;\n  padding: 7px;\n}\n.my-autocomplete li .name {\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n.my-autocomplete li .addr {\n  font-size: 12px;\n  color: #b4b4b4;\n}\n.my-autocomplete li .highlighted .addr {\n  color: #ddd;\n}\n\n.el-tag + .el-tag {\n  margin-left: 10px;\n}\n\n.button-new-tag {\n  margin-left: 10px;\n  height: 32px;\n  line-height: 30px;\n  padding-top: 0;\n  padding-bottom: 0;\n}\n\n.input-new-tag {\n  width: 90px;\n  margin-left: 10px;\n  vertical-align: bottom;\n}\n\n.el-dialog__body {\n  padding: 0 20px 20px 20px;\n}\n\n.avatar {\n  width: 178px;\n  display: block;\n  margin-bottom: 30px;\n}\n\n.demo-table-expand {\n  font-size: 0;\n}\n\n.demo-table-expand label {\n  width: 130px;\n  color: #99a9bf;\n}\n\n.demo-table-expand .el-form-item {\n  margin-right: 0;\n  margin-bottom: 0;\n  width: 50%;\n}\n\n.el-timeline {\n  -webkit-padding-start: 0;\n          padding-inline-start: 0;\n  margin: 15px 0px;\n}\n\n.desc {\n  color: grey;\n}\n\n.el-collapse-item__content {\n  padding: 15px 0;\n}\n\n.el-collapse-item .el-collapse-item__header {\n  font-size: 16px;\n}\n\n.el-collapse-item .el-collapse-item__wrap {\n  font-size: 14px;\n}\n\n.clearfix:before,\n.clearfix:after {\n  display: table;\n  content: \"\";\n}\n\n.clearfix:after {\n  clear: both;\n}\n\n.box-card {\n  margin: 15px 0;\n}", ""]);
 
 // exports
 
@@ -96056,7 +96056,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
   el: '#app',
   components: {
     'logs-list': function logsList() {
-      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./components/logs/LogsList */ "./resources/assets/js/components/logs/LogsList.vue"));
+      return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ./components/logs/LogsList */ "./resources/assets/js/components/logs/LogsList.vue"));
     },
     //日志
     'login': function login() {
@@ -96066,60 +96066,60 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
 
     /*权限部分*/
     'admin-list': function adminList() {
-      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/admin/List */ "./resources/assets/js/components/admin/List.vue"));
+      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/admin/List */ "./resources/assets/js/components/admin/List.vue"));
     },
     'password-form': function passwordForm() {
-      return __webpack_require__.e(/*! import() */ 2).then(__webpack_require__.bind(null, /*! ./components/admin/Password */ "./resources/assets/js/components/admin/Password.vue"));
+      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/admin/Password */ "./resources/assets/js/components/admin/Password.vue"));
     },
     'role-list': function roleList() {
-      return __webpack_require__.e(/*! import() */ 3).then(__webpack_require__.bind(null, /*! ./components/admin/RoleList */ "./resources/assets/js/components/admin/RoleList.vue"));
+      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./components/admin/RoleList */ "./resources/assets/js/components/admin/RoleList.vue"));
     },
     'routes-list': function routesList() {
-      return __webpack_require__.e(/*! import() */ 4).then(__webpack_require__.bind(null, /*! ./components/admin/RouteList */ "./resources/assets/js/components/admin/RouteList.vue"));
+      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./components/admin/RouteList */ "./resources/assets/js/components/admin/RouteList.vue"));
     },
 
     /*业务部分开始*/
     'page-list': function pageList() {
-      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./components/page_list/Index */ "./resources/assets/js/components/page_list/Index.vue"));
+      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./components/page_list/Index */ "./resources/assets/js/components/page_list/Index.vue"));
     },
     'page-form': function pageForm() {
-      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./components/page_list/Form */ "./resources/assets/js/components/page_list/Form.vue"));
+      return __webpack_require__.e(/*! import() */ 19).then(__webpack_require__.bind(null, /*! ./components/page_list/Form */ "./resources/assets/js/components/page_list/Form.vue"));
     },
     'seo-list': function seoList() {
-      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./components/seo_list/Index */ "./resources/assets/js/components/seo_list/Index.vue"));
+      return __webpack_require__.e(/*! import() */ 1).then(__webpack_require__.bind(null, /*! ./components/seo_list/Index */ "./resources/assets/js/components/seo_list/Index.vue"));
     },
     'seo-form': function seoForm() {
-      return __webpack_require__.e(/*! import() */ 20).then(__webpack_require__.bind(null, /*! ./components/seo_list/Form */ "./resources/assets/js/components/seo_list/Form.vue"));
+      return __webpack_require__.e(/*! import() */ 21).then(__webpack_require__.bind(null, /*! ./components/seo_list/Form */ "./resources/assets/js/components/seo_list/Form.vue"));
     },
     'seo-translate': function seoTranslate() {
       return __webpack_require__.e(/*! import() */ 22).then(__webpack_require__.bind(null, /*! ./components/seo_list/Translate */ "./resources/assets/js/components/seo_list/Translate.vue"));
     },
     'content-list': function contentList() {
-      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./components/content_list/Index */ "./resources/assets/js/components/content_list/Index.vue"));
+      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./components/content_list/Index */ "./resources/assets/js/components/content_list/Index.vue"));
     },
     'content-form': function contentForm() {
-      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./components/content_list/Form */ "./resources/assets/js/components/content_list/Form.vue"));
+      return __webpack_require__.e(/*! import() */ 9).then(__webpack_require__.bind(null, /*! ./components/content_list/Form */ "./resources/assets/js/components/content_list/Form.vue"));
     },
     'content-translate': function contentTranslate() {
-      return __webpack_require__.e(/*! import() */ 10).then(__webpack_require__.bind(null, /*! ./components/content_list/Translate */ "./resources/assets/js/components/content_list/Translate.vue"));
+      return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./components/content_list/Translate */ "./resources/assets/js/components/content_list/Translate.vue"));
     },
     'constant-list': function constantList() {
-      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./components/constant_list/Index */ "./resources/assets/js/components/constant_list/Index.vue"));
+      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./components/constant_list/Index */ "./resources/assets/js/components/constant_list/Index.vue"));
     },
     'constant-form': function constantForm() {
-      return __webpack_require__.e(/*! import() */ 5).then(__webpack_require__.bind(null, /*! ./components/constant_list/Form */ "./resources/assets/js/components/constant_list/Form.vue"));
+      return __webpack_require__.e(/*! import() */ 6).then(__webpack_require__.bind(null, /*! ./components/constant_list/Form */ "./resources/assets/js/components/constant_list/Form.vue"));
     },
     'constant-translate': function constantTranslate() {
-      return __webpack_require__.e(/*! import() */ 7).then(__webpack_require__.bind(null, /*! ./components/constant_list/Translate */ "./resources/assets/js/components/constant_list/Translate.vue"));
+      return __webpack_require__.e(/*! import() */ 8).then(__webpack_require__.bind(null, /*! ./components/constant_list/Translate */ "./resources/assets/js/components/constant_list/Translate.vue"));
     },
     'img-list': function imgList() {
-      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./components/img_list/Index */ "./resources/assets/js/components/img_list/Index.vue"));
+      return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ./components/img_list/Index */ "./resources/assets/js/components/img_list/Index.vue"));
     },
     'img-form': function imgForm() {
-      return __webpack_require__.e(/*! import() */ 11).then(__webpack_require__.bind(null, /*! ./components/img_list/Form */ "./resources/assets/js/components/img_list/Form.vue"));
+      return __webpack_require__.e(/*! import() */ 12).then(__webpack_require__.bind(null, /*! ./components/img_list/Form */ "./resources/assets/js/components/img_list/Form.vue"));
     },
     'img-translate': function imgTranslate() {
-      return __webpack_require__.e(/*! import() */ 13).then(__webpack_require__.bind(null, /*! ./components/img_list/Translate */ "./resources/assets/js/components/img_list/Translate.vue"));
+      return __webpack_require__.e(/*! import() */ 14).then(__webpack_require__.bind(null, /*! ./components/img_list/Translate */ "./resources/assets/js/components/img_list/Translate.vue"));
     },
     'video-list': function videoList() {
       return __webpack_require__.e(/*! import() */ 24).then(__webpack_require__.bind(null, /*! ./components/video_list/Index */ "./resources/assets/js/components/video_list/Index.vue"));
@@ -96131,13 +96131,13 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
       return __webpack_require__.e(/*! import() */ 25).then(__webpack_require__.bind(null, /*! ./components/video_list/Translate */ "./resources/assets/js/components/video_list/Translate.vue"));
     },
     'email-list': function emailList() {
-      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./components/news_letter/Index */ "./resources/assets/js/components/news_letter/Index.vue"));
+      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./components/news_letter/Index */ "./resources/assets/js/components/news_letter/Index.vue"));
     },
     'email-form': function emailForm() {
-      return __webpack_require__.e(/*! import() */ 15).then(__webpack_require__.bind(null, /*! ./components/news_letter/Form */ "./resources/assets/js/components/news_letter/Form.vue"));
+      return __webpack_require__.e(/*! import() */ 16).then(__webpack_require__.bind(null, /*! ./components/news_letter/Form */ "./resources/assets/js/components/news_letter/Form.vue"));
     },
     'email-translate': function emailTranslate() {
-      return __webpack_require__.e(/*! import() */ 17).then(__webpack_require__.bind(null, /*! ./components/news_letter/Translate */ "./resources/assets/js/components/news_letter/Translate.vue"));
+      return __webpack_require__.e(/*! import() */ 18).then(__webpack_require__.bind(null, /*! ./components/news_letter/Translate */ "./resources/assets/js/components/news_letter/Translate.vue"));
     },
     'word-list': function wordList() {
       return __webpack_require__.e(/*! import() */ 27).then(__webpack_require__.bind(null, /*! ./components/word/Index */ "./resources/assets/js/components/word/Index.vue"));

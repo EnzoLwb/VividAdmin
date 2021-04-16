@@ -17,7 +17,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="Web page name" prop="page_ids" v-loading="pagesLoading">
-                            <el-select  v-model="article.page_ids" multiple clearable
+                            <el-select  v-model="article.page_ids" multiple
                                         collapse-tags style="min-width: 350px;">
                                 <el-option
                                         v-for="item in pages"

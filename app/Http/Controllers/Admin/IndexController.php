@@ -23,8 +23,42 @@ class IndexController extends Controller
     public function getPagesBySite()
     {
         $site = \request('site');
-        $data = PageList::query()->where('website',$site)->select('name','url','page_id')->get();
+        $data = PageList::query()->where('website',$site)
+            ->select('name','url','page_id')->get();
         return $this->json(0,$data,'');
+    }
+
+    //筛选出除去该实体下的page_id 的page
+    public function getPagesByCopy()
+    {
+        $model = \request('model');
+        $meta_key = \request('meta_name_key');
+        $meta_val = \request('meta_name_val');
+        $obj_name = "App\Models\\".$model;
+        $obj = new $obj_name;
+        $exists_page_ids = $obj->where($meta_key,$meta_val)->pluck('page_id')->toArray();
+        if (count($exists_page_ids) > 0 ){
+            $site = PageList::find(current($exists_page_ids))->website;
+            $pages = PageList::query()->where('website',$site)
+                ->whereNotIn('page_id',$exists_page_ids)
+                ->select('name','url','page_id')->get();
+            return $this->json(0,$pages,'');
+        }
+        return $this->json(1,[],'Parent Page Not Exists!');
+    }
+
+    public function paste(Request $request)
+    {
+
+        $obj_name = "App\Models\\".$request->model;
+        $obj = new $obj_name;
+        $origin_obj = $obj->find($request->origin_id)->toArray();
+        $primary_key = $obj->getKeyName();
+        unset($origin_obj[$primary_key]);
+        $origin_obj['page_id'] = $request->page_id;
+        $data = new $obj_name();
+        $new_data = $data->create($origin_obj);
+        return $this->json(0,$new_data,'');
     }
 
     //翻译中 根据不同的Model 和 选择语种 返回翻译记录

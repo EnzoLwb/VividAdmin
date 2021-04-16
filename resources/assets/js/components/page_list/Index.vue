@@ -109,7 +109,7 @@
         },
         getData(data) {
           this.loading = true
-          axios.post(current_url + '/' +this.module,data)
+          axios.post(current_url + (this.module ? '/' : '')  +this.module,data)
             .then(res => {
               if (res.data.code != 0 || res.status != 200) {
                 this.$notify({

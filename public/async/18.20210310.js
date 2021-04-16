@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([[18],{
 
-/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/page_list/Form.vue?vue&type=script&lang=js&":
-/*!********************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/page_list/Form.vue?vue&type=script&lang=js& ***!
-  \********************************************************************************************************************************************************************************/
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -52,116 +52,91 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var current_url = '/admin/page_list';
+var current_url = '/admin/news_letter';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      article: this.originObj,
-      form: {
-        website: '',
-        module_id: '',
-        name: '',
-        url: '',
-        note: '',
-        page_id: '',
-        screenshots: []
+      editorConfig: {
+        language: 'en'
       },
       rules: {
-        name: [{
-          required: true,
-          message: 'Required',
-          trigger: 'blur'
-        }],
-        website: [{
-          required: true,
-          message: 'Required',
-          trigger: 'blur'
-        }],
-        module_id: [{
-          required: true,
-          message: 'Required',
-          trigger: 'blur'
-        }],
-        note: [{
-          required: true,
-          message: 'Required',
-          trigger: 'blur'
-        }],
-        screenshots: [{
-          required: true,
-          message: 'Required',
-          trigger: 'blur'
-        }],
-        url: [{
+        emailText: [{
           required: true,
           message: 'Required',
           trigger: 'blur'
         }]
       },
-      dialogImageUrl: '',
-      dialogVisible: false,
+      translate: {
+        emailId: this.obj.emailId,
+        //此字段会不同
+        wordCount: this.obj.wordCount,
+        emailSubject: this.obj.emailSubject,
+        locale: '',
+        translationId: null,
+        emailText: "" //翻译后的内容
+
+      },
       loading: false
     };
   },
   created: function created() {
-    if (Object.keys(this.originObj).length == 0) {
-      this.article = this.form;
-    }
+    this.obj.emailText = decodeURIComponent(this.obj.emailText.replace(/\+/g, '%20'));
   },
   methods: {
-    handleRemove: function handleRemove(file, fileList) {
-      this.article.screenshots = fileList;
-    },
-    handlePictureCardPreview: function handlePictureCardPreview(file) {
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    successUpload: function successUpload(response) {
-      this.loading = false;
-      this.article.screenshots.push(response.data);
+    //根据语言查询是否已有翻译记录
+    translateRecord: function translateRecord() {
+      var _this = this;
+
+      this.loading = true;
+      axios.post('/admin/translate/record', {
+        model: 'NewsLetterTranslation',
+        relate_id: 'emailId',
+        id: this.translate.emailId,
+        locale: this.translate.locale
+      }).then(function (res) {
+        if (res.data.code != 0 || res.status != 200) {
+          _this.$notify({
+            message: res.data.message,
+            type: 'error'
+          });
+        } else {
+          if (res.data.data) {
+            _this.translate.translationId = res.data.data.translationId; //url decode
+
+            _this.translate.emailText = decodeURIComponent(res.data.data.emailText.replace(/\+/g, '%20'));
+          } else {
+            _this.$notify({
+              message: "No translation result, default to original content",
+              type: 'info'
+            });
+
+            _this.translate.translationId = null;
+            _this.translate.emailText = _this.obj.emailText;
+          }
+        }
+
+        _this.loading = false;
+      });
     },
     submitForm: function submitForm() {
-      var _this = this;
+      var _this2 = this;
 
       this.$refs['form'].validate(function (valid) {
         if (valid) {
-          _this.loading = true;
-          axios.post(current_url + '/save', _this.article).then(function (res) {
+          _this2.loading = true;
+          axios.post(current_url + '/translate', _this2.translate).then(function (res) {
             if (res.data.code != 0 || res.status != 200) {
-              _this.$notify({
+              _this2.$notify({
                 message: res.data.message,
                 type: 'error'
               });
             } else {
-              _this.$notify({
+              _this2.$notify({
                 message: res.data.message,
                 type: 'success'
               });
 
-              _this.$confirm('Do you want to jump to the list?', 'Confirm', {
+              _this2.$confirm('Do you want to jump to the list?', 'Confirm', {
                 confirmButtonText: 'Yes',
                 cancelButtonText: 'No',
                 type: 'warning'
@@ -172,21 +147,21 @@ var current_url = '/admin/page_list';
               });
             }
 
-            _this.loading = false;
+            _this2.loading = false;
           });
         }
       });
     }
   },
-  props: ['moduleSelect', 'originObj', 'title']
+  props: ['obj', 'languageSelect']
 });
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/page_list/Form.vue?vue&type=template&id=6f60095c&":
-/*!************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/page_list/Form.vue?vue&type=template&id=6f60095c& ***!
-  \************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -216,7 +191,7 @@ var render = function() {
         [
           _c(
             "el-col",
-            { attrs: { xs: 24, sm: 24, md: 20, lg: 16, xl: 16 } },
+            { attrs: { xs: 24, sm: 24, md: 20, lg: 20, xl: 20 } },
             [
               _c(
                 "el-card",
@@ -229,16 +204,30 @@ var render = function() {
                       attrs: { slot: "header" },
                       slot: "header"
                     },
-                    [_c("span", [_vm._v(_vm._s(_vm.title))])]
+                    [_c("span", [_vm._v("Translate")])]
                   ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Template Name: "),
+                    _c("span", [_vm._v(_vm._s(_vm.obj.emailName))])
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Subject："),
+                    _c("span", [_vm._v(_vm._s(_vm.obj.emailSubject))])
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Function Code："),
+                    _c("span", [_vm._v(_vm._s(_vm.obj.funcCode))])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "el-form",
                     {
                       ref: "form",
-                      staticStyle: { width: "80%" },
                       attrs: {
-                        model: _vm.article,
+                        model: _vm.translate,
                         rules: _vm.rules,
                         size: "medium",
                         "label-position": "top"
@@ -247,172 +236,94 @@ var render = function() {
                     [
                       _c(
                         "el-form-item",
-                        { attrs: { label: "Page Name", prop: "name" } },
+                        { attrs: { label: "Column description (English) :" } },
                         [
-                          _c("el-input", {
+                          _c("ckeditor", {
+                            attrs: { "read-only": "true", id: "origin" },
                             model: {
-                              value: _vm.article.name,
+                              value: _vm.obj.emailText,
                               callback: function($$v) {
-                                _vm.$set(_vm.article, "name", $$v)
+                                _vm.$set(_vm.obj, "emailText", $$v)
                               },
-                              expression: "article.name"
+                              expression: "obj.emailText"
                             }
                           })
                         ],
                         1
                       ),
                       _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "Page URL", prop: "url" } },
-                        [
-                          _c("el-input", {
-                            model: {
-                              value: _vm.article.url,
-                              callback: function($$v) {
-                                _vm.$set(_vm.article, "url", $$v)
-                              },
-                              expression: "article.url"
-                            }
-                          })
-                        ],
-                        1
-                      ),
+                      _c("div", { staticClass: "word-count" }, [
+                        _vm._v("WordCount: "),
+                        _c("b", [_vm._v(_vm._s(this.obj.wordCount))])
+                      ]),
                       _vm._v(" "),
                       _c(
                         "el-form-item",
-                        { attrs: { label: "Site", prop: "website" } },
-                        [
-                          _c(
-                            "el-select",
-                            {
-                              model: {
-                                value: _vm.article.website,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.article, "website", $$v)
-                                },
-                                expression: "article.website"
-                              }
-                            },
-                            [
-                              _c("el-option", {
-                                attrs: { label: "Service", value: "Service" }
-                              }),
-                              _vm._v(" "),
-                              _c("el-option", {
-                                attrs: { label: "Media", value: "Media" }
-                              })
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "Site Module", prop: "module_id" } },
-                        [
-                          _c(
-                            "el-select",
-                            {
-                              staticStyle: { width: "150px" },
-                              attrs: { clearable: "" },
-                              model: {
-                                value: _vm.article.module_id,
-                                callback: function($$v) {
-                                  _vm.$set(_vm.article, "module_id", $$v)
-                                },
-                                expression: "article.module_id"
-                              }
-                            },
-                            _vm._l(_vm.moduleSelect, function(item) {
-                              return _c("el-option", {
-                                key: item.id,
-                                attrs: { label: item.name, value: item.id }
-                              })
-                            }),
-                            1
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { label: "Note", prop: "note" } },
-                        [
-                          _c("el-input", {
-                            attrs: { type: "textarea" },
-                            model: {
-                              value: _vm.article.note,
-                              callback: function($$v) {
-                                _vm.$set(_vm.article, "note", $$v)
-                              },
-                              expression: "article.note"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "el-form-item",
-                        { attrs: { prop: "screenshots" } },
+                        { attrs: { prop: "emailText" } },
                         [
                           _c(
                             "template",
                             { slot: "label" },
                             [
                               _vm._v(
-                                "\r\n                        Page ScreenShots\r\n                        "
+                                "Translated into :\r\n                        "
                               ),
                               _c(
-                                "el-tooltip",
+                                "el-select",
                                 {
-                                  staticClass: "item",
+                                  staticStyle: {
+                                    width: "120px",
+                                    "margin-left": "20px"
+                                  },
                                   attrs: {
-                                    effect: "dark",
-                                    content:
-                                      "More than 1 screenshot can be added to display various page status",
-                                    placement: "top-start"
+                                    size: "mini",
+                                    prop: "locale",
+                                    rules: {
+                                      required: true,
+                                      message: "Required",
+                                      trigger: "blur"
+                                    }
+                                  },
+                                  on: { change: _vm.translateRecord },
+                                  model: {
+                                    value: _vm.translate.locale,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.translate, "locale", $$v)
+                                    },
+                                    expression: "translate.locale"
                                   }
                                 },
-                                [_c("i", { staticClass: "el-icon-question" })]
+                                _vm._l(_vm.languageSelect, function(
+                                  item,
+                                  index
+                                ) {
+                                  return _c("el-option", {
+                                    key: index,
+                                    attrs: { label: index, value: item }
+                                  })
+                                }),
+                                1
                               )
                             ],
                             1
                           ),
                           _vm._v(" "),
-                          _c(
-                            "el-upload",
-                            {
-                              attrs: {
-                                action: this.unils.upload_img_path,
-                                "on-success": _vm.successUpload,
-                                "before-upload": this.unils.beforeUploadImg,
-                                "list-type": "picture-card",
-                                "on-preview": _vm.handlePictureCardPreview,
-                                "on-remove": _vm.handleRemove,
-                                "file-list": _vm.article.screenshots
-                              }
+                          _c("ckeditor", {
+                            attrs: {
+                              config: _vm.editorConfig,
+                              id: "translate"
                             },
-                            [_c("i", { staticClass: "el-icon-plus" })]
-                          )
+                            model: {
+                              value: _vm.translate.emailText,
+                              callback: function($$v) {
+                                _vm.$set(_vm.translate, "emailText", $$v)
+                              },
+                              expression: "translate.emailText"
+                            }
+                          })
                         ],
                         2
                       ),
-                      _vm._v(" "),
-                      _c("el-input", {
-                        attrs: { type: "hidden" },
-                        model: {
-                          value: _vm.article.page_id,
-                          callback: function($$v) {
-                            _vm.$set(_vm.article, "page_id", $$v)
-                          },
-                          expression: "article.page_id"
-                        }
-                      }),
                       _vm._v(" "),
                       _c(
                         "el-form-item",
@@ -443,23 +354,6 @@ var render = function() {
           )
         ],
         1
-      ),
-      _vm._v(" "),
-      _c(
-        "el-dialog",
-        {
-          attrs: { visible: _vm.dialogVisible },
-          on: {
-            "update:visible": function($event) {
-              _vm.dialogVisible = $event
-            }
-          }
-        },
-        [
-          _c("img", {
-            attrs: { width: "100%", src: _vm.dialogImageUrl, alt: "" }
-          })
-        ]
       )
     ],
     1
@@ -472,17 +366,17 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/page_list/Form.vue":
-/*!***********************************************************!*\
-  !*** ./resources/assets/js/components/page_list/Form.vue ***!
-  \***********************************************************/
+/***/ "./resources/assets/js/components/news_letter/Translate.vue":
+/*!******************************************************************!*\
+  !*** ./resources/assets/js/components/news_letter/Translate.vue ***!
+  \******************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Form_vue_vue_type_template_id_6f60095c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Form.vue?vue&type=template&id=6f60095c& */ "./resources/assets/js/components/page_list/Form.vue?vue&type=template&id=6f60095c&");
-/* harmony import */ var _Form_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Form.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/page_list/Form.vue?vue&type=script&lang=js&");
+/* harmony import */ var _Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Translate.vue?vue&type=template&id=f2143f2c& */ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&");
+/* harmony import */ var _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Translate.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -492,9 +386,9 @@ __webpack_require__.r(__webpack_exports__);
 /* normalize component */
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Form_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Form_vue_vue_type_template_id_6f60095c___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _Form_vue_vue_type_template_id_6f60095c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
   null,
@@ -504,38 +398,38 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 /* hot reload */
 if (false) { var api; }
-component.options.__file = "resources/assets/js/components/page_list/Form.vue"
+component.options.__file = "resources/assets/js/components/news_letter/Translate.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/page_list/Form.vue?vue&type=script&lang=js&":
-/*!************************************************************************************!*\
-  !*** ./resources/assets/js/components/page_list/Form.vue?vue&type=script&lang=js& ***!
-  \************************************************************************************/
+/***/ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Form_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Form.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/page_list/Form.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Form_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
-/***/ "./resources/assets/js/components/page_list/Form.vue?vue&type=template&id=6f60095c&":
-/*!******************************************************************************************!*\
-  !*** ./resources/assets/js/components/page_list/Form.vue?vue&type=template&id=6f60095c& ***!
-  \******************************************************************************************/
+/***/ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c& ***!
+  \*************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Form_vue_vue_type_template_id_6f60095c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Form.vue?vue&type=template&id=6f60095c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/page_list/Form.vue?vue&type=template&id=6f60095c&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Form_vue_vue_type_template_id_6f60095c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=template&id=f2143f2c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Form_vue_vue_type_template_id_6f60095c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

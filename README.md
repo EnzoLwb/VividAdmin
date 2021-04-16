@@ -8,5 +8,8 @@
 - php artisan migrate && php artisan db:seed
 - php artisan storage:link 
 - 导入 ./newtac_one_cms.sql 
-- alter table cm_eml_template modify emailId int auto_increment primary key
 
+
+### 测试环境 二次部署
+- composer install (必须执行)
+- chmod -R 777 public/userfiles

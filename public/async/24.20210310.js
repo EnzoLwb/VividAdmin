@@ -150,7 +150,7 @@ var current_url = '/admin/video_list';
       var _this2 = this;
 
       this.loading = true;
-      axios.post(current_url + '/' + this.module, data).then(function (res) {
+      axios.post(current_url + (this.module ? '/' : '') + this.module, data).then(function (res) {
         if (res.data.code != 0 || res.status != 200) {
           _this2.$notify({
             title: 'Request Failed',

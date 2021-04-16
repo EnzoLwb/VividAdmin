@@ -138,7 +138,6 @@ var current_url = '/admin/db_terms';
       });
       this.search_form.word_ids = word_ids;
       this.search_form.locale = this.locale;
-      console.log(this.search_form);
       this.getData(this.search_form);
     },
     sortChange: function sortChange(column) {
@@ -158,7 +157,7 @@ var current_url = '/admin/db_terms';
       var _this2 = this;
 
       this.loading = true;
-      axios.post(current_url + '/' + this.module, data).then(function (res) {
+      axios.post(current_url + (this.module ? '/' : '') + this.module, data).then(function (res) {
         if (res.data.code != 0 || res.status != 200) {
           _this2.$notify({
             title: 'Request Failed',
@@ -504,7 +503,10 @@ var render = function() {
                             attrs: { type: "text" },
                             on: {
                               click: function($event) {
-                                return _vm.handleOperation("edit", scope.row.id)
+                                return _vm.handleOperation(
+                                  "edit",
+                                  scope.row.word_id
+                                )
                               }
                             }
                           },

@@ -327,11 +327,7 @@ var render = function() {
                             "el-select",
                             {
                               staticStyle: { "min-width": "350px" },
-                              attrs: {
-                                multiple: "",
-                                clearable: "",
-                                "collapse-tags": ""
-                              },
+                              attrs: { multiple: "", "collapse-tags": "" },
                               model: {
                                 value: _vm.article.page_ids,
                                 callback: function($$v) {

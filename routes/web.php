@@ -1,18 +1,5 @@
 <?php
 
-//后台管理
-Route::get('/login', 'UserController@login')->name('login');
-Route::post('/login', 'UserController@loginPost');
-Route::any('/logout', 'UserController@logout');
-
-//ckfinder
-Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
-    ->name('ckfinder_connector');
-
-Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
-    ->name('ckfinder_browser');
-
-/*PC端*/
 Route::group(['middleware' => ['needlogin','menunorm']], function () {
     Route::get('/', 'Admin\IndexController@home');//首页
 
@@ -63,6 +50,8 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::get('/news_letter/edit', 'NewsLetterController@edit');
                 Route::post('/news_letter/save', 'NewsLetterController@save');
                 Route::delete('/news_letter', 'NewsLetterController@delete');
+
+                Route::post('/pages_by_paste', 'IndexController@paste');
             });
 
             Route::get('/page_list/{module?}', 'PageListController@index');
@@ -113,6 +102,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             //通用查询
             Route::post('/translate/record', 'IndexController@translateRecord');//查询该语种的翻译结果
             Route::post('/pages_by_site', 'IndexController@getPagesBySite');//根据site查询pages
+            Route::post('/pages_by_copy', 'IndexController@getPagesByCopy');//筛选出除去该实体下的page_id 的page
             Route::post('/repeat_word', 'IndexController@repeatWord');//关键词是否重复
         });
 
@@ -172,4 +162,14 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
 
 });
 
+//后台管理
+Route::get('/login', 'UserController@login')->name('login');
+Route::post('/login', 'UserController@loginPost');
+Route::any('/logout', 'UserController@logout');
 
+//ckfinder
+Route::any('/ckfinder/connector', '\CKSource\CKFinderBridge\Controller\CKFinderController@requestAction')
+    ->name('ckfinder_connector');
+
+Route::any('/ckfinder/browser', '\CKSource\CKFinderBridge\Controller\CKFinderController@browserAction')
+    ->name('ckfinder_browser');

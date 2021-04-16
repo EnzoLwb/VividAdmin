@@ -15,6 +15,15 @@
     margin-bottom: 0 !important;
   }
 }
+.dialog-footer{
+  display: flex;
+  justify-content: flex-end;
+}
+.el-icon-copy-document{
+  margin-left: 10px;
+  cursor: pointer;
+  color: deepskyblue;
+}
 .word-count{
   float: right;
   b{
