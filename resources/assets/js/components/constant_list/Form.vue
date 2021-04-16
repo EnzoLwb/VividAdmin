@@ -62,7 +62,6 @@
                         model:'ConstantList',key:'key_name',
                         value:this.article.key_name,
                         current_id:this.article.key_id,
-                        primary_key:'key_id',
                     }).then(res => {
                     if (res.data.code != 0 || res.status != 200) {
                         this.$notify({
@@ -77,7 +76,6 @@
                         callback()
                     }
                 })
-
             };
             return {
                 article: this.originObj,

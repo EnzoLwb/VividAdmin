@@ -55,6 +55,30 @@
     const current_url = '/admin/video_list'
     export default {
         data: function() {
+            let validateRepeatWord = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Required'));
+                }
+                axios.post('/admin/repeat_word',
+                    {
+                        model:'VideoList',key:'title',
+                        value:this.article.title,
+                        current_id:this.article.video_id,
+                    }).then(res => {
+                    if (res.data.code != 0 || res.status != 200) {
+                        this.$notify({
+                            title: 'Request Failed',
+                            message: res.data.message,
+                            type: 'error'
+                        });
+                    } else {
+                        if (res.data.data.exist){
+                            callback(new Error('This word already exists, please do not add it repeatedly'));
+                        }
+                        callback()
+                    }
+                })
+            };
             return {
                 article: this.originObj,
                 form: {
@@ -68,7 +92,7 @@
                 rules: {
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
                     video: [{required: true, message: 'Video Required', trigger: 'blur'}],
-                    title: [{required: true, message: 'Required', trigger: 'blur'}],
+                    title: [{required: true, message: 'Required', trigger: 'blur'},{ validator: validateRepeatWord, trigger: 'blur' }],
                 },
                 site:this.editSite,
                 pages:[],

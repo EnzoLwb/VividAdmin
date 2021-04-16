@@ -83,9 +83,9 @@ class IndexController extends Controller
         $key = \request('key'); //检查的字段
         $value = \request('value');
         $current_id = \request('current_id');
-        $primary_key = \request('primary_key');
         $obj = "App\Models\\".$model;
         $obj = new $obj;
+        $primary_key = $obj->getKeyName();
         $data = $obj->query()->where($key,$value)
             ->where($primary_key,'!=',$current_id)
             ->exists();

@@ -45,6 +45,30 @@
     const current_url = '/admin/seo_list'
     export default {
         data: function() {
+            let validateRepeatWord = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Required'));
+                }
+                axios.post('/admin/repeat_word',
+                    {
+                        model:'SeoList',key:'key_name',
+                        value:this.article.key_name,
+                        current_id:this.article.meta_id,
+                    }).then(res => {
+                    if (res.data.code != 0 || res.status != 200) {
+                        this.$notify({
+                            title: 'Request Failed',
+                            message: res.data.message,
+                            type: 'error'
+                        });
+                    } else {
+                        if (res.data.data.exist){
+                            callback(new Error('This word already exists, please do not add it repeatedly'));
+                        }
+                        callback()
+                    }
+                })
+            };
             return {
                 article: this.originObj,
                 form: {
@@ -56,7 +80,8 @@
                 },
                 rules: {
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
-                    key_name: [{required: true, message: 'Required', trigger: 'blur'}],
+                    key_name: [{required: true, message: 'Required', trigger: 'blur'},
+                        { validator: validateRepeatWord, trigger: 'blur' }],
                     key_value: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 site:this.editSite,
