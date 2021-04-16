@@ -22,7 +22,7 @@ class SettingController extends Controller
             $obj->pid = $request->pid;
             $obj->url = $request->url;
             $obj->icon = $request->icon;
-            $obj->site = $request->session()->get('site');
+            $obj->site = $request->site;
             $obj->save();
             return $this->json(0,$obj,'');
         }else if ($request->isMethod('GET')){

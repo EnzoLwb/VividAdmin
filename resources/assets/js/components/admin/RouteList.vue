@@ -22,22 +22,24 @@
             <el-button type="primary" @click="() => append(menu)" :loading="button_loading">Submit</el-button>
         </span>
         </el-dialog>
-        <el-card shadow="hover">
-            <div slot="header" >
-                Route Menu List
-                <el-button class="pull-right" type="primary" size="small" @click="appendRootMenu()">Add a Root Menu</el-button>
-            </div>
-            <el-tree
-                    class="filter-tree"
-                    :data="tree"
-                    :props="defaultProps"
-                    :highlight-current="true"
-                    :expand-on-click-node="false"
-                    :default-expand-all="true"
-                    node-key="url"
-                    @node-click="NodeClick"
-                    style="font-size:16px"
-                    ref="tree">
+        <el-tabs v-model="activeName" type="border-card">
+            <el-tab-pane label="Service Website" name="service">
+                <el-card shadow="hover">
+                    <div slot="header" >
+                        Service Menu List
+                        <el-button class="pull-right" type="primary" size="small" @click="appendRootMenu()">Add a Root Menu</el-button>
+                    </div>
+                    <el-tree
+                            class="filter-tree"
+                            :data="serviceTree"
+                            :props="defaultProps"
+                            :highlight-current="true"
+                            :expand-on-click-node="false"
+                            :default-expand-all="true"
+                            node-key="url"
+                            @node-click="NodeClick"
+                            style="font-size:16px"
+                            ref="tree">
 								<span class="custom-tree-node" slot-scope="{ node, data }">
 										<span>
                         <i :class="data.icon" style="margin-right: 10px"></i>{{ data.name }}
@@ -61,8 +63,54 @@
                       </el-button>
                     </span>
 								</span>
-            </el-tree>
-        </el-card>
+                    </el-tree>
+                </el-card>
+            </el-tab-pane>
+            <el-tab-pane label="Media Website" name="media">
+                <el-card shadow="hover">
+                    <div slot="header" >
+                        Media Menu List
+                        <el-button class="pull-right" type="primary" size="small" @click="appendRootMenu()">Add a Root Menu</el-button>
+                    </div>
+                    <el-tree
+                            class="filter-tree"
+                            :data="mediaTree"
+                            :props="defaultProps"
+                            :highlight-current="true"
+                            :expand-on-click-node="false"
+                            :default-expand-all="true"
+                            node-key="url"
+                            @node-click="NodeClick"
+                            style="font-size:16px"
+                            ref="tree">
+								<span class="custom-tree-node" slot-scope="{ node, data }">
+										<span>
+                        <i :class="data.icon" style="margin-right: 10px"></i>{{ data.name }}
+                        <a href="">( {{data.url}} )</a>
+										</span>
+                    <span>
+                      <el-button
+                              type="text" v-show="data.pid === 0"
+                              icon="el-icon-plus" circle alt="Add Submenu"
+                              @click="showAppend(data)">
+                      </el-button>
+                      <el-button
+                              type="text"
+                              icon="el-icon-edit" circle alt="Edit Menu"
+                              @click="showEdit(data)">
+                      </el-button>
+                      <el-button
+                              type="text"
+                              icon="el-icon-delete" circle alt="Delete"
+                              @click="remove(node, data)">
+                      </el-button>
+                    </span>
+								</span>
+                    </el-tree>
+                </el-card>
+            </el-tab-pane>
+        </el-tabs>
+
     </div>
 </template>
 
@@ -94,6 +142,7 @@
             },
             append(data) {
                 //请求接口
+                this.menu.site = this.activeName
                 axios.post('/admin/settings/routes',this.menu)
                     .then(res => {
                         if (res.data.code != 0 || res.status != 200) {
@@ -154,7 +203,7 @@
         },
         mounted(){
             this.loading = true
-            axios.post('/admin/role/get_menu')
+            axios.post('/admin/role/get_menu',{site:'service'})
                 .then(res => {
                     if (res.data.code !== 0 || res.status !== 200) {
                         this.$notify({
@@ -163,13 +212,27 @@
                             type: 'error'
                         });
                     } else {
-                        this.tree = res.data.data;
+                        this.serviceTree = res.data.data;
+                        this.loading = false
+                    }
+                })
+            axios.post('/admin/role/get_menu',{site:'media'})
+                .then(res => {
+                    if (res.data.code !== 0 || res.status !== 200) {
+                        this.$notify({
+                            title: 'Failed',
+                            message: res.data.message,
+                            type: 'error'
+                        });
+                    } else {
+                        this.mediaTree = res.data.data;
                         this.loading = false
                     }
                 })
         },
         data() {
             return {
+                activeName:'service',
                 dialogVisible:false,
                 loading:false,
                 visible: false,
@@ -186,6 +249,7 @@
                     url:"",
                     icon:"",
                     id:0,
+                    site:"",
                 },
                 origin_menu: {
                     pid:0,
@@ -193,12 +257,14 @@
                     url:"",
                     icon:"",
                     id:0,
+                    site:"",
                 },
                 rules: {
                     name: [{required: true, message: 'Required', trigger: 'blur'}],
                     url: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
-                tree:[],
+                serviceTree:[],
+                mediaTree:[],
             };
         },
         props: []

@@ -91,13 +91,20 @@ class AuthController extends Controller
     //获取全部权限树
     public function getMenuRole()
     {
+        $site = \request('site');
         $roles = RouteSetting::query()->where('pid',0)
+            ->when($site,function ($query)use($site){
+                return $query->where('site',$site);
+            })
             ->orderBy('id','asc')
             ->select('name','url','icon','id','pid')->get()->toArray();
 
         foreach ($roles as $k=>$first_menu){
             //查询二级菜单 在所属权限内的菜单
             $sec_menu = RouteSetting::query()->where('pid',$first_menu['id'])
+                ->when($site,function ($query)use($site){
+                    return $query->where('site',$site);
+                })
                 ->select('name','url','icon','pid','id')->get();
             //虽然没有三级菜单 但还是需要返回submenus key
             $sec_menu->each(function ($item,$key){

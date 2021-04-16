@@ -28,7 +28,7 @@ class RoutesMediaTableSeeder extends Seeder
                 'pid' => 0,
                 'site' => 'media',
             ]);
-            DB::table('route_settings')->insert(allModulesMenu($menu,$id));
+            DB::table('route_settings')->insert(allModulesMenu($menu,$id,'media'));
         }
 
         //Newsletter

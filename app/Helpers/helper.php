@@ -53,7 +53,7 @@ if (!function_exists('array2csv')) {
     }
 }
 
-function allModulesMenu($first_menu,$pid=0){
+function allModulesMenu($first_menu,$pid=0,$site='service'){
     $modules = ['main','common','client_account','client_order','client_project',
         'client_support','provider_account','provider_support','provider_test','other'];
     $data = [];
@@ -63,7 +63,7 @@ function allModulesMenu($first_menu,$pid=0){
             "name" => $module,
             "icon" => "",
             "pid" => $pid,
-            "site" => "service",
+            "site" => $site,
         ];
     }
     return $data;
