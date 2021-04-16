@@ -29,6 +29,8 @@
                     </template>
                     <el-input v-model="translate.key_value[index]" v-for="(item,index) in translate.key_value"
                               :key="index" style="margin-bottom: 10px"
+                              :disabled="!translate.locale"
+                              :placeholder="translate.locale ? '':'Please Select Language'"
                               type="textarea" :autosize="autosize"></el-input>
                 </el-form-item>
                 <div class="word-count">WordCount: <b>{{this.obj.word_count}}</b></div>

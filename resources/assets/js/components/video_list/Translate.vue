@@ -26,7 +26,9 @@
                             </el-option>
                         </el-select>
                     </template>
-                    <el-input v-model="translate.descriptions" type="textarea" :autosize="autosize"></el-input>
+                    <el-input v-model="translate.descriptions"
+                              :disabled="!translate.locale"
+                              :placeholder="translate.locale ? '':'Please Select Language'" type="textarea" :autosize="autosize"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="submitForm()" :loading="loading">Submit</el-button>

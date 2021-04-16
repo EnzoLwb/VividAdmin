@@ -31,6 +31,8 @@
                         </el-select>
                     </template>
                     <el-input v-model="translate.descriptions[index]" v-for="(item,index) in translate.descriptions"
+                              :disabled="!translate.locale"
+                              :placeholder="translate.locale ? '':'Please Select Language'"
                               :key="index" style="margin-bottom: 10px"
                               type="textarea" :autosize="autosize"></el-input>
                 </el-form-item>
