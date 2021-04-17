@@ -28,6 +28,6 @@
 <script>
 	var BASE_URL = '{{env('APP_URL')}}'
 </script>
-<script src='/js/app.20210310.js'></script>
+<script src='/js/app.20210410.js'></script>
 </body>
 </html>

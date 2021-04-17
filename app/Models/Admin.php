@@ -60,10 +60,10 @@ class Admin extends Authenticatable
                 'real_name' => $params['real_name'],
                 'mobile' => $params['mobile'],
                 'site_auth' => $params['site_auth'],
-                'media_role_id' => $params['media_role_id'] ?? 0,
+                'media_role_id' => $params['media_role_id'],
                 'work_no' => $params['work_no'] ?? 1000,
                 'status' => $params['status'],
-                'role_id' => $params['role_id'] ?? 0,
+                'role_id' => $params['role_id'],
             ];
 
             Admin::where('id',$userId)->update($update_param);

@@ -7,7 +7,8 @@
         <el-table :data="tabledata.data" size="medium">
             <el-table-column resizable prop="id" label="ID" width="70" > </el-table-column>
             <el-table-column resizable prop="name" label="Title" > </el-table-column>
-            <el-table-column resizable prop="created_at" label="Created_time" ></el-table-column>
+            <el-table-column resizable prop="resources" label="Site" sortable> </el-table-column>
+            <el-table-column resizable prop="created_at" label="Created_time" sortable></el-table-column>
             <el-table-column resizable align="center" label="Operation">
                 <template slot-scope="scope">
                     <el-button
@@ -50,7 +51,7 @@ export default {
       closeDialog(val){
         this.outerVisible = val
         setTimeout(function () {
-          window.location.href = '/admin/role/list';
+          window.location.href = '/admin/settings/role';
         }, 1500)
       },
       showForm(action,param={}){
@@ -65,9 +66,6 @@ export default {
           this.dialog_title = 'Add'
         }
         this.outerVisible = true
-      },
-      handleEdit(uid) {
-        window.location.href = '/admin/role/edit?id='+uid
       },
       handleDelete(index,row) {
         this.$confirm('Delete it?', 'Notice', {

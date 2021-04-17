@@ -1,8 +1,12 @@
 <template>
 	<div v-loading="loading">
-		<el-form ref="form" :model="article" label-width="100px" enctype="multipart/form-data">
+		<el-form ref="form" :model="article" label-width="100px" size="small">
 			<el-form-item label="Title">
 				<el-input v-model="articles.name"></el-input>
+			</el-form-item>
+			<el-form-item label="Site Auth" >
+				<el-radio v-model="articles.resources" label="service"  :disabled="edit" @change="changeMenu">Service</el-radio>
+				<el-radio v-model="articles.resources" label="media"  :disabled="edit"  @change="changeMenu">Media</el-radio>
 			</el-form-item>
 			<el-form-item label="Role">
 				<el-tree
@@ -11,12 +15,12 @@
 								node-key="url"
 								ref="tree"
 								highlight-current
+								empty-text = "Please select site first"
 								:default-checked-keys="policy_uri"
 								:props="defaultProps">
 				</el-tree>
 			</el-form-item>
 			<el-form-item style="display: none">
-				<el-input type="hidden" name="_token" v-model="token"></el-input>
 				<el-input type="hidden" name="id" v-model="articles.id"></el-input>
 			</el-form-item>
 			<el-form-item>
@@ -31,10 +35,11 @@
 				data: function() {
 						return {
 								article: this.articles,
-								token: document.head.querySelector('meta[name="csrf-token"]').content,
 								form: {
 										name: '',
-										policy_uri:["/admin/wyw/zzjs"],
+										// policy_uri:["/admin/wyw/zzjs"],
+										policy_uri:[],
+										resources:'',
 										id: '',
 								},
 								defaultProps: {
@@ -43,34 +48,50 @@
 								},
 								roles:'',
 								loading:false,
+								edit:false,
 						}
 				},
 				created () {
 						if(Object.keys(this.articles).length==0){
 								this.articles = this.form
-							  this.policy_uri = ["/admin/wyw/zzjs"]
+							  // this.policy_uri = ["/admin/wyw/zzjs"]
+						}else{
+							//site_auth 不可更改
+							this.edit = true
 						}
 
 				},
 				mounted(){
-					this.loading = true
-					axios.post('/admin/role/get_menu')
-							.then(res => {
-								if (res.data.code !== 0 || res.status !== 200) {
-									this.$notify({
-										title: 'Failed',
-										message: res.data.message,
-										type: 'error'
-									});
-								} else {
-									this.roles = res.data.data;
-									this.loading = false
-								}
-							})
+					if (this.articles.resources){
+						this.getMenu()
+					}
+
 				},
 				methods: {
+						getMenu(){
+							this.loading = true
+							axios.post('/admin/role/get_menu',{site:this.articles.resources})
+									.then(res => {
+										if (res.data.code !== 0 || res.status !== 200) {
+											this.$notify({
+												title: 'Failed',
+												message: res.data.message,
+												type: 'error'
+											});
+										} else {
+											this.roles = res.data.data;
+											this.loading = false
+										}
+									})
+						},
+						changeMenu(){
+							//清空
+							this.$refs.tree.setCheckedKeys([]);
+							this.getMenu()
+						},
 						submitForm() {
 							this.articles.policy_uri = this.$refs.tree.getCheckedKeys()
+							console.log(this.articles)
 								axios.post('/admin/role/save',this.articles)
 										.then(res => {
 												if (res.data.code !== 0 || res.status !== 200) {

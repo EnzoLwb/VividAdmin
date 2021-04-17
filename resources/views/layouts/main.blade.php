@@ -15,7 +15,7 @@
 <div id="app" v-cloak>
 	<div id="indexlayout">
 		{{--Left First-Level Menu Begin--}}
-		<menu-collapse></menu-collapse>
+		<menu-collapse site="{!! session('site') !!}"></menu-collapse>
 		<el-container style="flex-direction:column">
 			{{--Top Sec-Level Menu Begin--}}
 			<header-menu :user="{{\Auth::user()}}" site="{!! session('site') !!}"></header-menu>
@@ -29,7 +29,7 @@
 	</div>
 </div><!-- app -->
 
-<script src='/js/app.20210310.js'></script>
+<script src='/js/app.20210410.js'></script>
 <script>
 	var BASE_URL = '{{env('APP_URL')}}'
 </script>

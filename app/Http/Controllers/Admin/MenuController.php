@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
-
     public function leftMenu()
     {
         return $this->json(0,$this->getAllMenu(),'');
@@ -19,9 +18,14 @@ class MenuController extends Controller
     //登陆角色的权限 的一级菜单
     public function headerMenu()
     {
-        $current_roles = Role::query()->find(Auth::user()->role_id)->value('policy_uri');
+        $site = \request('site', session()->get('site'));
+        //当前 site的菜单
+        $role_id = $site == 'Service' ? Auth::user()->role_id :  Auth::user()->media_role_id;
+        $current_roles = Role::query()->find($role_id)->policy_uri;
         $policy_uri = json_decode($current_roles,true);
-        $roles = RouteSetting::query()->whereIn('url',$policy_uri)->where('pid',0)
+        $roles = RouteSetting::query()->whereIn('url',$policy_uri)
+            ->where('pid',0)
+            ->where('site',$site)
             ->orderBy('id','asc')
             ->select('name','url as uri')->get();
         return $this->json(0,$roles,'');
@@ -37,15 +41,24 @@ class MenuController extends Controller
     //获取当前角色的全部级别菜单
     public function getAllMenu()
     {
-        $current_roles = Role::query()->find(Auth::user()->role_id)->value('policy_uri');
+        $site = session()->get('site');
+        //当前 site的菜单
+        $role_id = $site == 'Service' ? Auth::user()->role_id :  Auth::user()->media_role_id;
+        $current_roles = Role::query()->find($role_id)->policy_uri;
         $policy_uri = json_decode($current_roles,true);
-        $roles = RouteSetting::query()->whereIn('url',$policy_uri)->where('pid',0)
+        $roles = RouteSetting::query()
+            ->whereIn('url',$policy_uri)
+            ->where('pid',0)
+            ->where('site',strtolower($site))
             ->orderBy('id','asc')
             ->select('name','url as uri','icon','id')->get()->toArray();
         //不递归 直接查询 因为稍后也是缓存
         foreach ($roles as $k=>$first_menu){
             //查询二级菜单 在所属权限内的菜单
-            $sec_menu = RouteSetting::query()->whereIn('url',$policy_uri)->where('pid',$first_menu['id'])
+            $sec_menu = RouteSetting::query()
+                ->whereIn('url',$policy_uri)
+                ->where('pid',$first_menu['id'])
+                ->where('site',strtolower($site))
                 ->select('name','url as uri','icon')->get();
             //虽然没有三级菜单 但还是需要返回submenus key
             $sec_menu->each(function ($item,$key){
@@ -55,4 +68,5 @@ class MenuController extends Controller
         }
         return $roles;
     }
+
 }

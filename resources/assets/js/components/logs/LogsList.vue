@@ -79,7 +79,7 @@
 					</template>
 				</el-table-column>
 			</el-table>
-			<basic-paginator :tabledata="tabledata"></basic-paginator>
+<!--			<basic-paginator :tabledata="tabledata"></basic-paginator>-->
 		</el-card>
 	</div>
 </template>

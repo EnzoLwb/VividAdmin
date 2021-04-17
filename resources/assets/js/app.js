@@ -4,7 +4,7 @@ import Vue from 'vue';
 import CKEditor from 'ckeditor4-vue';
 import _global from './components/Global.js';
 /*组件*/
-import BasicPaginator from './components/BasicPaginator'//分页
+// import BasicPaginator from './components/BasicPaginator'//分页
 import HeaderMenu from './components/common/HeaderMenu'//面包屑
 import MenuCollapse from './components/MenuCollapse'//左侧菜单
 import AdminUserRoleForm from './components/admin/RoleForm';
@@ -18,7 +18,7 @@ Vue.prototype.unils = _global;//引入公共文件 公共方法
 Vue.use(ElementUI, { locale });
 Vue.use( CKEditor );
 // 注册通用组件
-Vue.component('basic-paginator', BasicPaginator);
+// Vue.component('basic-paginator', BasicPaginator);
 Vue.component('role-form',AdminUserRoleForm );
 Vue.component('admin-form',AdminForm );
 Vue.component('menu-collapse',MenuCollapse );

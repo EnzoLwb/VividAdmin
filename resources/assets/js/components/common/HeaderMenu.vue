@@ -9,9 +9,8 @@
 		</div>
 		<div class="user-name">
 			Site:
-			<el-select v-model="site" placeholder="请选择" size="mini" style="width: 100px" @change="changeSite">
-				<el-option label="Service" value="Service"></el-option>
-				<el-option label="Media" value="Media"></el-option>
+			<el-select v-model="site" placeholder="Select" size="mini" style="width: 100px" @change="changeSite">
+				<el-option :label="item" :value="item" v-for="item in current_sites" :key="item"></el-option>
 			</el-select>
 			<el-dropdown>
 		<span class="el-dropdown-link">
@@ -49,15 +48,21 @@
 				data: function() {
 						return {
 							activeIndex:"",
-							menus:[]
+							menus:[],
+							current_sites:[]
 						}
 				},
 				created() {
+					//解析Site
+					let sites = this.user.site_auth.split(',')
+					sites.map((item)=>{
+						this.current_sites.push(this.firstToUpper1(item))
+					})
 						//获取菜单 进行展示
-					var storage_key = 'header_menu'
+					var storage_key = this.site+'_header_menu'
 					let menus = JSON.parse(window.sessionStorage.getItem(storage_key)) ;
 					if (!menus){
-						axios.post('/admin/'+storage_key)
+						axios.post('/admin/header_menu',{site:this.site})
 								.then(response => {
 									menus = response.data.data
 									window.sessionStorage.setItem(storage_key,JSON.stringify( menus))
@@ -71,11 +76,15 @@
 
 				},
 				methods:{
+					firstToUpper1(str) {
+						return str.trim().toLowerCase().replace(str[0], str[0].toUpperCase());
+					},
 					clearCache(url){
 						window.sessionStorage.clear()
 						window.location.href = url
 					},
 					changeSite(){
+						window.sessionStorage.clear()
 						axios.post('/admin/home/site',{site:this.site})
 								.then(res => {
 									if (res.data.code != 0 || res.status != 200) {

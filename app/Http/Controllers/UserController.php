@@ -26,9 +26,9 @@ class UserController extends Controller
         if (Auth::id()) {
             return redirect('/');
         }
-        if (!$request->session()->has($this->redirectToSessionKey)) {//储存源网页地址 登录成功后 跳到源网页
+/*        if (!$request->session()->has($this->redirectToSessionKey)) {//储存源网页地址 登录成功后 跳到源网页
             $request->session()->put($this->redirectToSessionKey, URL::previous());
-        }
+        }*/
 
         $tips = "";
         return view('passport.login',compact('tips'));
@@ -40,8 +40,7 @@ class UserController extends Controller
         //参数校验
         $email = $request->input("username");
         $password = $request->input("password");
-        //清除缓存
-        Cache::flush();
+
         if (empty($email) || empty($password)) return $this->json(1,[],"请输入正确的用户名(手机号)和密码");
 
         //用户信息校验
@@ -51,21 +50,27 @@ class UserController extends Controller
         //密码校验
         if (!Hash::check($password,$userInfo->password))  return $this->json(1,[],"密码错误");
         if ($userInfo->status == 0)  return $this->json(1,[],"该用户已被禁用");
-
+        //清除缓存
+        Cache::flush();
         //进行登录
         Auth::login($userInfo);
         //设置当前site
-        $request->session()->put('site','Service');
+        $site_auth = explode(',',$userInfo->site_auth);
+        if (in_array('service',$site_auth)){
+            $request->session()->put('site','Service');
+        }else{
+            $request->session()->put('site','Media');
+        }
         $userInfo->login_at = date("Y-m-d");
         $userInfo->save();
         activity()
             ->useLog('系统用户')
             ->performedOn(Admin::find($userInfo['id']))
             ->log('登录');
-        $request = app(Request::class);
+/*        $request = app(Request::class);
         $redirectTo = $request->session()->get($this->redirectToSessionKey);
-        $request->session()->forget($this->redirectToSessionKey);
-        return $this->json(0,['redirectTo'=>$redirectTo??''],'');
+        $request->session()->forget($this->redirectToSessionKey);*/
+        return $this->json(0,['redirectTo'=>''],'');
 
     }
 
@@ -106,6 +111,14 @@ class UserController extends Controller
         {
             return $this->json(1,[],"请完善用户信息");
         }
+        $site_auth = explode(',',$request->site_auth);
+        $isset_media_role = $isset_service_role = true;
+        if (count($site_auth)<2){
+            $isset_service_role = in_array('service',$site_auth);
+            $isset_media_role = in_array('media',$site_auth);
+            $params['media_role_id'] = $isset_media_role ? $params['media_role_id'] : 0;
+            $params['role_id'] = $isset_service_role ? $params['role_id'] : 0;
+        }
         if ($request->id){
             //查询是否有相同用户名
             if (Admin::query()->where('username',$request->username)->where('id','!=',$request->id)->value('id')) return $this->json(1,[],"已存在该登录名！");
@@ -124,10 +137,10 @@ class UserController extends Controller
                 'real_name' => $params['real_name'],
                 'mobile' => $params['mobile'],
                 'site_auth' => $params['site_auth'],
-                'media_role_id' => $params['media_role_id'] ?? 0,
+                'media_role_id' => $params['media_role_id'],
                 'work_no' => $params['work_no'] ?? 1000,
                 'status' => $params['status'],
-                'role_id' => $params['role_id'] ?? 0,
+                'role_id' => $params['role_id'],
                 'created_at' => date("Y-m-d H:i:s")
             ];
             $update_param['password'] = Hash::make($params['password']);
@@ -150,7 +163,7 @@ class UserController extends Controller
     public function userList(Request $request)
     {
         if ($request->isMethod('POST')){
-            $users = Admin::query()->leftJoin('roles','roles.id','admins.role_id')
+            $users = Admin::query()
                 ->leftJoin('admin_group','admin_group.admin_id','admins.id');
             $page_size = \request('per_page',15);
 
@@ -175,11 +188,17 @@ class UserController extends Controller
                 $users = $users->where('real_name','like',"%$realName%");
             }
 
-            $users = $users->select('admins.*','admins.site_auth as site','admin_group.type as group','admin_group.grid_id','roles.id as role_id','roles.name')
+            $users = $users->select('admins.*','admins.site_auth as site',
+                'admin_group.type as group','admin_group.grid_id'
+            )
                 ->orderBy('admins.id','desc')
                 ->paginate($page_size);
+            $roles = Role::query()->pluck('name','id');
             foreach ($users as $user){
                 $user->site_auth = explode(',',$user->site_auth);
+                //查询roles名称
+                $user->service_role = isset($roles[$user->role_id]) ? $roles[$user->role_id] : "";
+                $user->media_role = isset($roles[$user->media_role_id]) ? $roles[$user->media_role_id] : "";
             }
             return $this->json(0,$users,'');
         }else{

@@ -16,40 +16,29 @@ use Hash;
 
 class AuthController extends Controller
 {
-/*    public function addRole()
-    {
-        if (\request('id')){
-            //编辑 返回
-            $role = Role::find(\request('id'));
-            $policy_uri = json_decode( $role->policy_uri,true);
-        }else{
-            $role= json_encode(new \stdclass());
-            $policy_uri = [];
-        }
-        $show =3;
-
-        return view('auth.addrole',compact('role','roles','show','policy_uri'));
-    }*/
-
     public function save_role(Request $request)
     {
     	$rolename = $request->input("name");
     	if (empty($rolename)) 
     	{
-    		return $this->json(1,[],"请填写角色名");
+    		return $this->json(1,[],"Please Enter Title");
     	}
+        if (empty($request->input("resources")))
+        {
+            return $this->json(1,[],"Please Select Site");
+        }
     	//去除#
         $policy_uri = array_values(array_diff($request->input("policy_uri"), ['#', true]));
-        if (!count($policy_uri)) return $this->json(1,[],"至少选择一种权限");
+        if (!count($policy_uri)) return $this->json(1,[],"Please Select Url");
     	//规范角色
         if (!$request->id){
             //添加角色
             $role = new Role();
-            $msg = '新增角色成功';$log_desc = '新增';
+            $msg = 'Role added successfully';$log_desc = 'add';
         }else{
-            $role = Role::find($request->id);$msg = '修改角色成功';$log_desc = '修改';
+            $role = Role::find($request->id);$msg = 'Role modified successfully';$log_desc = 'edit';
         }
-        $role->resources = json_encode(["admin-mng"]);
+        $role->resources = $request->input("resources");
         $role->name = $rolename;
         $role->policy_uri = json_encode($policy_uri);
         $role->save();
@@ -65,11 +54,15 @@ class AuthController extends Controller
     	$id = $request->input("id");
     	if (empty($id)) 
     	{
-    		return $this->json(1,[],"请刷新重试");
+    		return $this->json(1,[],"Please refresh and try again!");
     	}
+    	if ($id == 1){
+            return $this->json(1,[],"Administrator auth cannot be deleted!");
+        }
         //需要判断该权限下是否有用户
-        $cou = Admin::query()->where("role_id",$id)->where("status",1)->count();
-    	if ($cou>0) return $this->json(1,[],"该权限组下已分配用户,请修改用户后再进行删除！");
+        $cou = Admin::query()->where("role_id",$id)->orWhere('media_role_id',$id)
+            ->count();
+    	if ($cou>0) return $this->json(1,[],"Users have been assigned to this permission group. Please modify the users before deleting them！");
     	$obj = Role::find($id);
     	$name = $obj->name;
         $obj->delete();

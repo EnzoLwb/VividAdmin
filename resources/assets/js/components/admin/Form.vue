@@ -144,7 +144,7 @@
 															});
 																this.loading = false
 															setTimeout(function () {
-																window.location.href = '/admin/user/list';
+																window.location.href = '/admin/settings/user';
 															}, 1000)
 
 														}

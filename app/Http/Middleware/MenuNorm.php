@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Role;
+use App\Models\RouteSetting;
 use App\Services\AuthService;
 use Closure;
 use Illuminate\Support\Facades\Auth;
@@ -20,15 +21,17 @@ class MenuNorm
     public function handle($request, Closure $next)
     {
         $cache_key = 'all_menus';//所有菜单
-        $policy_key = 'policy_menu';//角色的菜单
         $allMenu = Cache::get($cache_key, function () use($cache_key){
-            $allMenus = \Config::get("role.menu");
-            $val = AuthService::getAllMenu($allMenus);
-            Cache::put($cache_key, $val, 3600*24);//存储24小时
-            return $val;
+            $allMenus = RouteSetting::query()
+                ->where('site',strtolower(session('site')))
+                ->pluck('url')->toArray();
+            Cache::put($cache_key, $allMenus, 3600*24);//存储24小时
+            return $allMenus;
         });
-
-        $policyMenu = json_decode( Role::query()->where('id',Auth::user()->role_id)->value('policy_uri'),true);
+        $site = session()->get('site');
+        $role_id = $site == 'Service' ? Auth::user()->role_id :  Auth::user()->media_role_id;
+        $policyMenu = json_decode( Role::query()->where('id',$role_id)
+            ->value('policy_uri'),true);
         $pathInfo = $request->getPathInfo();
         if (in_array($pathInfo,$allMenu)){
             if (!in_array($pathInfo,$policyMenu)){

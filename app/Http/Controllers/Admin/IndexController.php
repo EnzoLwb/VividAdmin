@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PageList;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -13,7 +14,9 @@ class IndexController extends Controller
     public function home()
     {
         //查看是否有首页的权限 没有则权限列表第一个地址
-        $role = Role::query()->findOrFail(\auth()->user()->role_id)->policy_uri;
+        $site = session()->get('site');
+        $role_id = $site == 'Service' ? Auth::user()->role_id :  Auth::user()->media_role_id;
+        $role = Role::query()->findOrFail($role_id)->policy_uri;
         $policy_uri = json_decode($role,true);
         return redirect()->to(current($policy_uri));
 //        return redirect()->to("/admin/logs/list");

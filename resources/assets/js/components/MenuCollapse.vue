@@ -52,7 +52,7 @@
 				},
 				created() {
 					//获取屏幕宽度
-					var windowWidth = document.documentElement.clientWidth;
+					let windowWidth = document.documentElement.clientWidth;
 					if(windowWidth < 640){
 						this.isCollapse = true
 					}
@@ -60,12 +60,13 @@
 						this.isCollapse = false
 					}
 					// 获取 菜单
-					let menus = JSON.parse(window.sessionStorage.getItem("menus"))  ;
+					let storage_key = this.site+'_left_menu'
+					let menus = JSON.parse(window.sessionStorage.getItem(storage_key))  ;
 					if (!menus){
 							axios.post('/admin/left_menu')
 									.then(response => {
 											menus = response.data.data
-											window.sessionStorage.setItem("menus",JSON.stringify( menus))
+											window.sessionStorage.setItem(storage_key,JSON.stringify( menus))
 											this.menus =  this.opened_menu(menus);
 									})
 					}else{
@@ -95,6 +96,7 @@
 						},
 
 				},
+			props:['site'],
 		}
 </script>
 <style>

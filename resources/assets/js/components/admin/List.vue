@@ -40,7 +40,12 @@
         <el-table-column resizable prop="id" label="ID" width="70" sortable> </el-table-column>
         <el-table-column resizable prop="username"  label="UserName" sortable> </el-table-column>
         <el-table-column resizable prop="real_name" label="NickName" sortable> </el-table-column>
-        <el-table-column resizable prop="name" label="Role" sortable> </el-table-column>
+        <el-table-column resizable label="Role">
+          <template  slot-scope="scope">
+            <p v-if="scope.row.site_auth.indexOf('service') !== -1">Service:{{scope.row.service_role}}</p>
+            <p v-if="scope.row.site_auth.indexOf('media') !== -1">Media:{{scope.row.media_role}}</p>
+          </template>
+        </el-table-column>
         <el-table-column resizable prop="site" label="Site Auth" sortable> </el-table-column>
         <el-table-column resizable label="Post" >
           <template  slot-scope="scope">
