@@ -1,1 +1,438 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[19],{214:function(e,t,a){"use strict";a.r(t);var r="/admin/news_letter",n={data:function(){return{loading:!1,search_form:{name:"",subject:"",sort_prop:"",sort_order:"",page:0,per_page:this.unils.per_page},tabledata:{}}},mounted:function(){this.getData({})},methods:{sortChange:function(e){this.search_form.sort_prop=e.prop,this.search_form.sort_order="descending"===e.order?"desc":"asc",this.getData(this.search_form)},handleSizeChange:function(e){this.search_form.per_page=e,this.handleCurrentChange()},handleCurrentChange:function(){this.search_form.page=this.tabledata.current_page,this.getData(this.search_form)},getData:function(e){var t=this;this.loading=!0,axios.post(r,e).then((function(e){0!=e.data.code||200!=e.status?t.$notify({title:"Request Failed",message:e.data.message,type:"error"}):t.tabledata=e.data.data,t.loading=!1}))},reset:function(){window.location.href=r},search:function(){this.getData(this.search_form)},handleOperation:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,a=r+"/"+e;window.location.href=t?a+"?id="+t:a},handleDelete:function(e,t){var a=this;this.$confirm(" Do you want to delete it?","Confirm",{confirmButtonText:"Yes",cancelButtonText:"No",type:"warning"}).then((function(){a.loading=!0,axios.delete(r+"?emailId="+t.emailId).then((function(t){0!=t.data.code||200!=t.status?a.$notify({title:"Request Failed",message:t.data.message,type:"error"}):a.$notify({title:"Success",message:t.data.message,type:"success"}),a.tabledata.data.splice(e,1),a.loading=!1}))}))}},props:["wordCount","group"]},o=a(0),s=Object(o.a)(n,(function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",[a("el-card",{attrs:{shadow:"hover"}},[a("el-form",{staticClass:"search-form-inline",attrs:{inline:!0,size:"mini"}},[a("el-form-item",[a("el-input",{attrs:{type:"text",placeholder:"Template Name"},model:{value:e.search_form.name,callback:function(t){e.$set(e.search_form,"name",t)},expression:"search_form.name"}})],1),e._v(" "),a("el-form-item",[a("el-input",{attrs:{type:"text",placeholder:"Subject"},model:{value:e.search_form.subject,callback:function(t){e.$set(e.search_form,"subject",t)},expression:"search_form.subject"}})],1),e._v(" "),a("el-form-item",[a("el-button",{attrs:{type:"warning"},on:{click:e.search}},[e._v("Search")])],1),e._v(" "),a("el-form-item",[a("el-button",{attrs:{type:"info"},on:{click:e.reset}},[e._v("Reset")])],1)],1)],1),e._v(" "),a("el-card",{staticClass:"margin_top",attrs:{shadow:"hover"}},[a("div",{attrs:{slot:"header"},slot:"header"},[a("el-button",{attrs:{type:"primary",size:"medium"},on:{click:function(t){return e.handleOperation("add")}}},[e._v("Add a Template")]),e._v(" "),a("el-button",{staticClass:"word-count",attrs:{type:"text"}},[e._v("WordCount: "),a("b",[e._v(e._s(this.wordCount))])])],1),e._v(" "),a("el-table",{directives:[{name:"loading",rawName:"v-loading",value:e.loading,expression:"loading"}],attrs:{data:e.tabledata.data,size:"medium"},on:{"sort-change":e.sortChange}},[a("el-table-column",{attrs:{resizable:"",prop:"emailId",label:"ID",width:"70",sortable:"custom"}}),e._v(" "),a("el-table-column",{attrs:{resizable:"",prop:"funcCode",label:"funcCode"}}),e._v(" "),a("el-table-column",{attrs:{resizable:"",prop:"emailName",label:"Template Name",sortable:"custom"}}),e._v(" "),a("el-table-column",{attrs:{resizable:"",prop:"emailSubject",label:"Subject",sortable:"custom"}}),e._v(" "),a("el-table-column",{attrs:{resizable:"",prop:"emailFrom",label:"From Address"}}),e._v(" "),a("el-table-column",{attrs:{resizable:"",align:"center",label:"Operation"},scopedSlots:e._u([{key:"default",fn:function(t){return[a("el-button",{directives:[{name:"show",rawName:"v-show",value:3!=e.group,expression:"group != 3"}],staticStyle:{color:"rgb(0, 0, 255)"},attrs:{type:"text"},on:{click:function(a){return e.handleOperation("edit",t.row.emailId)}}},[e._v("Edit | ")]),e._v(" "),a("el-button",{directives:[{name:"show",rawName:"v-show",value:3!=e.group,expression:"group != 3"}],attrs:{type:"text"},on:{click:function(a){return e.handleDelete(t.$index,t.row)}}},[e._v("Delete | ")]),e._v(" "),a("el-button",{directives:[{name:"show",rawName:"v-show",value:2!=e.group,expression:"group != 2"}],attrs:{type:"text"},on:{click:function(a){return e.handleOperation("translate",t.row.emailId)}}},[e._v(" Translate")])]}}])})],1),e._v(" "),a("div",{staticClass:"pull-right"},[a("el-pagination",{staticStyle:{margin:"15px 0"},attrs:{"current-page":e.tabledata.current_page,total:e.tabledata.total,"page-sizes":this.unils.page_size,"page-size":parseInt(e.tabledata.per_page),layout:"total, sizes, prev, pager, next, jumper"},on:{"size-change":e.handleSizeChange,"current-change":e.handleCurrentChange,"update:currentPage":function(t){return e.$set(e.tabledata,"current_page",t)},"update:current-page":function(t){return e.$set(e.tabledata,"current_page",t)}}})],1)],1)],1)}),[],!1,null,null,null);t.default=s.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[19],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&":
+/*!***************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js& ***!
+  \***************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var current_url = '/admin/news_letter';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      editorConfig: {
+        language: 'en'
+      },
+      rules: {
+        emailText: [{
+          required: true,
+          message: 'Required',
+          trigger: 'blur'
+        }]
+      },
+      translate: {
+        emailId: this.obj.emailId,
+        //此字段会不同
+        wordCount: this.obj.wordCount,
+        emailSubject: this.obj.emailSubject,
+        locale: '',
+        translationId: null,
+        emailText: "" //翻译后的内容
+
+      },
+      loading: false
+    };
+  },
+  created: function created() {
+    this.obj.emailText = decodeURIComponent(this.obj.emailText.replace(/\+/g, '%20'));
+  },
+  methods: {
+    //根据语言查询是否已有翻译记录
+    translateRecord: function translateRecord() {
+      var _this = this;
+
+      this.loading = true;
+      axios.post('/admin/translate/record', {
+        model: 'NewsLetterTranslation',
+        relate_id: 'emailId',
+        id: this.translate.emailId,
+        locale: this.translate.locale
+      }).then(function (res) {
+        if (res.data.code != 0 || res.status != 200) {
+          _this.$notify({
+            message: res.data.message,
+            type: 'error'
+          });
+        } else {
+          if (res.data.data) {
+            _this.translate.translationId = res.data.data.translationId; //url decode
+
+            _this.translate.emailText = decodeURIComponent(res.data.data.emailText.replace(/\+/g, '%20'));
+          } else {
+            _this.$notify({
+              message: "No translation result, default to original content",
+              type: 'info'
+            });
+
+            _this.translate.translationId = null;
+            _this.translate.emailText = _this.obj.emailText;
+          }
+        }
+
+        _this.loading = false;
+      });
+    },
+    submitForm: function submitForm() {
+      var _this2 = this;
+
+      this.$refs['form'].validate(function (valid) {
+        if (valid) {
+          _this2.loading = true;
+          axios.post(current_url + '/translate', _this2.translate).then(function (res) {
+            if (res.data.code != 0 || res.status != 200) {
+              _this2.$notify({
+                message: res.data.message,
+                type: 'error'
+              });
+            } else {
+              _this2.$notify({
+                message: res.data.message,
+                type: 'success'
+              });
+
+              _this2.$confirm('Do you want to jump to the list?', 'Confirm', {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                type: 'warning'
+              }).then(function () {
+                window.location.href = current_url;
+              })["catch"](function () {
+                window.location.href = window.location.href;
+              });
+            }
+
+            _this2.loading = false;
+          });
+        }
+      });
+    }
+  },
+  props: ['obj', 'languageSelect']
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "loading",
+          rawName: "v-loading",
+          value: _vm.loading,
+          expression: "loading"
+        }
+      ]
+    },
+    [
+      _c(
+        "el-row",
+        [
+          _c(
+            "el-col",
+            { attrs: { xs: 24, sm: 24, md: 20, lg: 20, xl: 20 } },
+            [
+              _c(
+                "el-card",
+                { attrs: { shadow: "hover" } },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "clearfix",
+                      attrs: { slot: "header" },
+                      slot: "header"
+                    },
+                    [_c("span", [_vm._v("Translate")])]
+                  ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Template Name: "),
+                    _c("span", [_vm._v(_vm._s(_vm.obj.emailName))])
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Subject："),
+                    _c("span", [_vm._v(_vm._s(_vm.obj.emailSubject))])
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Function Code："),
+                    _c("span", [_vm._v(_vm._s(_vm.obj.funcCode))])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "el-form",
+                    {
+                      ref: "form",
+                      attrs: {
+                        model: _vm.translate,
+                        rules: _vm.rules,
+                        size: "medium",
+                        "label-position": "top"
+                      }
+                    },
+                    [
+                      _c(
+                        "el-form-item",
+                        { attrs: { label: "Column description (English) :" } },
+                        [
+                          _c("ckeditor", {
+                            attrs: { "read-only": "true", id: "origin" },
+                            model: {
+                              value: _vm.obj.emailText,
+                              callback: function($$v) {
+                                _vm.$set(_vm.obj, "emailText", $$v)
+                              },
+                              expression: "obj.emailText"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "word-count" }, [
+                        _vm._v("WordCount: "),
+                        _c("b", [_vm._v(_vm._s(this.obj.wordCount))])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        { attrs: { prop: "emailText" } },
+                        [
+                          _c(
+                            "template",
+                            { slot: "label" },
+                            [
+                              _vm._v(
+                                "Translated into :\r\n                        "
+                              ),
+                              _c(
+                                "el-select",
+                                {
+                                  staticStyle: {
+                                    width: "120px",
+                                    "margin-left": "20px"
+                                  },
+                                  attrs: {
+                                    size: "mini",
+                                    prop: "locale",
+                                    rules: {
+                                      required: true,
+                                      message: "Required",
+                                      trigger: "blur"
+                                    }
+                                  },
+                                  on: { change: _vm.translateRecord },
+                                  model: {
+                                    value: _vm.translate.locale,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.translate, "locale", $$v)
+                                    },
+                                    expression: "translate.locale"
+                                  }
+                                },
+                                _vm._l(_vm.languageSelect, function(
+                                  item,
+                                  index
+                                ) {
+                                  return _c("el-option", {
+                                    key: index,
+                                    attrs: { label: index, value: item }
+                                  })
+                                }),
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("ckeditor", {
+                            attrs: {
+                              config: _vm.editorConfig,
+                              id: "translate"
+                            },
+                            model: {
+                              value: _vm.translate.emailText,
+                              callback: function($$v) {
+                                _vm.$set(_vm.translate, "emailText", $$v)
+                              },
+                              expression: "translate.emailText"
+                            }
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        [
+                          _c(
+                            "el-button",
+                            {
+                              attrs: { type: "primary", loading: _vm.loading },
+                              on: {
+                                click: function($event) {
+                                  return _vm.submitForm()
+                                }
+                              }
+                            },
+                            [_vm._v("Submit")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/news_letter/Translate.vue":
+/*!******************************************************************!*\
+  !*** ./resources/assets/js/components/news_letter/Translate.vue ***!
+  \******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Translate.vue?vue&type=template&id=f2143f2c& */ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&");
+/* harmony import */ var _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Translate.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/news_letter/Translate.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************!*\
+  !*** ./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&":
+/*!*************************************************************************************************!*\
+  !*** ./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c& ***!
+  \*************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=template&id=f2143f2c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/news_letter/Translate.vue?vue&type=template&id=f2143f2c&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_f2143f2c___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);

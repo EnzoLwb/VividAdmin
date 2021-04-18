@@ -1,1 +1,476 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{203:function(e,t,a){"use strict";a.r(t);var i={data:function(){var e=this;return{article:this.originObj,form:{key_name:"",key_value:[""],page_id:"",key_id:"",word_count:0},rules:{page_id:[{required:!0,message:"Required",trigger:"blur"}],key_name:[{required:!0,message:"Required",trigger:"blur"},{validator:function(t,a,i){""===a&&i(new Error("Required")),axios.post("/admin/repeat_word",{model:"ContentList",key:"key_name",value:e.article.key_name,current_id:e.article.key_id}).then((function(t){0!=t.data.code||200!=t.status?e.$notify({title:"Request Failed",message:t.data.message,type:"error"}):(t.data.data.exist&&i(new Error("This word already exists, please do not add it repeatedly")),i())}))},trigger:"blur"}]},site:this.editSite,pages:[],loading:!1,pagesLoading:!1}},created:function(){var e=this;if(0==Object.keys(this.originObj).length)this.article=this.form;else{var t=this.originObj.page_id;this.pagesLoading=!0,this.article.page_id=null,axios.post("/admin/pages_by_site",{site:this.site}).then((function(a){0!=a.data.code||200!=a.status?e.$notify({title:"Request Failed",message:a.data.message,type:"error"}):(e.pages=a.data.data,e.article.page_id=t),e.pagesLoading=!1}))}},methods:{removeDesc:function(e){this.article.key_value.splice(e,1)},addDesc:function(){this.article.key_value.push("")},countWord:function(){var e=0;this.article.key_value.forEach((function(t){var a=t.trim();a&&(e+=a.split(" ").length)})),this.article.word_count=e},getPages:function(){var e=this;this.pagesLoading=!0,this.article.page_id=null,axios.post("/admin/pages_by_site",{site:this.site}).then((function(t){0!=t.data.code||200!=t.status?e.$notify({title:"Request Failed",message:t.data.message,type:"error"}):e.pages=t.data.data,e.pagesLoading=!1}))},submitForm:function(){var e=this;console.log(this.article),this.$refs.form.validate((function(t){t&&(e.loading=!0,axios.post("/admin/content_list/save",e.article).then((function(t){0!=t.data.code||200!=t.status?e.$notify({message:t.data.message,type:"error"}):(e.$notify({message:t.data.message,type:"success"}),e.$confirm("Do you want to jump to the list?","Confirm",{confirmButtonText:"Yes",cancelButtonText:"No",type:"warning"}).then((function(){window.location.href="/admin/content_list"})).catch((function(){window.location.href=window.location.href}))),e.loading=!1})))}))}},props:["originObj","title","editSite"]},s=a(0),l=Object(s.a)(i,(function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",{directives:[{name:"loading",rawName:"v-loading",value:e.loading,expression:"loading"}]},[a("el-row",[a("el-col",{attrs:{xs:24,sm:24,md:20,lg:13,xl:13}},[a("el-card",{attrs:{shadow:"hover"}},[a("div",{staticClass:"clearfix",attrs:{slot:"header"},slot:"header"},[a("span",[e._v(e._s(e.title))])]),e._v(" "),a("el-form",{ref:"form",staticStyle:{width:"80%"},attrs:{model:e.article,rules:e.rules,size:"medium","label-position":"top"}},[a("el-form-item",{attrs:{label:"Column Name",prop:"key_name"}},[a("el-input",{model:{value:e.article.key_name,callback:function(t){e.$set(e.article,"key_name",t)},expression:"article.key_name"}})],1),e._v(" "),a("el-form-item",{attrs:{label:"Site"}},[a("el-select",{on:{change:e.getPages},model:{value:e.site,callback:function(t){e.site=t},expression:"site"}},[a("el-option",{attrs:{label:"Service",value:"Service"}}),e._v(" "),a("el-option",{attrs:{label:"Media",value:"Media"}})],1)],1),e._v(" "),a("el-form-item",{directives:[{name:"loading",rawName:"v-loading",value:e.pagesLoading,expression:"pagesLoading"}],attrs:{label:"Web page name",prop:"page_id"}},[a("el-select",{staticStyle:{"min-width":"250px"},attrs:{clearable:""},model:{value:e.article.page_id,callback:function(t){e.$set(e.article,"page_id",t)},expression:"article.page_id"}},e._l(e.pages,(function(e){return a("el-option",{key:e.page_id,attrs:{label:e.name+"   ("+e.url+")",value:e.page_id}})})),1)],1),e._v(" "),a("el-form-item",{staticStyle:{"margin-bottom":"0"}},[a("template",{slot:"label"},[a("span",[e._v(" Column description: ")]),e._v(" "),a("p",[e._v("( WordCount: "),a("b",{staticStyle:{color:"red"}},[e._v(e._s(this.article.word_count))]),e._v(" )")])])],2),e._v(" "),e._l(e.article.key_value,(function(t,i){return a("el-form-item",{key:i,attrs:{prop:"key_value."+i,rules:{required:!0,message:"Required",trigger:"blur"}}},[a("el-row",[a("el-col",{attrs:{span:22}},[a("el-input",{attrs:{type:"textarea"},on:{input:e.countWord},model:{value:e.article.key_value[i],callback:function(t){e.$set(e.article.key_value,i,t)},expression:"article.key_value[index]"}})],1),e._v(" "),a("el-col",{attrs:{span:1,offset:1}},[a("el-button",{attrs:{type:"danger",size:"mini",round:"",icon:"el-icon-delete"},on:{click:function(t){return t.preventDefault(),e.removeDesc(i)}}})],1)],1)],1)})),e._v(" "),a("el-button",{attrs:{icon:"el-icon-plus",size:"small",type:"success"},on:{click:e.addDesc}},[e._v("Add Desc")]),e._v(" "),a("el-input",{attrs:{type:"hidden"},model:{value:e.article.key_id,callback:function(t){e.$set(e.article,"key_id",t)},expression:"article.key_id"}}),e._v(" "),a("el-form-item",[a("el-button",{attrs:{type:"primary",loading:e.loading},on:{click:function(t){return e.submitForm()}}},[e._v("Submit")])],1)],2)],1)],1)],1)],1)}),[],!1,null,null,null);t.default=l.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[13],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/content_list/Translate.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/content_list/Translate.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var current_url = '/admin/content_list';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      rules: {
+        locale: [{
+          required: true,
+          message: 'Required',
+          trigger: 'blur'
+        }]
+      },
+      translate: {
+        key_id: this.obj.key_id,
+        //此字段会不同
+        word_count: this.obj.word_count,
+        locale: '',
+        translation_id: null,
+        key_value: [] //翻译后的内容
+
+      },
+      loading: false,
+      autosize: {
+        minRows: 3
+      }
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    //根据原文的个数 push 多个译文textarea
+    this.obj.key_value.forEach(function (item) {
+      _this.translate.key_value.push("");
+    });
+  },
+  methods: {
+    //根据语言查询是否已有翻译记录
+    translateRecord: function translateRecord() {
+      var _this2 = this;
+
+      this.loading = true;
+      axios.post('/admin/translate/record', {
+        model: 'ContentListTranslation',
+        relate_id: 'key_id',
+        id: this.translate.key_id,
+        locale: this.translate.locale
+      }).then(function (res) {
+        if (res.data.code != 0 || res.status != 200) {
+          _this2.$notify({
+            message: res.data.message,
+            type: 'error'
+          });
+        } else {
+          if (res.data.data) {
+            _this2.translate.translation_id = res.data.data.translation_id;
+            _this2.translate.key_value = JSON.parse(res.data.data.key_value); //此字段会不同
+          } else {
+            _this2.translate.translation_id = null;
+            _this2.translate.key_value = [];
+
+            _this2.obj.key_value.forEach(function (item) {
+              _this2.translate.key_value.push("");
+            });
+          }
+        }
+
+        _this2.loading = false;
+      });
+    },
+    submitForm: function submitForm() {
+      var _this3 = this;
+
+      this.$refs['form'].validate(function (valid) {
+        if (valid) {
+          // 处理翻译内容不填或为空情况
+          var trim = false;
+
+          _this3.translate.key_value.forEach(function (item) {
+            if (!item.trim()) {
+              trim = true;
+              return;
+            }
+          });
+
+          if (trim) {
+            _this3.$notify({
+              message: 'translate content required',
+              type: 'error'
+            });
+
+            return;
+          }
+
+          _this3.loading = true;
+          axios.post(current_url + '/translate', _this3.translate).then(function (res) {
+            if (res.data.code != 0 || res.status != 200) {
+              _this3.$notify({
+                message: res.data.message,
+                type: 'error'
+              });
+            } else {
+              _this3.$notify({
+                message: res.data.message,
+                type: 'success'
+              });
+
+              _this3.$confirm('Do you want to jump to the list?', 'Confirm', {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                type: 'warning'
+              }).then(function () {
+                window.location.href = current_url;
+              })["catch"](function () {
+                window.location.href = window.location.href;
+              });
+            }
+
+            _this3.loading = false;
+          });
+        }
+      });
+    }
+  },
+  props: ['obj', 'languageSelect']
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/content_list/Translate.vue?vue&type=template&id=506552da&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/content_list/Translate.vue?vue&type=template&id=506552da& ***!
+  \********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "loading",
+          rawName: "v-loading",
+          value: _vm.loading,
+          expression: "loading"
+        }
+      ]
+    },
+    [
+      _c(
+        "el-row",
+        [
+          _c(
+            "el-col",
+            { attrs: { xs: 24, sm: 24, md: 20, lg: 20, xl: 20 } },
+            [
+              _c(
+                "el-card",
+                { attrs: { shadow: "hover" } },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "clearfix",
+                      attrs: { slot: "header" },
+                      slot: "header"
+                    },
+                    [_c("span", [_vm._v("Translate")])]
+                  ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Column name: " + _vm._s(_vm.obj.key_name))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Site URL：" + _vm._s(_vm.obj.website))
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v(
+                      "Web Page name: " + _vm._s(_vm.obj.page_name) + "（"
+                    ),
+                    _c("a", { attrs: { href: "#" } }, [
+                      _vm._v(_vm._s(_vm.obj.url))
+                    ]),
+                    _vm._v(" ）")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "el-form",
+                    {
+                      ref: "form",
+                      attrs: {
+                        model: _vm.translate,
+                        rules: _vm.rules,
+                        size: "medium",
+                        "label-position": "top",
+                        inline: true
+                      }
+                    },
+                    [
+                      _c(
+                        "el-form-item",
+                        {
+                          staticStyle: { width: "45%" },
+                          attrs: { label: "Column description :" }
+                        },
+                        _vm._l(_vm.obj.key_value, function(item, index) {
+                          return _c("el-input", {
+                            key: index,
+                            staticStyle: { "margin-bottom": "10px" },
+                            attrs: {
+                              value: item,
+                              disabled: "",
+                              type: "textarea",
+                              autosize: _vm.autosize
+                            }
+                          })
+                        }),
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        {
+                          staticStyle: { width: "45%" },
+                          attrs: { prop: "locale" }
+                        },
+                        [
+                          _c(
+                            "template",
+                            { slot: "label" },
+                            [
+                              _vm._v(
+                                "Translated into :\r\n                        "
+                              ),
+                              _c(
+                                "el-select",
+                                {
+                                  staticStyle: {
+                                    width: "120px",
+                                    "margin-left": "20px"
+                                  },
+                                  attrs: { size: "mini" },
+                                  on: { change: _vm.translateRecord },
+                                  model: {
+                                    value: _vm.translate.locale,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.translate, "locale", $$v)
+                                    },
+                                    expression: "translate.locale"
+                                  }
+                                },
+                                _vm._l(_vm.languageSelect, function(
+                                  item,
+                                  index
+                                ) {
+                                  return _c("el-option", {
+                                    key: index,
+                                    attrs: { label: index, value: item }
+                                  })
+                                }),
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _vm._l(_vm.translate.key_value, function(
+                            item,
+                            index
+                          ) {
+                            return _c("el-input", {
+                              key: index,
+                              staticStyle: { "margin-bottom": "10px" },
+                              attrs: {
+                                disabled: !_vm.translate.locale,
+                                placeholder: _vm.translate.locale
+                                  ? ""
+                                  : "Please Select Language",
+                                type: "textarea",
+                                autosize: _vm.autosize
+                              },
+                              model: {
+                                value: _vm.translate.key_value[index],
+                                callback: function($$v) {
+                                  _vm.$set(_vm.translate.key_value, index, $$v)
+                                },
+                                expression: "translate.key_value[index]"
+                              }
+                            })
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "word-count" }, [
+                        _vm._v("WordCount: "),
+                        _c("b", [_vm._v(_vm._s(this.obj.word_count))])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        { staticStyle: { width: "100%" } },
+                        [
+                          _c(
+                            "el-button",
+                            {
+                              attrs: { type: "primary", loading: _vm.loading },
+                              on: {
+                                click: function($event) {
+                                  return _vm.submitForm()
+                                }
+                              }
+                            },
+                            [_vm._v("Submit")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/content_list/Translate.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/assets/js/components/content_list/Translate.vue ***!
+  \*******************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Translate_vue_vue_type_template_id_506552da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Translate.vue?vue&type=template&id=506552da& */ "./resources/assets/js/components/content_list/Translate.vue?vue&type=template&id=506552da&");
+/* harmony import */ var _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Translate.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/content_list/Translate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Translate_vue_vue_type_template_id_506552da___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Translate_vue_vue_type_template_id_506552da___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/content_list/Translate.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/content_list/Translate.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/assets/js/components/content_list/Translate.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/content_list/Translate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/content_list/Translate.vue?vue&type=template&id=506552da&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/assets/js/components/content_list/Translate.vue?vue&type=template&id=506552da& ***!
+  \**************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_506552da___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=template&id=506552da& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/content_list/Translate.vue?vue&type=template&id=506552da&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_506552da___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_506552da___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);

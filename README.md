@@ -1,5 +1,6 @@
 ### Init
 - composer install
+- php artisan ckfinder:download
 - 添加 .env 文件并修改 数据库连接信息
 - storage 和 bootstrap/cache 目录在 web 服务下应该是可写的权限，否则 Laravel 将无法运行
 - chmod -R 777 public/userfiles
@@ -11,7 +12,8 @@
 
 
 ### 测试环境 二次部署
-- composer install (必须执行)
+- composer update
+- php artisan ckfinder:download
 - php artisan migrate
 - composer dump-autoload
 - php artisan db:seed --class=RoutesMediaTableSeeder
