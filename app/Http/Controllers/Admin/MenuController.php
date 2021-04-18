@@ -64,7 +64,7 @@ class MenuController extends Controller
             ->where('pid',0)
             ->whereIn('id',$pids)
             ->orderBy('id','asc')
-            ->select('name','url as uri')->get()->toArray();
+            ->select('name','url as uri','id')->get()->toArray();
         //不递归 直接查询 因为稍后也是缓存
         foreach ($roles as $k=>$first_menu){
             //查询二级菜单 在所属权限内的菜单
