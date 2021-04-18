@@ -91,9 +91,7 @@
 							this.getMenu()
 						},
 						submitForm() {
-							console.log(this.$refs.tree.getCheckedKeys())
 							this.articles.policy_uri = this.$refs.tree.getCheckedKeys()
-							return;
 								axios.post('/admin/role/save',this.articles)
 										.then(res => {
 												if (res.data.code !== 0 || res.status !== 200) {

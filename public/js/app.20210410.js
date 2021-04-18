@@ -4070,9 +4070,7 @@ __webpack_require__.r(__webpack_exports__);
     submitForm: function submitForm() {
       var _this2 = this;
 
-      console.log(this.$refs.tree.getCheckedKeys());
       this.articles.policy_uri = this.$refs.tree.getCheckedKeys();
-      return;
       axios.post('/admin/role/save', this.articles).then(function (res) {
         if (res.data.code !== 0 || res.status !== 200) {
           _this2.$notify({
