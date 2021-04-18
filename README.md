@@ -18,3 +18,6 @@
 - composer dump-autoload
 - php artisan db:seed --class=RoutesMediaTableSeeder
 - chmod -R 777 public/userfiles
+
+- composer update
+- php artisan ckfinder:download
