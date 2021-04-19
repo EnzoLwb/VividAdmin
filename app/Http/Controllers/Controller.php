@@ -13,7 +13,7 @@ class Controller extends BaseController
     public  $page_size;
     public function __construct()
     {
-        $this->page_size = 10;
+        $this->page_size = request('per_page',10);
     }
     /**
      * 将xml转为array

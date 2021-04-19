@@ -51,6 +51,9 @@ class MemberController extends Controller
     public function getMember()
     {
         $data = MemberShip::getMemberByCardNo(\request('card_no'));
+        if (\request('balance')){
+            $data->balance = CardBalance::getBalance(\request('card_no'));
+        }
         return $this->json(0,$data,'');
     }
 }

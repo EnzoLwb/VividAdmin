@@ -9,24 +9,20 @@
 			</div>
 			<el-form :inline="true" :class="!searchCollapse?'search-form-inline':''" size="small">
 				<el-form-item  label="卡号">
-					<el-input  v-model="search_form.card_no" clearable prefix-icon="el-icon-postcard">
-					</el-input>
+					<el-input  v-model="search_form.card_no" clearable prefix-icon="el-icon-postcard"></el-input>
 				</el-form-item>
 				<el-form-item label="姓名">
-					<el-input disabled :value="search_form.name">
-					</el-input>
+					<el-input disabled :value="search_form.name"></el-input>
 				</el-form-item>
 				<el-form-item label="余额">
-					<el-input  :value="search_form.balance" prefix-icon="el-icon-wallet" disabled>
-					</el-input>
+					<el-input  :value="search_form.balance" prefix-icon="el-icon-wallet" disabled></el-input>
 				</el-form-item>
 				<el-form-item label="性别:">
 					<el-radio v-model="search_form.gender" v-show="search_form.gender === 1">男</el-radio>
 					<el-radio v-model="search_form.gender" :label=2 v-show="search_form.gender === 2">女</el-radio>
 				</el-form-item>
 				<el-form-item label="身份证号" v-if="searchCollapse" >
-					<el-input  :value="search_form.id_number" disabled>
-					</el-input>
+					<el-input  :value="search_form.id_number" disabled></el-input>
 				</el-form-item>
 				<el-form-item label="入会时间:" v-if="searchCollapse" >
 					<el-date-picker disabled

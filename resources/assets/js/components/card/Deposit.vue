@@ -11,7 +11,7 @@
 							<el-input v-model="article.card_no" placeholder="读卡器读取" @input="loadMember()"></el-input>
 						</el-form-item>
 						<el-form-item label="会员姓名">
-							<el-input :value="article.name" v-loading="member_loading" placeholder="读取后自动显示" disabled></el-input>
+							<el-input :value="article.name" v-loading="member_loading" placeholder="读取后自动显示" disabled prefix-icon="el-icon-user"></el-input>
 						</el-form-item>
 						<el-form-item label="原充值金额" prop="origin_account">
 							<el-input-number v-model="article.origin_account" :step="100" :min="100" controls-position="right"></el-input-number>

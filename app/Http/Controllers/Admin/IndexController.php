@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Admin;
 use App\Models\AdminGroups;
+use App\Models\CardCustomService;
+use App\Models\DepositRecord;
+use App\Models\MemberShip;
+use App\Models\ServiceDetail;
+use App\Models\UploadedFile;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
@@ -22,6 +27,25 @@ class IndexController extends Controller
         $policy_uri = json_decode($role,true);
         return redirect()->to(current($policy_uri));*/
         return redirect()->to("/admin/home");
+    }
+
+    public function recordDetail()
+    {
+        $res = DepositRecord::query()->find(\request('record_id'));
+        if ($res->type == 1){
+            $res->name = MemberShip::query()->where('card_no',$res->card_no)->value('name');
+            $res->pic_path = UploadedFile::query()->find($res->file_id)->file_path;
+            $res->seller = Admin::query()->where('id',$res->other)->value('real_name');
+        }else{
+            //消费
+            $res = CardCustomService::query()->find($res->custom_id);
+            $res->service = ServiceDetail::query()->find($res->service_id)->title;
+            $res->name = MemberShip::query()->where('card_no',$res->card_no)->value('name');
+            $res->type = $res->fee != 0 ? 1:2;
+            $res->coach = Admin::query()->where('id',$res->other)->value('real_name');
+            $res->expire_date = [$res->enable_date,$res->disable_date];
+        }
+        return $this->json(0,$res,'');
     }
 
     //获取人员下拉框内容
@@ -57,6 +81,10 @@ class IndexController extends Controller
         foreach ($users as $user){
             $data[$user['type']]['options'][] = $user;
         }
-        return $this->json(0,array_values($data),'');
+        $result = [];
+        foreach (array_values($data) as $item){
+            if ($item['options']!=[]) $result[] = $item;
+        }
+        return $this->json(0,$result,'');
     }
 }

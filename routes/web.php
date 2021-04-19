@@ -35,6 +35,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             ],function (){
                 Route::any('/deposit', 'CardController@deposit');
                 Route::any('/consume', 'CardController@consume');
+                Route::any('/record', 'CardController@record');
             });
 
             //业务设置
@@ -45,6 +46,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::any('/service/list', 'SettingController@list');
 
             });
+            Route::post('/record/detail', 'IndexController@recordDetail');//获取消费记录详情
 
             //日志管理
             Route::group([

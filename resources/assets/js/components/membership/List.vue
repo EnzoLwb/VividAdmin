@@ -127,7 +127,7 @@
 								gender:'',
 								register_date:'',
 								name:'',
-								page:0,
+								page:1,
 								per_page:this.unils.per_page,
 							},
 							loading:false,

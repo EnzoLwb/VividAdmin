@@ -53,6 +53,12 @@ return [
                     "icon" => "",
                     "submenus" => [],
                 ],
+                [
+                    "uri" => "/admin/card/record",
+                    "name" => "会员充值/消费记录",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
             ]
         ],
         [
