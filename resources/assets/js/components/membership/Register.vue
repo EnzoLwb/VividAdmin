@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-loading="loading">
 		<el-card shadow="hover">
 			<div slot="header" class="clearfix">
 				<span>注册信息</span>
@@ -27,6 +27,7 @@
 							<el-date-picker
 									v-model="article.register_date"
 									align="right"
+									value-format = "yyyy-MM-dd"
 									type="date"
 									placeholder="选择日期"
 									:picker-options="this.unils.pickerOptions">
@@ -49,19 +50,18 @@
 						</el-form-item>
 						<el-form-item label="照片">
 							<el-upload
-									class="upload-demo" drag
+									class="avatar-uploader"
 									:action = this.unils.upload_img_path
+									:show-file-list="false"
 									:on-success="successUpload"
-									:before-upload="this.unils.beforeUploadImg"
-									:show-file-list="false">  <i class="el-icon-upload"></i>
-								<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+									:before-upload="this.unils.beforeUploadImg">
 								<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过5000kb</div>
-								<img :src="article.pic" alt="照片" v-if="article.pic">
+								<img :src="article.pic_path" alt="照片" v-if="article.pic_id" class="avatar">
+								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 							</el-upload>
 						</el-form-item>
-
 						<el-form-item>
-							<el-button type="primary" @click="submitForm()" :loading="loading">保存</el-button>
+							<el-button type="primary" @click="submitForm()" :loading="btnLoading">保存</el-button>
 						</el-form-item>
 					</el-form>
 				</el-col>
@@ -75,14 +75,17 @@
 		data: function() {
 			return {
 				loading: false,
+				btnLoading: false,
 				article: {
 					card_no:'',
 					gender:'',
 					name:'',
 					id_number:'',
 					coach:[],
-					register_date:new Date(),
+					register_date:'',
 					phone:'',
+					pic_path:'',
+					pic_id:'',
 				},
 				rules: {
 					card_no: [{required: true, message: '必填项', trigger: 'blur'}],
@@ -90,38 +93,60 @@
 					name: [{required: true, message: '必填项', trigger: 'blur'}],
 					register_date: [{required: true, message: '必填项', trigger: 'blur'}],
 				},
-				options: [{
-					label: '拳击教练',
-					options: [{
-						value: 3,
-						label: '张三'
-					}, {
-						value: 4,
-						label: '李四'
-					}]
-				}, {
-					label: '瑜伽教练',
-					options: [{
-						value: 5,
-						label: '王五'
-					}, {
-						value: 6,
-						label: '赵六'
-					}, {
-						value: 7,
-						label: '田七'
-					}]
-				}],
+				options: [],
 			}
 		},
 		created () {
+			//获取全部人员
+			this.loading = true
+			axios.post('/admin/user_post')
+					.then(res => {
+						if (res.data.code != 0 || res.status != 200) {
+							this.$notify({
+								title: '获取人员失败',
+								message: res.data.message,
+								type: 'error'
+							});
+						} else {
+							this.options = res.data.data
+						}
+						this.loading = false
+					})
 		},
 		methods: {
 			successUpload(response, file, fileList) {
-				this.loading = false
-				this.loginCover = response.data.path
+				this.article.pic_id = response.data.id
+				this.article.pic_path = response.data.path
 			},
 			submitForm() {
+				console.log(this.article)
+				this.$refs['form'].validate((valid) => {
+					if (valid) {
+						axios.post('/admin/membership/save',this.article)
+								.then(res => {
+									if (res.data.code != 0 || res.status != 200) {
+										this.$notify({
+											title: '注册失败',
+											message: res.data.message,
+											type: 'error'
+										});
+									} else {
+										this.$notify({
+											title: '注册成功',
+											message: res.data.message,
+											type: 'success'
+										});
+										setTimeout(function () {
+											//跳转到卡充值
+											window.location.href = '/admin/card/deposit'
+										}, 1000);
+									}
+								})
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
 
 			},
 		},

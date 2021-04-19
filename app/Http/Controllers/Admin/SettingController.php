@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ServiceDetail;
 use App\Models\SystemSetting;
 use App\Models\UploadedFile;
 use Illuminate\Http\Request;
@@ -11,9 +12,35 @@ use Illuminate\Support\Facades\Auth;
 class SettingController extends Controller
 {
     //服务列表
-    public function service()
+    public function service(Request $request)
     {
-        return view('setting.service');
+        if ($request->isMethod('POST')){
+            //验证名称是否重复
+            if ($request->id){
+                $valid = ServiceDetail::query()->where('title',$request->name)
+                    ->where('id','!=',$request->id)->exists();
+            }else{
+                $valid = ServiceDetail::query()->where('title',$request->name)
+                    ->exists();
+            }
+            if ($valid) return $this->json(1,[],'名称重复，请更换~');
+            $obj = $request->id ? ServiceDetail::findOrFail($request->id) : new ServiceDetail();
+            $obj->title = $request->name;
+            $obj->note = $request->remark;
+            $obj->save();
+            return $this->json(0,[],'');
+        }elseif($request->isMethod('GET')){
+            return view('setting.service');
+        }elseif ($request->isMethod('DELETE')){
+            $obj = ServiceDetail::findOrFail($request->id);
+           if ($obj->delete()) return $this->json(0,[],'');
+        }
+    }
+
+    //服务项目列表
+    public function list(){
+        $data = ServiceDetail::query()->orderByDesc('id')->paginate($this->page_size);
+        return $this->json(0,$data,'');
     }
 
     //首页设置

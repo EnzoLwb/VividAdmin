@@ -50,7 +50,7 @@ class Admin extends Authenticatable
             $params['password'] = Hash::make($params['password']);
             Admin::where('id',$userId)->update($params);
             activity()
-                ->useLog('系统用户')
+                ->useLog('员工')
                 ->performedOn(Admin::find($userId))
                 ->log('修改密码');
         }else{
@@ -63,20 +63,14 @@ class Admin extends Authenticatable
                 'role_id' => $params['role_id'],
             ];
 
-//            \DB::transaction(function() use($userId,$update_param,$params){
+            \DB::transaction(function() use($userId,$update_param,$params){
                 Admin::where('id',$userId)->update($update_param);
-                if ($params['group'] ==1) {
-                    $params['company_name'] = $params['company_id'] = null;
-                }
-                /*AdminGroups::query()->where('admin_id',$userId)->update([
+                AdminGroups::query()->where('admin_id',$userId)->update([
                     'type' => $params['group'],
-                    'company_name' => $params['company_name'],
-                    'company_id' => $params['company_id'],
-                    'grid_id' => $params['grid_id'],
-                ]);*/
-//            });
+                ]);
+            });
             activity()
-                ->useLog('系统用户')
+                ->useLog('员工')
                 ->performedOn(Admin::find($userId))
                 ->log('修改个人信息');
         }

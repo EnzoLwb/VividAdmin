@@ -27,7 +27,7 @@ class CommonController extends Controller
         if ($history){
             $data = [
                 'path' =>  $history->file_path, //文件路径
-                'url' =>  $history->file_path //文件路径
+                'id' =>  $history->file_id //文件路径
             ];
             return $this->json(0,$data);
         }
@@ -40,12 +40,10 @@ class CommonController extends Controller
             $data = $image_size /1000 >1000 ? //大于1M要压缩的
                 [
                     'path' => env('APP_URL').'imagecache/large/'. $FileName,
-                    'url' => env('APP_URL').'imagecache/large/'. $FileName,
                 ]
                 :
                 [
                     'path' =>  env('APP_URL').'storage/image/'. $FileName,
-                    'url' =>  env('APP_URL').'storage/image/'. $FileName,
                 ];
 
             //存储到数据库
@@ -67,6 +65,7 @@ class CommonController extends Controller
         }else{
             return $this->json(1,[],'上传图片无效~');
         }
+        $data['id'] = $uploadedFile->file_id;
         return $this->json(0,$data,'');
     }
 

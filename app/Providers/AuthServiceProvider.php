@@ -30,8 +30,8 @@ class AuthServiceProvider extends ServiceProvider
         //只能是 工会家领导 或者网格员
         Gate::define('leader-action', function ($user) {
             $group = AdminGroups::query()->where('admin_id',$user->id)->value('type');
-            return ( $group === AdminGroups::GRID_MEMBER  || $group === AdminGroups::GH_LEADER ) ? Response::allow()
-                : Response::deny('此操作仅限于高新区总工会 和 网格员。');
+            return ( $group === AdminGroups::POST_ADMIN ) ? Response::allow()
+                : Response::deny('此操作仅限于管理员。');
         });
     }
 }

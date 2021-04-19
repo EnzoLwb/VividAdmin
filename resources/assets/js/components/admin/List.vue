@@ -92,11 +92,7 @@
                :close-on-click-modal="false"
                width="50%" :title="dialog_title" v-if="outerVisible">
       <!--表格详情-->
-      <el-row style="margin-top: 15px">
-        <el-col :span="20">
-          <admin-form :articles="articles" :is_add="is_add" :roles="roles"  @closeDialog="closeDialog"></admin-form>
-        </el-col>
-      </el-row>
+      <admin-form :articles="articles" :is_add="is_add" :roles="roles"  @closeDialog="closeDialog"></admin-form>
     </el-dialog>
   </div>
 </template>

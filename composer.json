@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.2",
-        "endroid/qr-code": "^3.9",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
         "intervention/image": "^2.5",
@@ -25,8 +24,7 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^3.0",
-        "phpunit/phpunit": "^8.0",
-        "wxm/ddoc": "^2.0"
+        "phpunit/phpunit": "^8.0"
     },
     "config": {
         "optimize-autoloader": true,

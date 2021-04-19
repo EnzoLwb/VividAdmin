@@ -58,7 +58,7 @@ class UserController extends Controller
         $userInfo->login_at = date("Y-m-d");
         $userInfo->save();
         activity()
-            ->useLog('系统用户')
+            ->useLog('员工')
             ->performedOn(Admin::find($userInfo['id']))
             ->log('登录');
         $request = app(Request::class);
@@ -150,17 +150,14 @@ class UserController extends Controller
             $update_param['password'] = Hash::make($params['password']);
             \DB::transaction(function() use($update_param,$params){
                 $id = Admin::query()->insertGetId($update_param);
-                /*AdminGroups::insert([
+                AdminGroups::insert([
                     'type' => $params['group'],
                     'admin_id' => $id,
-                    'grid_id' => $params['grid_id'],
-                    'company_name' => $params['company_name'],
-                    'company_id' => $params['company_id'],
-                ]);*/
+                ]);
                 activity()
-                    ->useLog('系统用户')
+                    ->useLog('员工')
                     ->performedOn(Admin::find($id))
-                    ->log('新增用户');
+                    ->log('新增员工');
             });
 
         }
@@ -219,9 +216,9 @@ class UserController extends Controller
 
         Admin::updateUserStatus($id,$request->updateStatus);
         activity()
-            ->useLog('系统用户')
+            ->useLog('员工')
             ->performedOn(Admin::find($id))
-            ->log($request->updateStatus==1?'取消禁用用户':'禁用用户');
+            ->log($request->updateStatus==1?'取消禁用员工':'禁用员工');
         return $this->json(0,[],$request->updateStatus==1 ? '取消禁用成功':'禁用成功');
     }
 

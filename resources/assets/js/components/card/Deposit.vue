@@ -8,22 +8,22 @@
 				<el-col :span="12" :offset="6">
 					<el-form ref="form" :model="article" label-width="140px" :rules="rules">
 						<el-form-item label="会员卡号" prop="card_no">
-							<el-input v-model="article.card_no" placeholder="读卡器读取"></el-input>
+							<el-input v-model="article.card_no" placeholder="读卡器读取" @input="loadMember()"></el-input>
 						</el-form-item>
 						<el-form-item label="会员姓名">
-							<el-input value="" placeholder="读取后自动显示"></el-input>
+							<el-input :value="article.name" v-loading="member_loading" placeholder="读取后自动显示" disabled></el-input>
 						</el-form-item>
 						<el-form-item label="原充值金额" prop="origin_account">
-							<el-input-number v-model="article.origin_account" :step="100" :min="1" controls-position="right"></el-input-number>
+							<el-input-number v-model="article.origin_account" :step="100" :min="100" controls-position="right"></el-input-number>
 						</el-form-item>
 						<el-form-item label="赠送金额">
-							<el-input-number v-model="article.gift_account" :step="100"  controls-position="right"></el-input-number>
+							<el-input-number v-model="article.gift_account" :step="100" :min="0" controls-position="right"></el-input-number>
 						</el-form-item>
 						<el-form-item label="总金额" >
-							<el-input-number v-model="sumAccount" :step="100" :min="1" controls-position="right"></el-input-number>
+							<el-input-number v-model="sumAccount" :step="100" :min="100" controls-position="right"></el-input-number>
 						</el-form-item>
 						<el-form-item  label="销售">
-							<el-select v-model="article.saleperson"  placeholder="请选择">
+							<el-select v-model="article.seller"  placeholder="请选择">
 								<el-option-group
 										v-for="group in options"
 										:key="group.label"
@@ -42,14 +42,14 @@
 						</el-form-item>
 						<el-form-item label="上传凭证">
 							<el-upload
-									class="upload-demo" drag
+									class="avatar-uploader"
 									:action = this.unils.upload_img_path
+									:show-file-list="false"
 									:on-success="successUpload"
-									:before-upload="this.unils.beforeUploadImg"
-									:show-file-list="false">  <i class="el-icon-upload"></i>
-								<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+									:before-upload="this.unils.beforeUploadImg">
 								<div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过5000kb</div>
-								<img :src="article.receipt" alt="照片" v-if="article.receipt">
+								<img :src="article.receipt_path" alt="照片" v-if="article.receipt_id" class="avatar">
+								<i v-else class="el-icon-plus avatar-uploader-icon"></i>
 							</el-upload>
 						</el-form-item>
 						<el-form-item>
@@ -79,6 +79,7 @@
 		data: function() {
 			return {
 				loading: false,
+				member_loading: false,
 				article: {
 					card_no:'',
 					remark:'',
@@ -86,47 +87,87 @@
 					account:'',
 					gift_account:'',
 					origin_account:'',
-					saleperson:'',
-					receipt:'',
+					seller:'',
+					receipt_path:'',
+					receipt_id:'',
 				},
 				rules: {
 					card_no: [{required: true, message: '必填项', trigger: 'blur'}],
 					account: [{required: true, message: '必选项', trigger: 'blur'}],
 					origin_account: [{required: true, message: '必填项', trigger: 'blur'}],
 				},
-				options: [{
-					label: '拳击教练',
-					options: [{
-						value: 3,
-						label: '张三'
-					}, {
-						value: 4,
-						label: '李四'
-					}]
-				}, {
-					label: '瑜伽教练',
-					options: [{
-						value: 5,
-						label: '王五'
-					}, {
-						value: 6,
-						label: '赵六'
-					}, {
-						value: 7,
-						label: '田七'
-					}]
-				}],
+				options: [],
 			}
 		},
 		created () {
+			//获取全部人员
+			this.loading = true
+			axios.post('/admin/user_post')
+					.then(res => {
+						if (res.data.code != 0 || res.status != 200) {
+							this.$notify({
+								title: '获取人员失败',
+								message: res.data.message,
+								type: 'error'
+							});
+						} else {
+							this.options = res.data.data
+						}
+						this.loading = false
+					})
 		},
 		methods: {
+			loadMember(){
+				if (!this.article.card_no) return
+				this.member_loading = true
+				axios.post('/admin/membership/by_card_no',{card_no:this.article.card_no})
+						.then(res => {
+							if (res.data.code != 0 || res.status != 200) {
+								this.$notify({
+									title: '获取人员失败',
+									message: res.data.message,
+									type: 'error'
+								});
+							} else {
+								if (res.data.data) this.article.name = res.data.data.name
+							}
+							this.member_loading = false
+						})
+			},
 			successUpload(response, file, fileList) {
-				this.loading = false
-				this.loginCover = response.data.path
+				this.article.receipt_id = response.data.id
+				this.article.receipt_path = response.data.path
 			},
 			submitForm() {
 				console.log(this.article)
+				this.$refs['form'].validate((valid) => {
+					if (valid) {
+						axios.post(window.location.href,this.article)
+								.then(res => {
+									if (res.data.code != 0 || res.status != 200) {
+										this.$notify({
+											title: '充值失败',
+											message: res.data.message,
+											type: 'error'
+										});
+									} else {
+										this.$notify({
+											title: '充值成功',
+											message: res.data.message,
+											type: 'success'
+										});
+										setTimeout(function () {
+											//跳转到卡消费
+											window.location.href = '/admin/card/consume'
+										}, 1000);
+									}
+								})
+					} else {
+						console.log('error submit!!');
+						return false;
+					}
+				});
+
 			},
 		},
 		props: []

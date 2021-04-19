@@ -16,6 +16,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
         ],function (){
             //首页直接刷卡
             Route::get('/home', 'IndexController@index');
+            Route::post('/user_post', 'IndexController@userPost');
 
             //会员管理
             Route::group([
@@ -23,6 +24,8 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             ],function (){
                 Route::get('/', 'MemberController@index');
                 Route::get('/add', 'MemberController@add');
+                Route::post('/save', 'MemberController@save');
+                Route::post('/by_card_no', 'MemberController@getMember');
 
             });
 
@@ -30,15 +33,16 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::group([
                 'prefix'=>'card',
             ],function (){
-                Route::get('/deposit', 'CardController@deposit');
-                Route::get('/consume', 'CardController@consume');
+                Route::any('/deposit', 'CardController@deposit');
+                Route::any('/consume', 'CardController@consume');
             });
 
             //业务设置
             Route::group([
                 'prefix'=>'setting',
             ],function (){
-                Route::get('/service', 'SettingController@service');
+                Route::any('/service', 'SettingController@service');
+                Route::any('/service/list', 'SettingController@list');
 
             });
 
