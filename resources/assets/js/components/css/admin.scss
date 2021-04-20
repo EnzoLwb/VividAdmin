@@ -109,6 +109,9 @@
   width: 178px;
   display: block;
 }
+.el-image-viewer__wrapper{
+  z-index:2010!important;
+}
 .demo-table-expand {
   font-size: 0;
 }

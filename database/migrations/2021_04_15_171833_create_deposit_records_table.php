@@ -22,6 +22,7 @@ class CreateDepositRecordsTable extends Migration
             $table->tinyInteger('type')->comment('类型 1 充值 2 消费金额');
             $table->string('other')->comment('销售人员|教练 等')->nullable();
             $table->string('remark')->comment('充值时的备注')->nullable();
+            $table->integer('admin_id')->comment('操作人');
             $table->integer('custom_id')->comment('关联ID 关联消费表')->nullable();
             $table->integer('file_id')->comment('上传凭证文件')->nullable();
             $table->timestamps();

@@ -18,6 +18,15 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/home', 'IndexController@index');
             Route::post('/user_post', 'IndexController@userPost');
 
+            //入场
+            //会员管理
+            Route::group([
+                'prefix'=>'enter',
+            ],function (){
+                Route::post('/custom', 'EnterController@custom');//消费入场
+                Route::post('/normal', 'EnterController@normal');//普通入场
+                Route::post('/record', 'EnterController@record');//入场记录
+            });
             //会员管理
             Route::group([
                 'prefix'=>'membership',
@@ -26,6 +35,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::get('/add', 'MemberController@add');
                 Route::post('/save', 'MemberController@save');
                 Route::post('/by_card_no', 'MemberController@getMember');
+                Route::post('/card_record', 'MemberController@cardRecord');//会员卡记录
 
             });
 
@@ -36,6 +46,8 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::any('/deposit', 'CardController@deposit');
                 Route::any('/consume', 'CardController@consume');
                 Route::any('/record', 'CardController@record');
+                Route::post('/projects', 'CardController@projects');
+                Route::post('/project', 'CardController@delProject');
             });
 
             //业务设置
@@ -44,7 +56,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             ],function (){
                 Route::any('/service', 'SettingController@service');
                 Route::any('/service/list', 'SettingController@list');
-
             });
             Route::post('/record/detail', 'IndexController@recordDetail');//获取消费记录详情
 

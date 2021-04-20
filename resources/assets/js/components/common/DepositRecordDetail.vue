@@ -23,7 +23,11 @@
 				<el-input v-model="article.remark" disabled></el-input>
 			</el-form-item>
 			<el-form-item label="上传凭证">
-				<img :src="article.pic_path" alt="照片" v-if="article.pic_path" class="avatar">
+				<el-image
+						style="width: 150px;" alt="照片"
+						:src="article.pic_path" v-if="article.pic_path"
+						:preview-src-list=[article.pic_path]>
+				</el-image>
 			</el-form-item>
 		</el-form>
 	</div>

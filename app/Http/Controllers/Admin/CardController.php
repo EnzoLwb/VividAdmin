@@ -9,9 +9,30 @@ use App\Models\DepositRecord;
 use App\Models\MemberShip;
 use App\Models\ServiceDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CardController extends Controller
 {
+    //获取卡内服务项目
+    public function projects(Request $request)
+    {
+        $data = CardCustomService::query()
+            ->leftJoin('service_details','service_details.id','card_custom_services.service_id')
+            ->leftJoin('admins','admins.id','card_custom_services.other')
+            ->select('service_details.title','admins.real_name as coach','card_custom_services.*')
+            ->where('card_no',$request->card_no)->paginate($this->page_size);
+        return $this->json(0,$data,'');
+    }
+
+    //取消项目
+    public function delProject()
+    {
+        //验证权限
+        $service = CardCustomService::query()->where('id',\request('id'))->where('card_no',\request('card_no'))->first();
+        if (!$service) return $this->json(1,[],'项目异常 无法删除 请重试~');
+        if ($service->delete()) return $this->json(0,[],'取消项目成功');
+    }
+
     //充值消费记录
     public function record(Request $request)
     {
@@ -52,6 +73,7 @@ class CardController extends Controller
             return view('card.record');
         }
     }
+
     //充值
     public function deposit(Request $request)
     {
@@ -68,6 +90,7 @@ class CardController extends Controller
                 $record->other = $data['seller'];
                 $record->remark = $data['remark'];
                 $record->file_id = $data['receipt_id'];
+                $record->admin_id = Auth::id();
                 $record->save();
                 //卡内余额变更
                 $balance = CardBalance::getBalance($data['card_no']);
@@ -99,6 +122,7 @@ class CardController extends Controller
                 $order = new CardCustomService();
                 $order->card_no = $request->card_no;
                 $order->numbers = $request->numbers;
+                $order->degree = $request->numbers;
                 $order->service_id = $request->service;
                 $order->fee = $request->type == 1 ? $request->account : 0.00;
                 $order->enable_date = $request->expire_date[0];
@@ -113,6 +137,7 @@ class CardController extends Controller
                 $record->account = $request->type == 1 ? $request->account : 0.00;
                 $record->type = 2;
                 $record->custom_id = $order->id;//管理消费表
+                $record->admin_id = Auth::id();
                 $record->save();
                 return $order;
             });

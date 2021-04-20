@@ -34,11 +34,11 @@ class IndexController extends Controller
         $res = DepositRecord::query()->find(\request('record_id'));
         if ($res->type == 1){
             $res->name = MemberShip::query()->where('card_no',$res->card_no)->value('name');
-            $res->pic_path = UploadedFile::query()->find($res->file_id)->file_path;
+            $res->pic_path = $res->file_id ? UploadedFile::query()->find($res->file_id)->file_path : "";
             $res->seller = Admin::query()->where('id',$res->other)->value('real_name');
         }else{
             //消费
-            $res = CardCustomService::query()->find($res->custom_id);
+            $res = CardCustomService::query()->withTrashed()->find($res->custom_id);
             $res->service = ServiceDetail::query()->find($res->service_id)->title;
             $res->name = MemberShip::query()->where('card_no',$res->card_no)->value('name');
             $res->type = $res->fee != 0 ? 1:2;

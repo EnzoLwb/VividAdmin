@@ -18,6 +18,7 @@ class CreateCardCustomServicesTable extends Migration
             $table->string('card_no')->index();
             $table->integer('service_id')->comment('服务项目的id');
             $table->unsignedInteger('numbers')->comment('服务次数');
+            $table->unsignedInteger('degree')->comment('剩余次数')->default(0);
             $table->unsignedDecimal('fee')->comment('消费金额 0 表示赠送')->default(0.00);
             $table->date('enable_date')->comment('生效日期');
             $table->date('disable_date')->comment('失效日期');
