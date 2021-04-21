@@ -23,16 +23,22 @@ class MenuController extends Controller
         $role_id = $site == 'Service' ? Auth::user()->role_id :  Auth::user()->media_role_id;
         $current_roles = Role::query()->find($role_id)->policy_uri;
         $policy_uri = json_decode($current_roles,true);
-        //查询所有二级菜单的pid
+        //查询所有二级菜单的pid 还有一级菜单的id
         $pids =  RouteSetting::query()
             ->whereIn('url',$policy_uri)
             ->where('pid','!=',0)
             ->where('site',$site)
             ->groupBy('pid')
             ->pluck('pid')->toArray();
+        $ids =  RouteSetting::query()
+            ->whereIn('url',$policy_uri)
+            ->where('pid',0)
+            ->where('site',$site)
+            ->groupBy('id')
+            ->pluck('id')->toArray();
         $roles = RouteSetting::query()
             ->where('pid',0)
-            ->whereIn('id',$pids)
+            ->whereIn('id',array_merge($ids,$pids))
             ->orderBy('id','asc')
             ->select('name','url as uri')->get();
         return $this->json(0,$roles,'');
@@ -60,9 +66,15 @@ class MenuController extends Controller
             ->where('site',$site)
             ->groupBy('pid')
             ->pluck('pid')->toArray();
+        $ids =  RouteSetting::query()
+            ->whereIn('url',$policy_uri)
+            ->where('pid',0)
+            ->where('site',$site)
+            ->groupBy('id')
+            ->pluck('id')->toArray();
         $roles = RouteSetting::query()
             ->where('pid',0)
-            ->whereIn('id',$pids)
+            ->whereIn('id',array_merge($ids,$pids))
             ->orderBy('id','asc')
             ->select('name','url as uri','id')->get()->toArray();
         //不递归 直接查询 因为稍后也是缓存

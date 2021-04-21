@@ -1,7 +1,7 @@
 ### Init
 - composer install
 - php artisan ckfinder:download
-- 添加 .env 文件并修改 数据库连接信息
+- 添加 .env 文件并修改 数据库连接信息 (APP_URL 地址最后必须有/)
 - storage 和 bootstrap/cache 目录在 web 服务下应该是可写的权限，否则 Laravel 将无法运行
 - chmod -R 777 public/userfiles
 - php artisan key:generate  && php artisan config:clear

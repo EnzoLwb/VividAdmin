@@ -39,13 +39,13 @@ class CommonController extends Controller
             Storage::disk('image')->put($FileName, file_get_contents($FilePath)); //存储文件
             $data = $image_size /1000 >1000 ? //大于1M要压缩的
                 [
-                    'path' => env('APP_URL').'imagecache/large/'. $FileName,
-                    'url' => env('APP_URL').'imagecache/large/'. $FileName,
+                    'path' => $this->getAppUrl().'imagecache/large/'. $FileName,
+                    'url' => $this->getAppUrl().'imagecache/large/'. $FileName,
                 ]
                 :
                 [
-                    'path' =>  env('APP_URL').'storage/image/'. $FileName,
-                    'url' =>  env('APP_URL').'storage/image/'. $FileName,
+                    'path' =>  $this->getAppUrl().'storage/image/'. $FileName,
+                    'url' =>  $this->getAppUrl().'storage/image/'. $FileName,
                 ];
 
             //存储到数据库
@@ -91,7 +91,7 @@ class CommonController extends Controller
             $FileName = date('Y-m-d') .'/'. uniqid() . '.' . $FileType; //定义文件名
             Storage::disk('video')->put($FileName, file_get_contents($FilePath)); //存储文件
             $data = [
-                'path' =>  env('APP_URL').'storage/video/'. $FileName
+                'path' =>  $this->getAppUrl().'storage/video/'. $FileName
             ];
             //存储到数据库
             $uploadedFile = new UploadedFile();
@@ -186,7 +186,7 @@ class CommonController extends Controller
         if ($id){
             $file_path = UploadedFile::query()->findOrFail($id);
             $preg = "/^http(s)?:\\/\\/.+/";
-            $path = preg_match($preg,$file_path->file_path) ? $file_path->file_path:env('APP_URL') .$file_path->file_path;
+            $path = preg_match($preg,$file_path->file_path) ? $file_path->file_path:$this->getAppUrl() .$file_path->file_path;
             return $this->json(0,['path'=>$path],'');
         }
         $file = config('filesystems.disks.'.$type.'.root').'/'.$file_name;
@@ -194,6 +194,17 @@ class CommonController extends Controller
             return '文件不存在或已被删除！';
         };
         return response()->download($file,$file_name);
+    }
+
+    //判断 env 文件 中 APP_URL是否以 /结尾
+    public function getAppUrl($str = '/')
+    {
+        $url = env('APP_URL');
+        if (substr($url, -1) == $str){
+            return $url;
+        }else{
+            return $url . $str;
+        }
     }
 
     //导出

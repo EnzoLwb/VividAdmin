@@ -10,7 +10,7 @@
                     <el-input type="text" v-model="menu.name" placeholder="menu title"></el-input>
                 </el-form-item>
                 <el-form-item label="Url" prop="url">
-                    <el-input type="text" v-model="menu.url" placeholder="menu url"></el-input>
+                    <el-input type="text" v-model="menu.url" :disabled="is_edit" placeholder="menu url"></el-input>
                 </el-form-item>
                 <el-form-item label="Icon">
                     <el-input type="text" v-model="menu.icon" placeholder="el-icon-something"></el-input>

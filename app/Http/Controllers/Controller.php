@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\AdminGroups;
+use App\Models\Language;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Cache;
 
 class Controller extends BaseController
 {
@@ -16,10 +18,15 @@ class Controller extends BaseController
     public function __construct()
     {
         $this->page_size = 10;
-        $this->language_select = [
-            'Chinese' => 'zh',
-            'English' => 'en',
-        ];
+        $languages = Cache::rememberForever('languages', function () {
+            return Language::query()
+                ->where('vcShortName','!=','')
+                ->whereNotNull('lno')
+                ->where('lStatus','verified')
+                ->orderBy('vcLangName','asc')
+                ->pluck('vcShortName','vcLangName');
+        });
+        $this->language_select = $languages;
     }
 
     public function json($code,$data=[],$message='')

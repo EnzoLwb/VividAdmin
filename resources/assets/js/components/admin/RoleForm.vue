@@ -14,8 +14,9 @@
 								show-checkbox
 								node-key="url"
 								ref="tree"
-								:check-strictly="true"
+								:check-strictly="edit"
 								highlight-current
+								:default-expand-all="edit"
 								empty-text = "Please select site first"
 								:default-checked-keys="policy_uri"
 								:props="defaultProps">
@@ -91,7 +92,11 @@
 							this.getMenu()
 						},
 						submitForm() {
-							this.articles.policy_uri = this.$refs.tree.getCheckedKeys()
+							const data=[
+								...this.$refs.tree.getHalfCheckedKeys(),
+								...this.$refs.tree.getCheckedKeys()
+							]
+							this.articles.policy_uri = data
 								axios.post('/admin/role/save',this.articles)
 										.then(res => {
 												if (res.data.code !== 0 || res.status !== 200) {

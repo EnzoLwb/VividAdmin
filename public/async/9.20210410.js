@@ -377,7 +377,11 @@ var render = function() {
                     { attrs: { label: "Url", prop: "url" } },
                     [
                       _c("el-input", {
-                        attrs: { type: "text", placeholder: "menu url" },
+                        attrs: {
+                          type: "text",
+                          disabled: _vm.is_edit,
+                          placeholder: "menu url"
+                        },
                         model: {
                           value: _vm.menu.url,
                           callback: function($$v) {

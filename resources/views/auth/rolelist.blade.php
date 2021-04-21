@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', '角色列表')
+@section('title', 'Role List')
 @section('content')
 	<role-list  :tabledata='{!! json_encode($roles) !!}'>
 	</role-list>

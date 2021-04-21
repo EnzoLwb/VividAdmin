@@ -119,10 +119,8 @@ var current_url = '/admin/video_list';
           required: true,
           message: 'Required',
           trigger: 'blur'
-        }, {
-          validator: validateRepeatWord,
-          trigger: 'blur'
-        }]
+        } // { validator: validateRepeatWord, trigger: 'blur' }
+        ]
       },
       site: this.editSite,
       pages: [],

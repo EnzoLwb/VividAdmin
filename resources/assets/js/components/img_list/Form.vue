@@ -113,7 +113,9 @@
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
                     pic: [{required: true, message: 'Pic Required', trigger: 'blur'}],
                     pic_type: [{required: true, message: 'Required', trigger: 'blur'}],
-                    title: [{required: true, message: 'Required', trigger: 'blur'},{ validator: validateRepeatWord, trigger: 'blur' }],
+                    title: [{required: true, message: 'Required', trigger: 'blur'},
+                        // { validator: validateRepeatWord, trigger: 'blur' }
+                        ],
                     url: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 site:this.editSite,

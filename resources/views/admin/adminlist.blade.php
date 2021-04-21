@@ -1,5 +1,5 @@
 @extends('layouts.main')
-@section('title', '人员管理')
+@section('title', 'User List')
 @section('content')
 	<admin-list
 			:roles="{{json_encode($roles)}}"

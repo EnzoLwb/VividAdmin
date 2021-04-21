@@ -94,10 +94,8 @@ var current_url = '/admin/db_terms';
           required: true,
           message: 'Required',
           trigger: 'blur'
-        }, {
-          validator: validateRepeatWord,
-          trigger: 'blur'
-        }],
+        } // { validator: validateRepeatWord, trigger: 'blur' }
+        ],
         page_ids: [{
           required: true,
           message: 'Required',

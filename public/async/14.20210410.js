@@ -144,10 +144,8 @@ var current_url = '/admin/img_list';
           required: true,
           message: 'Required',
           trigger: 'blur'
-        }, {
-          validator: validateRepeatWord,
-          trigger: 'blur'
-        }],
+        } // { validator: validateRepeatWord, trigger: 'blur' }
+        ],
         url: [{
           required: true,
           message: 'Required',

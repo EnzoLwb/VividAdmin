@@ -117,10 +117,8 @@ var current_url = '/admin/constant_list';
           required: true,
           message: 'Required',
           trigger: 'blur'
-        }, {
-          validator: validateRepeatWord,
-          trigger: 'blur'
-        }],
+        } // { validator: validateRepeatWord, trigger: 'blur' }
+        ],
         key_value: [{
           required: true,
           message: 'Required',

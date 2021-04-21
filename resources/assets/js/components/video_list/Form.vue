@@ -92,7 +92,9 @@
                 rules: {
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
                     video: [{required: true, message: 'Video Required', trigger: 'blur'}],
-                    title: [{required: true, message: 'Required', trigger: 'blur'},{ validator: validateRepeatWord, trigger: 'blur' }],
+                    title: [{required: true, message: 'Required', trigger: 'blur'},
+                        // { validator: validateRepeatWord, trigger: 'blur' }
+                        ],
                 },
                 site:this.editSite,
                 pages:[],

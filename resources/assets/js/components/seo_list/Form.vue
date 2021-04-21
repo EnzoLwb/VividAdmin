@@ -81,7 +81,8 @@
                 rules: {
                     page_id: [{required: true, message: 'Required', trigger: 'blur'}],
                     key_name: [{required: true, message: 'Required', trigger: 'blur'},
-                        { validator: validateRepeatWord, trigger: 'blur' }],
+                        // { validator: validateRepeatWord, trigger: 'blur' }
+                        ],
                     key_value: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
                 site:this.editSite,

@@ -128,7 +128,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
         Route::group([
             'prefix'=>'settings',
         ],function (){
-            Route::get('/', 'Admin\SettingController@index');
+            Route::get('/', 'UserController@userList');
             Route::any('/routes', 'Admin\SettingController@routes');
             Route::get('/user', 'UserController@userList');
             Route::get('/role', 'AuthController@roleList');

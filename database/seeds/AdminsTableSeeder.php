@@ -15,6 +15,7 @@ class AdminsTableSeeder extends Seeder
             'username' => 'test',
             'real_name' => '测试',
             'role_id' => 1,
+            'media_role_id' => 2,
             'password' => \Illuminate\Support\Facades\Hash::make('test'),
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),

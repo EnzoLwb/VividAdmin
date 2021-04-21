@@ -93,7 +93,7 @@
 											type: 'error'
 										});
 									}else{
-										window.location.href = window.location.href
+										window.location.href = '/'
 									}
 								})
 

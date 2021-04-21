@@ -120,10 +120,8 @@ var current_url = '/admin/content_list';
           required: true,
           message: 'Required',
           trigger: 'blur'
-        }, {
-          validator: validateRepeatWord,
-          trigger: 'blur'
-        }]
+        } // { validator: validateRepeatWord, trigger: 'blur' }
+        ]
       },
       site: this.editSite,
       pages: [],

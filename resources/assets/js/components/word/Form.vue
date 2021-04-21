@@ -77,7 +77,7 @@
                 rules: {
                     word: [
                         {required: true, message: 'Required', trigger: 'blur'},
-                        { validator: validateRepeatWord, trigger: 'blur' }
+                        // { validator: validateRepeatWord, trigger: 'blur' }
                         ],
                     page_ids: [{required: true, message: 'Required', trigger: 'blur'}],
                 },
