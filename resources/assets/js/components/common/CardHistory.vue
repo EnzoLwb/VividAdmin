@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div v-loading="loading">
 		<el-table :data="tabledata.data" style="width: 100%" border>
 			<el-table-column prop="created_at" label="日期" width="180" sortable></el-table-column>
 			<el-table-column prop="type" label="业务类型">

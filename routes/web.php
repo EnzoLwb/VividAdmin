@@ -18,7 +18,6 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/home', 'IndexController@index');
             Route::post('/user_post', 'IndexController@userPost');
 
-            //入场
             //会员管理
             Route::group([
                 'prefix'=>'enter',
@@ -31,9 +30,11 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::group([
                 'prefix'=>'membership',
             ],function (){
-                Route::get('/', 'MemberController@index');
+                Route::any('/', 'MemberController@index');
                 Route::get('/add', 'MemberController@add');
+                Route::get('/edit', 'MemberController@edit');
                 Route::post('/save', 'MemberController@save');
+                Route::post('/export', 'MemberController@export');
                 Route::post('/by_card_no', 'MemberController@getMember');
                 Route::post('/card_record', 'MemberController@cardRecord');//会员卡记录
 

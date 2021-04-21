@@ -63,6 +63,7 @@ const app = new Vue({
         /*会员*/
         'member-list':()=>import('./components/membership/List'),
         'member-register':()=>import('./components/membership/Register'),
+        'member-form':()=>import('./components/membership/Form'),
 
         'service-list':()=>import('./components/service/List'),
         /*会员卡*/
