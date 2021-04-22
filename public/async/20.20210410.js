@@ -78,6 +78,35 @@ __webpack_require__.r(__webpack_exports__);
 var current_url = '/admin/page_list';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
+    var _this = this;
+
+    var validateRepeatWord = function validateRepeatWord(rule, value, callback) {
+      if (value === '') {
+        callback(new Error('Required'));
+      }
+
+      axios.post('/admin/repeat_word', {
+        model: 'PageList',
+        key: 'name',
+        value: _this.article.name,
+        current_id: _this.article.page_id
+      }).then(function (res) {
+        if (res.data.code != 0 || res.status != 200) {
+          _this.$notify({
+            title: 'Request Failed',
+            message: res.data.message,
+            type: 'error'
+          });
+        } else {
+          if (res.data.data.exist) {
+            callback(new Error('This name already exists, please do not add it repeatedly'));
+          }
+
+          callback();
+        }
+      });
+    };
+
     return {
       article: this.originObj,
       form: {
@@ -93,6 +122,9 @@ var current_url = '/admin/page_list';
         name: [{
           required: true,
           message: 'Required',
+          trigger: 'blur'
+        }, {
+          validator: validateRepeatWord,
           trigger: 'blur'
         }],
         website: [{
@@ -144,24 +176,24 @@ var current_url = '/admin/page_list';
       this.article.screenshots.push(response.data);
     },
     submitForm: function submitForm() {
-      var _this = this;
+      var _this2 = this;
 
       this.$refs['form'].validate(function (valid) {
         if (valid) {
-          _this.loading = true;
-          axios.post(current_url + '/save', _this.article).then(function (res) {
+          _this2.loading = true;
+          axios.post(current_url + '/save', _this2.article).then(function (res) {
             if (res.data.code != 0 || res.status != 200) {
-              _this.$notify({
+              _this2.$notify({
                 message: res.data.message,
                 type: 'error'
               });
             } else {
-              _this.$notify({
+              _this2.$notify({
                 message: res.data.message,
                 type: 'success'
               });
 
-              _this.$confirm('Do you want to jump to the list?', 'Confirm', {
+              _this2.$confirm('Do you want to jump to the list?', 'Confirm', {
                 confirmButtonText: 'Yes',
                 cancelButtonText: 'No',
                 type: 'warning'
@@ -172,7 +204,7 @@ var current_url = '/admin/page_list';
               });
             }
 
-            _this.loading = false;
+            _this2.loading = false;
           });
         }
       });

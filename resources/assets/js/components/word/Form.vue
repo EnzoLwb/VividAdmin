@@ -51,7 +51,6 @@
                         model:'DbTerm',key:'word',
                         value:this.article.word,
                         current_id:this.article.word_id,
-                        primary_key:'word_id',
                     }).then(res => {
                         if (res.data.code != 0 || res.status != 200) {
                             this.$notify({
@@ -77,7 +76,7 @@
                 rules: {
                     word: [
                         {required: true, message: 'Required', trigger: 'blur'},
-                        // { validator: validateRepeatWord, trigger: 'blur' }
+                        { validator: validateRepeatWord, trigger: 'blur' }
                         ],
                     page_ids: [{required: true, message: 'Required', trigger: 'blur'}],
                 },

@@ -68,6 +68,30 @@
     const current_url = '/admin/page_list'
     export default {
         data: function() {
+            let validateRepeatWord = (rule, value, callback) => {
+                if (value === '') {
+                    callback(new Error('Required'));
+                }
+                axios.post('/admin/repeat_word',
+                    {
+                        model:'PageList',key:'name',
+                        value:this.article.name,
+                        current_id:this.article.page_id,
+                    }).then(res => {
+                    if (res.data.code != 0 || res.status != 200) {
+                        this.$notify({
+                            title: 'Request Failed',
+                            message: res.data.message,
+                            type: 'error'
+                        });
+                    } else {
+                        if (res.data.data.exist){
+                            callback(new Error('This name already exists, please do not add it repeatedly'));
+                        }
+                        callback()
+                    }
+                })
+            };
             return {
                 article: this.originObj,
                 form: {
@@ -80,7 +104,8 @@
                     screenshots:[]
                 },
                 rules: {
-                    name: [{required: true, message: 'Required', trigger: 'blur'}],
+                    name: [{required: true, message: 'Required', trigger: 'blur'},
+                        { validator: validateRepeatWord, trigger: 'blur' }],
                     website: [{required: true, message: 'Required', trigger: 'blur'}],
                     module_id: [{required: true, message: 'Required', trigger: 'blur'}],
                     note: [{required: true, message: 'Required', trigger: 'blur'}],

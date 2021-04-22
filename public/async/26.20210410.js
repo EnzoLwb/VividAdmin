@@ -63,8 +63,7 @@ var current_url = '/admin/db_terms';
         model: 'DbTerm',
         key: 'word',
         value: _this.article.word,
-        current_id: _this.article.word_id,
-        primary_key: 'word_id'
+        current_id: _this.article.word_id
       }).then(function (res) {
         if (res.data.code != 0 || res.status != 200) {
           _this.$notify({
@@ -94,8 +93,10 @@ var current_url = '/admin/db_terms';
           required: true,
           message: 'Required',
           trigger: 'blur'
-        } // { validator: validateRepeatWord, trigger: 'blur' }
-        ],
+        }, {
+          validator: validateRepeatWord,
+          trigger: 'blur'
+        }],
         page_ids: [{
           required: true,
           message: 'Required',
