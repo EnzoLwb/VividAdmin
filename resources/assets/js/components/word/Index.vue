@@ -78,10 +78,10 @@
       data:function() {
           return {
               loading: false,
-              locale: "",//当前表格翻译语种 默认为中文
+              locale: "CN",//当前表格翻译语种 默认为中文
               search_form:{
                 word:'',
-                locale:"",
+                locale:"CN",
                 word_ids:[],
                 sort_prop:'',
                 sort_order:'',
@@ -92,7 +92,7 @@
           }
       },
       mounted() {
-        this.getData({})
+        this.getData(this.search_form)
       },
       methods: {
         translateWord(word_id,translate){

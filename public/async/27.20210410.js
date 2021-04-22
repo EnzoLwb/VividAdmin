@@ -88,11 +88,11 @@ var current_url = '/admin/db_terms';
   data: function data() {
     return {
       loading: false,
-      locale: "",
+      locale: "CN",
       //当前表格翻译语种 默认为中文
       search_form: {
         word: '',
-        locale: "",
+        locale: "CN",
         word_ids: [],
         sort_prop: '',
         sort_order: '',
@@ -103,7 +103,7 @@ var current_url = '/admin/db_terms';
     };
   },
   mounted: function mounted() {
-    this.getData({});
+    this.getData(this.search_form);
   },
   methods: {
     translateWord: function translateWord(word_id, translate) {
