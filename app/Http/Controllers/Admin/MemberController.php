@@ -88,6 +88,9 @@ class MemberController extends Controller
         if (!$request->id &&
             MemberShip::query()->where('card_no',$request->card_no)->exists()
         ) return $this->json(1,[],'此卡号已注册');
+        if (!$request->id &&
+            MemberShip::query()->where('phone',$request->phone)->exists()
+        ) return $this->json(1,[],'此手机号已注册');
         $balance = \DB::transaction(function() use($request) {
             if ($request->id){
                 $member = MemberShip::find($request->id);
@@ -153,7 +156,7 @@ class MemberController extends Controller
     {
         $data = MemberShip::getMemberByCardNo(\request('card_no'));
         if (\request('balance') && $data){
-            $data->balance = CardBalance::getBalance(\request('card_no')) ;
+            $data->balance = CardBalance::getBalance($data->card_no) ;
         }
         return $this->json(0,$data,'');
     }

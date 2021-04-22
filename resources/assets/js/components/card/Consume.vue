@@ -2,7 +2,7 @@
 	<div>
 		<el-card shadow="hover">
 			<div slot="header" class="clearfix">
-				<span>购买服务</span>
+				<h4>购买服务</h4>
 			</div>
 			<el-row  :gutter="20">
 				<el-col :span="12" :offset="6">

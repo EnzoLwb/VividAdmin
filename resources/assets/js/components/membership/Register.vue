@@ -2,7 +2,7 @@
 	<div v-loading="loading">
 		<el-card shadow="hover">
 			<div slot="header" class="clearfix">
-				<span>注册信息</span>
+				<h5>注册信息</h5>
 			</div>
 			<el-row  :gutter="20">
 				<el-col :span="12" :offset="6">
@@ -20,7 +20,7 @@
 							<el-radio v-model="article.gender" label="1">男</el-radio>
 							<el-radio v-model="article.gender" label="2">女</el-radio>
 						</el-form-item>
-						<el-form-item label="手机号">
+						<el-form-item label="手机号" prop="phone">
 							<el-input v-model="article.phone"></el-input>
 						</el-form-item>
 						<el-form-item label="入会时间" prop="register_date">
@@ -89,6 +89,7 @@
 				},
 				rules: {
 					card_no: [{required: true, message: '必填项', trigger: 'blur'}],
+					phone: [{required: true, message: '手机号必填项', trigger: 'blur'}],
 					gender: [{required: true, message: '必选项', trigger: 'blur'}],
 					name: [{required: true, message: '必填项', trigger: 'blur'}],
 					register_date: [{required: true, message: '必填项', trigger: 'blur'}],

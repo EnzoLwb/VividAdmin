@@ -79,12 +79,12 @@
 		</el-card>
 		<!--卡的记录-->
 		<el-dialog :visible.sync="cardVisible" :close-on-click-modal="false"
-							 width="70%" title="会员卡（56454）的消费记录" v-if="cardVisible">
+							 width="70%" :title="cardTitle" v-if="cardVisible">
 			<card-history :card_no="current_card_no"></card-history>
 		</el-dialog>
 		<!--服务消费入场记录-->
 		<el-dialog :visible.sync="personVisible" :close-on-click-modal="false"
-							 width="70%" title="王小五的消费入场记录" v-if="personVisible">
+							 width="70%" :title="personTitle" v-if="personVisible">
 			<person-consume-history :card_no="current_card_no"></person-consume-history>
 		</el-dialog>
 	</div>
@@ -102,6 +102,8 @@
 							},
 							tabledata:{},
 							current_card_no:'',
+							personTitle:'',
+							cardTitle:'',
 							searchCollapse:false,//搜索内容是否展开
 							search_form:{
 								card_no:'',
@@ -124,10 +126,12 @@
 					showCardHistory(card_no){
 						this.current_card_no = card_no
 						this.cardVisible = true
+						this.cardTitle = '会员卡 ( '+card_no+' ) 充值/消费记录';
 					},
 					showPersonConsumeHistory(card_no){
 						this.current_card_no = card_no
 						this.personVisible = true
+						this.personTitle = card_no + ' 的消费入场记录';
 					},
 					//多选
 					handelSelection(val)

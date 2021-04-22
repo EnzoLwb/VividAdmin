@@ -8,17 +8,36 @@
 				</el-button>
 			</div>
 			<el-form :inline="true" :class="!searchCollapse?'search-form-inline':''" size="small">
-				<el-form-item  label="卡号">
-					<el-input  v-model="search_form.card_no" placeholder="刷卡后自动显示数据"
-										 clearable prefix-icon="el-icon-postcard" @input="loadMember()"></el-input>
-				</el-form-item>
-				<el-form-item label="姓名">
-					<el-input disabled :value="search_form.name" v-loading="member_loading"></el-input>
-				</el-form-item>
-				<el-form-item label="余额">
-					<el-input  :value="search_form.wallet" prefix-icon="el-icon-wallet" disabled></el-input>
-				</el-form-item>
-				<el-form-item label="性别:">
+				<el-row>
+					<el-col :span="7">
+						<el-form-item  label="卡号/手机号">
+							<el-input  v-model="search_form.card_no" placeholder="刷卡后自动显示数据"
+												 clearable prefix-icon="el-icon-postcard" @input="loadMember()"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="3">
+						<el-form-item >
+							<el-input disabled :value="search_form.name" v-loading="member_loading"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="3">
+						<el-form-item >
+							<el-input  :value="search_form.wallet" prefix-icon="el-icon-wallet" disabled></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="8">
+						<el-form-item label="手机号">
+							<el-input  :value="search_form.phone" prefix-icon="el-icon-phone" disabled></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span="2">
+						<button class="el-button el-button--text el-button--small" type="button" style="margin-left: 8px;font-size: 14px" @click="searchCollapse=!searchCollapse">
+							<span v-if="searchCollapse"> 收起 <i class="el-icon-arrow-up"></i></span>
+							<span v-else> 更多信息 <i class="el-icon-arrow-down"></i></span>
+						</button>
+					</el-col>
+				</el-row>
+				<el-form-item label="性别:" v-if="searchCollapse" >
 					<el-radio v-model="search_form.gender" v-show="search_form.gender === 1" :label=1>男</el-radio>
 					<el-radio v-model="search_form.gender" :label=2 v-show="search_form.gender === 2">女</el-radio>
 				</el-form-item>
@@ -31,10 +50,6 @@
 							v-model="search_form.register_time">
 					</el-date-picker>
 				</el-form-item>
-				<button class="el-button el-button--text el-button--small" type="button" style="margin-left: 8px;font-size: 14px" @click="searchCollapse=!searchCollapse">
-					<span v-if="searchCollapse"> 收起 <i class="el-icon-arrow-up"></i></span>
-					<span v-else> 更多信息 <i class="el-icon-arrow-down"></i></span>
-				</button>
 			</el-form>
 		</el-card>
 		<!--消费次数-->
@@ -135,8 +150,8 @@
 								gender:0,
 								register_time:'',
 								id_number:'',
-								name:'',
-								wallet:0,
+								name:'姓名',
+								wallet:0.00,
 							},
 							table_form:{
 								page:1,
@@ -227,7 +242,7 @@
 								})
 					},
 					loadMember(){
-						if (!this.search_form.card_no) return
+						if (!this.search_form.card_no || this.search_form.card_no.length < 10) return
 						this.member_loading = true
 						axios.post('/admin/membership/by_card_no',{card_no:this.search_form.card_no,balance:1})
 								.then(res => {
@@ -279,11 +294,11 @@
 								})
 					},
 					historyCard(){
-						this.cardTitle = '会员卡( '+this.search_form.card_no+' ) 充值/消费记录';
+						this.cardTitle = '会员 ( '+this.search_form.name+' ) 充值/消费记录';
 						this.cardVisible = true
 					},
 					historyService(){
-						this.personTitle = this.search_form.name + '的消费入场记录';
+						this.personTitle = this.search_form.name + ' 的消费入场记录';
 						this.personVisible = true
 					},
 					ruChang(){

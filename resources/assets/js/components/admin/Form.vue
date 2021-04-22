@@ -1,6 +1,6 @@
 <template>
 	<div v-loading="loading">
-		<el-form ref="form" :model="articles" :rules="rules" label-width="120px" size="mini">
+		<el-form ref="form" :model="articles" :rules="rules" label-width="120px" size="small" style="width:80%">
 			<el-form-item label="登录名" prop="username">
 				<el-input v-model="articles.username"></el-input>
 			</el-form-item>

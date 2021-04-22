@@ -2,7 +2,7 @@
 	<div>
 		<el-card shadow="hover">
 			<div slot="header" class="clearfix">
-				<span>充值</span>
+				<h4>充值</h4>
 			</div>
 			<el-row  :gutter="20">
 				<el-col :span="12" :offset="6">
@@ -20,7 +20,7 @@
 							<el-input-number v-model="article.gift_account" :step="100" :min="0" controls-position="right"></el-input-number>
 						</el-form-item>
 						<el-form-item label="总金额" >
-							<el-input-number v-model="sumAccount" :step="100" :min="100" controls-position="right"></el-input-number>
+							<el-input-number v-model="sumAccount" disabled :step="100" :min="100" controls-position="right"></el-input-number>
 						</el-form-item>
 						<el-form-item  label="销售">
 							<el-select v-model="article.seller"  placeholder="请选择">

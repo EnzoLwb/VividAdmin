@@ -10,7 +10,9 @@ class MemberShip extends Model
     use LogsActivity;
     protected $guarded = [];
     static function getMemberByCardNo($card_no){
-        return self::query()->where('card_no',$card_no)->first();
+        return self::query()->where('card_no',$card_no)
+            ->orWhere('phone',$card_no)
+            ->first();
     }
     protected static $logName = '会员';
     protected static $logUnguarded = true;//记录修改的字段

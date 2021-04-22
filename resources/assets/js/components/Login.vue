@@ -81,11 +81,10 @@
             }
         },
         mounted: function(){
-            console.log(this.title)
+
         },
         created: function(){
-            console.log('created'+this.title)
-            console.log(window.sessionStorage)
+
         },
         methods: {
             showPwd() {
