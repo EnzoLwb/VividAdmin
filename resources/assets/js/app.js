@@ -97,6 +97,7 @@ const app = new Vue({
 
         'word-list':()=>import('./components/word/Index'),
         'word-form':()=>import('./components/word/Form'),
+        'word-translate':()=>import('./components/word/Translate'),
         /*业务部分结束*/
     }
 });

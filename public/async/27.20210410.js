@@ -83,6 +83,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var current_url = '/admin/db_terms';
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -99,7 +100,8 @@ var current_url = '/admin/db_terms';
         page: 0,
         per_page: this.unils.per_page
       },
-      tabledata: {}
+      tabledata: {},
+      total_word_count: 0
     };
   },
   mounted: function mounted() {
@@ -165,7 +167,8 @@ var current_url = '/admin/db_terms';
             type: 'error'
           });
         } else {
-          _this2.tabledata = res.data.data;
+          _this2.tabledata = res.data.data.result;
+          _this2.total_word_count = res.data.data.total_word_count;
         }
 
         _this2.loading = false;
@@ -320,11 +323,7 @@ var render = function() {
                 { staticClass: "word-count", attrs: { type: "text" } },
                 [
                   _vm._v("WordCount: "),
-                  _c("b", [
-                    _vm._v(
-                      _vm._s(this.tabledata.total ? this.tabledata.total : 0)
-                    )
-                  ])
+                  _c("b", [_vm._v(_vm._s(this.total_word_count))])
                 ]
               )
             ],
@@ -353,69 +352,6 @@ var render = function() {
                   label: "Word",
                   sortable: "custom"
                 }
-              }),
-              _vm._v(" "),
-              _c("el-table-column", {
-                attrs: { align: "center" },
-                scopedSlots: _vm._u([
-                  {
-                    key: "header",
-                    fn: function(scope) {
-                      return [
-                        _c(
-                          "el-select",
-                          {
-                            attrs: { size: "mini" },
-                            on: {
-                              change: function($event) {
-                                return _vm.getAllTranslateRecord()
-                              }
-                            },
-                            model: {
-                              value: _vm.locale,
-                              callback: function($$v) {
-                                _vm.locale = $$v
-                              },
-                              expression: "locale"
-                            }
-                          },
-                          _vm._l(_vm.languageSelect, function(item, index) {
-                            return _c("el-option", {
-                              key: index,
-                              attrs: { label: index, value: item }
-                            })
-                          }),
-                          1
-                        )
-                      ]
-                    }
-                  },
-                  {
-                    key: "default",
-                    fn: function(scope) {
-                      return [
-                        _c("el-input", {
-                          attrs: { size: "small" },
-                          on: {
-                            blur: function($event) {
-                              return _vm.translateWord(
-                                scope.row.word_id,
-                                scope.row.translate
-                              )
-                            }
-                          },
-                          model: {
-                            value: scope.row.translate,
-                            callback: function($$v) {
-                              _vm.$set(scope.row, "translate", $$v)
-                            },
-                            expression: "scope.row.translate"
-                          }
-                        })
-                      ]
-                    }
-                  }
-                ])
               }),
               _vm._v(" "),
               _c("el-table-column", {
@@ -531,7 +467,31 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("Delete")]
+                          [_vm._v("Delete |")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "el-button",
+                          {
+                            directives: [
+                              {
+                                name: "show",
+                                rawName: "v-show",
+                                value: _vm.group != 2,
+                                expression: "group != 2"
+                              }
+                            ],
+                            attrs: { type: "text" },
+                            on: {
+                              click: function($event) {
+                                return _vm.handleOperation(
+                                  "translate",
+                                  scope.row.word_id
+                                )
+                              }
+                            }
+                          },
+                          [_vm._v(" Translate")]
                         )
                       ]
                     }

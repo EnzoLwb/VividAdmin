@@ -16,21 +16,21 @@
     <el-card shadow="hover" class="margin_top" >
       <div slot="header" >
         <el-button type="primary" size="medium" @click="handleOperation('add')">New Word</el-button>
-        <el-button type="text" class="word-count">WordCount: <b>{{this.tabledata.total ? this.tabledata.total : 0}}</b></el-button>
+        <el-button type="text" class="word-count">WordCount: <b>{{this.total_word_count}}</b></el-button>
       </div>
       <el-table :data="tabledata.data" border v-loading="loading" size="medium" @sort-change="sortChange">
         <el-table-column resizable prop="word" label="Word" sortable="custom"> </el-table-column>
         <!--translate start-->
-        <el-table-column align="center">
-          <template slot="header" slot-scope="scope"><!--选择语言后查询所有翻译记录-->
+        <!--<el-table-column align="center">
+          <template slot="header" slot-scope="scope">&lt;!&ndash;选择语言后查询所有翻译记录&ndash;&gt;
             <el-select  v-model="locale"  size="mini" @change="getAllTranslateRecord()">
               <el-option v-for="(item,index) in languageSelect" :key="index" :label="index" :value="item"></el-option>
             </el-select>
           </template>
-          <template slot-scope="scope"><!--失去焦点直接update翻译结果-->
+          <template slot-scope="scope">&lt;!&ndash;失去焦点直接update翻译结果&ndash;&gt;
               <el-input v-model="scope.row.translate" size="small" @blur="translateWord(scope.row.word_id,scope.row.translate)"></el-input>
           </template>
-        </el-table-column>
+        </el-table-column>-->
         <!--translate end-->
         <el-table-column resizable label="Module">
           <template slot-scope="scope">
@@ -52,7 +52,8 @@
         <el-table-column resizable align="center" label="Operation">
           <template slot-scope="scope">
             <el-button style="color: rgb(0, 0, 255)" type="text" v-show="group != 3" @click="handleOperation('edit',scope.row.word_id)">Edit | </el-button>
-            <el-button type="text" v-show="group != 3" @click="handleDelete(scope.$index,scope.row)">Delete</el-button>
+            <el-button type="text" v-show="group != 3" @click="handleDelete(scope.$index,scope.row)">Delete |</el-button>
+            <el-button type="text" v-show="group != 2" @click="handleOperation('translate',scope.row.word_id)"> Translate</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -89,6 +90,7 @@
                 per_page:this.unils.per_page,
               },
               tabledata:{},
+              total_word_count:0,
           }
       },
       mounted() {
@@ -147,7 +149,8 @@
                   type: 'error'
                 });
               } else {
-                this.tabledata = res.data.data
+                this.tabledata = res.data.data.result
+                this.total_word_count = res.data.data.total_word_count
               }
               this.loading = false
             })

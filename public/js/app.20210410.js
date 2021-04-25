@@ -96185,6 +96185,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2___default.a({
     },
     'word-form': function wordForm() {
       return __webpack_require__.e(/*! import() */ 26).then(__webpack_require__.bind(null, /*! ./components/word/Form */ "./resources/assets/js/components/word/Form.vue"));
+    },
+    'word-translate': function wordTranslate() {
+      return __webpack_require__.e(/*! import() */ 28).then(__webpack_require__.bind(null, /*! ./components/word/Translate */ "./resources/assets/js/components/word/Translate.vue"));
     }
     /*业务部分结束*/
 

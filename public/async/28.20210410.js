@@ -1,1 +1,438 @@
-(window.webpackJsonp=window.webpackJsonp||[]).push([[28],{217:function(e,t,a){"use strict";a.r(t);var r={data:function(){return{loading:!1,locale:"",search_form:{word:"",locale:"",word_ids:[],sort_prop:"",sort_order:"",page:0,per_page:this.unils.per_page},tabledata:{}}},mounted:function(){this.getData({})},methods:{translateWord:function(e,t){var a=this;axios.post("/admin/db_terms/translate",{word_id:e,locale:this.locale,translate:t}).then((function(e){0!=e.data.code||200!=e.status?a.$notify({message:e.data.message,type:"error"}):a.$notify({message:e.data.message,type:"success"}),a.loading=!1}))},getAllTranslateRecord:function(){this.loading=!0;var e=[];this.tabledata.data.forEach((function(t){e.push(t.word_id)})),this.search_form.word_ids=e,this.search_form.locale=this.locale,this.getData(this.search_form)},sortChange:function(e){this.search_form.sort_prop=e.prop,this.search_form.sort_order="descending"===e.order?"desc":"asc",this.getData(this.search_form)},handleSizeChange:function(e){this.search_form.per_page=e,this.handleCurrentChange()},handleCurrentChange:function(){this.search_form.page=this.tabledata.current_page,this.getData(this.search_form)},getData:function(e){var t=this;this.loading=!0,axios.post("/admin/db_terms"+(this.module?"/":"")+this.module,e).then((function(e){0!=e.data.code||200!=e.status?t.$notify({title:"Request Failed",message:e.data.message,type:"error"}):t.tabledata=e.data.data,t.loading=!1}))},reset:function(){window.location.href="/admin/db_terms"},search:function(){this.getData(this.search_form)},handleOperation:function(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:null,a="/admin/db_terms/"+e;window.location.href=t?a+"?id="+t:a},handleDelete:function(e,t){var a=this;this.$confirm(" Do you want to delete it?","Confirm",{confirmButtonText:"Yes",cancelButtonText:"No",type:"warning"}).then((function(){a.loading=!0,axios.delete("/admin/db_terms?id="+t.word_id).then((function(t){0!=t.data.code||200!=t.status?a.$notify({title:"Request Failed",message:t.data.message,type:"error"}):a.$notify({title:"Success",message:t.data.message,type:"success"}),a.tabledata.data.splice(e,1),a.loading=!1}))}))}},props:["module","languageSelect","group"]},n=a(0),o=Object(n.a)(r,(function(){var e=this,t=e.$createElement,a=e._self._c||t;return a("div",[a("el-card",{attrs:{shadow:"hover"}},[a("el-form",{staticClass:"search-form-inline",attrs:{inline:!0,size:"mini"}},[a("el-form-item",[a("el-input",{attrs:{type:"text",placeholder:"Word"},model:{value:e.search_form.word,callback:function(t){e.$set(e.search_form,"word",t)},expression:"search_form.word"}})],1),e._v(" "),a("el-form-item",[a("el-button",{attrs:{type:"warning"},on:{click:e.search}},[e._v("Search")])],1),e._v(" "),a("el-form-item",[a("el-button",{attrs:{type:"info"},on:{click:e.reset}},[e._v("Reset")])],1)],1)],1),e._v(" "),a("el-card",{staticClass:"margin_top",attrs:{shadow:"hover"}},[a("div",{attrs:{slot:"header"},slot:"header"},[a("el-button",{attrs:{type:"primary",size:"medium"},on:{click:function(t){return e.handleOperation("add")}}},[e._v("New Word")]),e._v(" "),a("el-button",{staticClass:"word-count",attrs:{type:"text"}},[e._v("WordCount: "),a("b",[e._v(e._s(this.tabledata.total?this.tabledata.total:0))])])],1),e._v(" "),a("el-table",{directives:[{name:"loading",rawName:"v-loading",value:e.loading,expression:"loading"}],attrs:{data:e.tabledata.data,border:"",size:"medium"},on:{"sort-change":e.sortChange}},[a("el-table-column",{attrs:{resizable:"",prop:"word",label:"Word",sortable:"custom"}}),e._v(" "),a("el-table-column",{attrs:{align:"center"},scopedSlots:e._u([{key:"header",fn:function(t){return[a("el-select",{attrs:{size:"mini"},on:{change:function(t){return e.getAllTranslateRecord()}},model:{value:e.locale,callback:function(t){e.locale=t},expression:"locale"}},e._l(e.languageSelect,(function(e,t){return a("el-option",{key:t,attrs:{label:t,value:e}})})),1)]}},{key:"default",fn:function(t){return[a("el-input",{attrs:{size:"small"},on:{blur:function(a){return e.translateWord(t.row.word_id,t.row.translate)}},model:{value:t.row.translate,callback:function(a){e.$set(t.row,"translate",a)},expression:"scope.row.translate"}})]}}])}),e._v(" "),a("el-table-column",{attrs:{resizable:"",label:"Module"},scopedSlots:e._u([{key:"default",fn:function(t){return e._l(t.row.page_detail,(function(t,r){return a("p",{key:r},[e._v(e._s(t.module))])}))}}])}),e._v(" "),a("el-table-column",{attrs:{resizable:"",label:"Page Name"},scopedSlots:e._u([{key:"default",fn:function(t){return e._l(t.row.page_detail,(function(t,r){return a("p",{key:r},[e._v(e._s(t.name))])}))}}])}),e._v(" "),a("el-table-column",{attrs:{resizable:"",label:"URL"},scopedSlots:e._u([{key:"default",fn:function(t){return e._l(t.row.page_detail,(function(t,r){return a("p",{key:r},[a("a",{attrs:{href:e._f("ContainsHttp")(t.url)}},[e._v(e._s(e._f("ContainsHttp")(t.url)))])])}))}}])}),e._v(" "),a("el-table-column",{attrs:{resizable:"",align:"center",label:"Operation"},scopedSlots:e._u([{key:"default",fn:function(t){return[a("el-button",{directives:[{name:"show",rawName:"v-show",value:3!=e.group,expression:"group != 3"}],staticStyle:{color:"rgb(0, 0, 255)"},attrs:{type:"text"},on:{click:function(a){return e.handleOperation("edit",t.row.word_id)}}},[e._v("Edit | ")]),e._v(" "),a("el-button",{directives:[{name:"show",rawName:"v-show",value:3!=e.group,expression:"group != 3"}],attrs:{type:"text"},on:{click:function(a){return e.handleDelete(t.$index,t.row)}}},[e._v("Delete")])]}}])})],1),e._v(" "),a("div",{staticClass:"pull-right"},[a("el-pagination",{staticStyle:{margin:"15px 0"},attrs:{"current-page":e.tabledata.current_page,total:e.tabledata.total,"page-sizes":this.unils.page_size,"page-size":parseInt(e.tabledata.per_page),layout:"total, sizes, prev, pager, next, jumper"},on:{"size-change":e.handleSizeChange,"current-change":e.handleCurrentChange,"update:currentPage":function(t){return e.$set(e.tabledata,"current_page",t)},"update:current-page":function(t){return e.$set(e.tabledata,"current_page",t)}}})],1)],1)],1)}),[],!1,null,null,null);t.default=o.exports}}]);
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[28],{
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/word/Translate.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/word/Translate.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var current_url = '/admin/db_terms';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      rules: {
+        word: [{
+          required: true,
+          message: 'Required',
+          trigger: 'blur'
+        }]
+      },
+      translate: {
+        word_id: this.obj.word_id,
+        locale: '',
+        word: ''
+      },
+      loading: false,
+      autosize: {
+        minRows: 6
+      }
+    };
+  },
+  created: function created() {},
+  methods: {
+    //根据语言查询是否已有翻译记录
+    translateRecord: function translateRecord() {
+      var _this = this;
+
+      this.loading = true;
+      axios.post('/admin/translate/record', {
+        model: 'DbTermsTranslation',
+        relate_id: 'word_id',
+        id: this.translate.word_id,
+        locale: this.translate.locale
+      }).then(function (res) {
+        if (res.data.code != 0 || res.status != 200) {
+          _this.$notify({
+            message: res.data.message,
+            type: 'error'
+          });
+        } else {
+          if (res.data.data) {
+            _this.translate.translation_id = res.data.data.translation_id;
+            _this.translate.word = res.data.data.word;
+          } else {
+            _this.translate.translation_id = null;
+            _this.translate.word = '';
+          }
+        }
+
+        _this.loading = false;
+      });
+    },
+    submitForm: function submitForm() {
+      var _this2 = this;
+
+      this.$refs['form'].validate(function (valid) {
+        if (valid) {
+          _this2.loading = true;
+          axios.post(current_url + '/translate', _this2.translate).then(function (res) {
+            if (res.data.code != 0 || res.status != 200) {
+              _this2.$notify({
+                message: res.data.message,
+                type: 'error'
+              });
+            } else {
+              _this2.$notify({
+                message: res.data.message,
+                type: 'success'
+              });
+
+              _this2.$confirm('Do you want to jump to the list?', 'Confirm', {
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                type: 'warning'
+              }).then(function () {
+                window.location.href = current_url;
+              })["catch"](function () {
+                window.location.href = window.location.href;
+              });
+            }
+
+            _this2.loading = false;
+          });
+        }
+      });
+    }
+  },
+  props: ['obj', 'languageSelect']
+});
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/word/Translate.vue?vue&type=template&id=4cc0f480&":
+/*!************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/assets/js/components/word/Translate.vue?vue&type=template&id=4cc0f480& ***!
+  \************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "loading",
+          rawName: "v-loading",
+          value: _vm.loading,
+          expression: "loading"
+        }
+      ]
+    },
+    [
+      _c(
+        "el-row",
+        [
+          _c(
+            "el-col",
+            { attrs: { xs: 24, sm: 24, md: 20, lg: 12, xl: 12 } },
+            [
+              _c(
+                "el-card",
+                { attrs: { shadow: "hover" } },
+                [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "clearfix",
+                      attrs: { slot: "header" },
+                      slot: "header"
+                    },
+                    [_c("span", [_vm._v("Translate")])]
+                  ),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "translate_desc" }, [
+                    _vm._v("Site URL：" + _vm._s(_vm.obj.website))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "p",
+                    { staticClass: "translate_desc" },
+                    [
+                      _vm._v("Pages:\r\n                "),
+                      _vm._l(_vm.obj.pages, function(url, name) {
+                        return _c(
+                          "span",
+                          { staticStyle: { "margin-right": "10px" } },
+                          [
+                            _c(
+                              "a",
+                              { attrs: { href: _vm._f("ContainsHttp")(url) } },
+                              [_vm._v(_vm._s(name))]
+                            ),
+                            _vm._v(" | ")
+                          ]
+                        )
+                      })
+                    ],
+                    2
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "el-form",
+                    {
+                      ref: "form",
+                      attrs: {
+                        model: _vm.translate,
+                        rules: _vm.rules,
+                        size: "medium",
+                        "label-position": "top"
+                      }
+                    },
+                    [
+                      _c(
+                        "el-form-item",
+                        { attrs: { label: "Word :" } },
+                        [
+                          _c("el-input", {
+                            attrs: {
+                              disabled: "",
+                              type: "textarea",
+                              autosize: _vm.autosize
+                            },
+                            model: {
+                              value: _vm.obj.word,
+                              callback: function($$v) {
+                                _vm.$set(_vm.obj, "word", $$v)
+                              },
+                              expression: "obj.word"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "word-count" }, [
+                        _vm._v("WordCount: "),
+                        _c("b", [_vm._v(_vm._s(this.obj.word_count))])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        { attrs: { prop: "word" } },
+                        [
+                          _c(
+                            "template",
+                            { slot: "label" },
+                            [
+                              _vm._v(
+                                "Translated into :\r\n                        "
+                              ),
+                              _c(
+                                "el-select",
+                                {
+                                  staticStyle: {
+                                    width: "120px",
+                                    "margin-left": "20px"
+                                  },
+                                  attrs: { size: "mini" },
+                                  on: { change: _vm.translateRecord },
+                                  model: {
+                                    value: _vm.translate.locale,
+                                    callback: function($$v) {
+                                      _vm.$set(_vm.translate, "locale", $$v)
+                                    },
+                                    expression: "translate.locale"
+                                  }
+                                },
+                                _vm._l(_vm.languageSelect, function(
+                                  item,
+                                  index
+                                ) {
+                                  return _c("el-option", {
+                                    key: index,
+                                    attrs: { label: index, value: item }
+                                  })
+                                }),
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("el-input", {
+                            attrs: {
+                              type: "textarea",
+                              disabled: !_vm.translate.locale,
+                              placeholder: _vm.translate.locale
+                                ? ""
+                                : "Please Select Language",
+                              autosize: _vm.autosize
+                            },
+                            model: {
+                              value: _vm.translate.word,
+                              callback: function($$v) {
+                                _vm.$set(_vm.translate, "word", $$v)
+                              },
+                              expression: "translate.word"
+                            }
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "el-form-item",
+                        [
+                          _c(
+                            "el-button",
+                            {
+                              attrs: { type: "primary", loading: _vm.loading },
+                              on: {
+                                click: function($event) {
+                                  return _vm.submitForm()
+                                }
+                              }
+                            },
+                            [_vm._v("Submit")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/word/Translate.vue":
+/*!***********************************************************!*\
+  !*** ./resources/assets/js/components/word/Translate.vue ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Translate_vue_vue_type_template_id_4cc0f480___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Translate.vue?vue&type=template&id=4cc0f480& */ "./resources/assets/js/components/word/Translate.vue?vue&type=template&id=4cc0f480&");
+/* harmony import */ var _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Translate.vue?vue&type=script&lang=js& */ "./resources/assets/js/components/word/Translate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Translate_vue_vue_type_template_id_4cc0f480___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Translate_vue_vue_type_template_id_4cc0f480___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/assets/js/components/word/Translate.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/word/Translate.vue?vue&type=script&lang=js&":
+/*!************************************************************************************!*\
+  !*** ./resources/assets/js/components/word/Translate.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib??ref--4-0!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/word/Translate.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/assets/js/components/word/Translate.vue?vue&type=template&id=4cc0f480&":
+/*!******************************************************************************************!*\
+  !*** ./resources/assets/js/components/word/Translate.vue?vue&type=template&id=4cc0f480& ***!
+  \******************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_4cc0f480___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib??vue-loader-options!./Translate.vue?vue&type=template&id=4cc0f480& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/assets/js/components/word/Translate.vue?vue&type=template&id=4cc0f480&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_4cc0f480___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Translate_vue_vue_type_template_id_4cc0f480___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ })
+
+}]);

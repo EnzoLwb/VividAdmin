@@ -81,13 +81,14 @@ class DbTermsController extends Controller
             ->select('words.*')
             ->orderByDesc('word_id')
             ->paginate($page_size);
+        $total_word_count = 0;
         foreach ($res->items() as $item){
             $item->page_detail = [];
             $pages = PageDetailModel::query()->where('word_id',$item->word_id)->pluck('page_id')->toArray();
             $item->page_detail = PageList::query()
                 ->leftJoin('pages_modules','pages_modules.module_id','pages.module_id')
                 ->whereIn('page_id',$pages)->select('pages.*','pages_modules.module')->get();
-
+            $total_word_count += wordCount($item->word);
             //翻译结果 默认是不查询翻译的
             $item->translate = "";
             if(\request('locale')){
@@ -97,7 +98,7 @@ class DbTermsController extends Controller
                 ])->value('word');
             }
         }
-        return $this->json(0,$res,'');
+        return $this->json(0,['total_word_count' =>$total_word_count,'result'=>$res],'');
     }
 
     public function save(Request $request){
@@ -145,17 +146,21 @@ class DbTermsController extends Controller
             //翻译内容 有则update 无则insert
             TranslationModel::query()->updateOrInsert(
                 ['word_id' => $request->word_id,'locale' => $data['locale'],],
-                ['word' => $data['translate']]
+                ['word' => $data['word']]
             );
             return $this->json(0,[],$result ? 'Translate Update Success' : 'Translate Add Success');
         }
         if ($request->isMethod('GET')){
             //返回翻译结果
-            $word_ids = explode(',',$request->word_ids);
-            $res = TranslationModel::query()
-                ->where('locale',\request('locale'))
-                ->whereIn('word_id',$word_ids)->pluck('word','word_id')->toArray();
-            return $this->json(0,$res,'');
+            $obj = Model::query()->findOrFail(\request('id'));
+            $page_ids = explode(',',$obj->page_ids);
+            //返回默认的site
+            $obj->website = PageList::query()->where('page_id',current($page_ids))->value('website');
+            $obj->pages = PageList::query()->whereIn('page_id',$page_ids)->pluck('url','name');
+            $obj->word_count = wordCount($obj->word);
+            //语言词库
+            $language_select = $this->language_select;
+            return view($this->model_name.'.translate',compact('language_select','obj'));
         }
     }
 }

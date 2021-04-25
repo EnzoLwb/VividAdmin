@@ -116,7 +116,6 @@ var current_url = '/admin/db_terms';
       this.article = this.form;
     } else {
       //加载pages 和 默认选中的内容
-      var page_id = this.originObj.page_id;
       this.pagesLoading = true;
       axios.post('/admin/pages_by_site', {
         site: this.site
