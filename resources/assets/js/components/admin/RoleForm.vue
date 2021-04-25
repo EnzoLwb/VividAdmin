@@ -14,9 +14,7 @@
 								show-checkbox
 								node-key="url"
 								ref="tree"
-								:check-strictly="edit"
 								highlight-current
-								:default-expand-all="edit"
 								empty-text = "Please select site first"
 								:default-checked-keys="policy_uri"
 								:props="defaultProps">
@@ -67,12 +65,19 @@
 					if (this.articles.resources){
 						this.getMenu()
 					}
-
 				},
 				methods: {
 						getMenu(){
 							this.loading = true
-							axios.post('/admin/role/get_menu',{site:this.articles.resources})
+							let data = {site:this.articles.resources}
+							if(this.edit){
+								data = {
+									site:this.articles.resources,
+									edit:this.edit,
+									id:this.articles.id
+								}
+							}
+							axios.post('/admin/role/get_menu',data)
 									.then(res => {
 										if (res.data.code !== 0 || res.status !== 200) {
 											this.$notify({
@@ -81,7 +86,8 @@
 												type: 'error'
 											});
 										} else {
-											this.roles = res.data.data;
+											this.roles = res.data.data.result;
+											if(this.edit) this.policy_uri = res.data.data.uri
 											this.loading = false
 										}
 									})

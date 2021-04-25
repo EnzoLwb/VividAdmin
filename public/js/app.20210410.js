@@ -4020,8 +4020,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -4060,9 +4058,19 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var _this = this;
 
       this.loading = true;
-      axios.post('/admin/role/get_menu', {
+      var data = {
         site: this.articles.resources
-      }).then(function (res) {
+      };
+
+      if (this.edit) {
+        data = {
+          site: this.articles.resources,
+          edit: this.edit,
+          id: this.articles.id
+        };
+      }
+
+      axios.post('/admin/role/get_menu', data).then(function (res) {
         if (res.data.code !== 0 || res.status !== 200) {
           _this.$notify({
             title: 'Failed',
@@ -4070,7 +4078,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             type: 'error'
           });
         } else {
-          _this.roles = res.data.data;
+          _this.roles = res.data.data.result;
+          if (_this.edit) _this.policy_uri = res.data.data.uri;
           _this.loading = false;
         }
       });
@@ -83621,9 +83630,7 @@ var render = function() {
                   data: _vm.roles,
                   "show-checkbox": "",
                   "node-key": "url",
-                  "check-strictly": _vm.edit,
                   "highlight-current": "",
-                  "default-expand-all": _vm.edit,
                   "empty-text": "Please select site first",
                   "default-checked-keys": _vm.policy_uri,
                   props: _vm.defaultProps

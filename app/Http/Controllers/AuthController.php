@@ -105,6 +105,23 @@ class AuthController extends Controller
             });
             $roles[$k]['submenus'] = $sec_menu;
         }
-        return $this->json(0,$roles,'');
+        if (\request('edit')){
+            //编辑状态下返回二级菜单即可  因为一级菜单选中了的话 二级菜单就是全选了
+            $policy_uri = Role::query()->find(\request('id'))->policy_uri;
+            $origin_uri = json_decode($policy_uri,true);
+
+            $uri = RouteSetting::query()->where('pid','!=',0)
+                ->whereIn('url',$origin_uri)
+                ->when($site,function ($query)use($site){
+                    return $query->where('site',$site);
+                })->pluck('url')->toArray();
+            //只有一级菜单的菜单 例如 NewLetter 这就还是直接返回
+            if (array_search('/admin/news_letter',$origin_uri)){
+                $uri[] = '/admin/news_letter';
+            }
+        }else{
+            $uri = [];
+        }
+        return $this->json(0,['result' =>$roles,'uri'=>$uri],'');
     }
 }
