@@ -17,9 +17,9 @@ Route::group([
     'namespace'=>'Api',
 ],function (){
     Route::group([
-        'prefix'=>'seo',
+        'prefix'=>'demo',
     ],function (){
-        Route::get('/', 'SeoController@detail');
+        Route::any('/', 'SeoController@allData');
     });
     Route::any('/test', 'CommonController@test');
     Route::post('/getDetailList', 'CommonController@getDetailList');

@@ -1,0 +1,271 @@
+h2, p {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    /* background-image: url(../images/bg.jpg); */
+}
+
+.green11 {
+    font: bold 11px Verdana;
+    color: #006600;
+    text-decoration: none;
+}
+
+.green11b {
+    font: bold 11px Verdana;
+    color: #006600;
+    text-decoration: none;
+}
+
+.gray11 {
+    color: #999999;
+    text-decoration: none;
+}
+
+#logocn {
+    top: 17px;
+    width: 175px;
+    height: 52px;
+    z-index: 2;
+    background-image: url(../images/wordcube.png);
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 100%;
+    position: absolute;
+}
+
+#topnav {
+    padding-bottom: 3px;
+    margin: 0 auto;
+    color: #fff;
+    height: 20px;
+    text-align: right;
+    padding-top: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+#topnav a {
+    color: #fff;
+    font-size:14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    line-height: 16px;
+    text-decoration: none;
+}
+
+#topnav a:hover {
+  color: #dffdba;
+  text-decoration: none
+}
+
+.table-odd-color tr:nth-child(odd){
+    background-color: #f7f7f7;
+}
+
+.table-wrap{
+    table-layout: fixed;
+}
+
+table.table-wrap th{
+    padding-left: 5px;    
+}
+
+table.table-wrap td{
+    font: 12px Arial,Helvetica,sans-serif;
+    padding-left: 5px;
+    text-align: left;
+    text-decoration: none;
+    height: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    word-break: keep-all;
+}
+
+.file-list{
+    padding: 5px;border: 1px solid #cae854; background-color:#FFFFFF;
+}
+
+.file-list a{
+    padding: 2px 5px;
+    border: 1px solid #ddd;
+    margin: 2px;
+    display: inline-block;
+}
+
+.table-border{
+    border:2px solid #D0D0D0;
+}
+
+.lang {
+    color: #388D0B;
+    text-decoration: none;
+    height: 20px;
+    background-color: #e6f345 !important;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.span3 {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 4px;
+    text-align: center;
+    height: 18px;
+    color: #000000;
+    width: 160px;
+    background-color: #efefef;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #255700;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.span33 {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 4px;
+    text-align: center;
+    text-decoration: none;
+    height: 20px;
+    font: bold 12px Arial, Helvetica, sans-serif;
+    color: #000000;
+    width: 160px;
+    background-color: #FFF;
+}
+
+.span4 {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 4px;
+    text-align: center;
+    height: 24px;
+    color: #000000;
+    min-width: 145px;
+    background-color: #efefef;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #255700;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.span44 {
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 4px;
+    text-align: center;
+    text-decoration: none;
+    height: 24px;
+    font: bold 12px Arial, Helvetica, sans-serif;
+    color: #000000;
+    min-width: 145px;
+    background-color: #FFF;
+}
+
+.left_td {
+  width: 50%;
+    text-align: right;
+}
+
+.right_td {
+  width: 50%;
+    text-align: left;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+    padding-left: 3px;
+}
+
+.right_td input {
+  height: 21px;
+}
+
+/*2018-03-07  */
+.score-list{
+    width: 100%;
+    min-height: 20px;
+    max-height: 200px;
+    white-space: nowrap;
+    overflow:auto;
+    /*padding-left: 5px;*/
+}
+
+.score-list>li{
+    line-height: 21px;
+}
+
+.score-list>li>span{
+    text-align: left;
+    padding-right: 10px;
+}
+
+.score-list>li>span:last-child{
+    width:260px;
+    color: red;
+}
+
+.test-job{
+    position: relative;
+    display: inline-block;
+    border: 1px solid #aaa;
+    padding: 0 5px;
+    background-color: #fff;
+}
+
+.test-job li {
+  position: relative;
+  margin: 3px 5px 3px 0;
+  padding: 3px 20px 3px 5px;
+  border: 1px solid #aaa;
+  max-width: 100%;
+  border-radius: 3px;
+  background-color: #eeeeee;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #f4f4f4), color-stop(50%, #f0f0f0), color-stop(52%, #e8e8e8), color-stop(100%, #eeeeee));
+  background-image: -webkit-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-image: -moz-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-image: -o-linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-image: linear-gradient(#f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eeeeee 100%);
+  background-size: 100% 19px;
+  background-repeat: repeat-x;
+  background-clip: padding-box;
+  box-shadow: 0 0 2px white inset, 0 1px 0 rgba(0, 0, 0, 0.05);
+  color: #333;
+  line-height: 13px;
+  cursor: default;
+  float: left;
+}
+
+.test-job li span {
+  word-wrap: break-word;
+}
+
+.test-job li a {
+  padding-left: 10px;
+  color: red;
+}
+
+.bscAccount tr td {
+    padding-left: 10px;
+}
+
+.jobscore tr td {
+    padding-left: 0px;
+}
+
+.error-message {
+   clear: left;
+   margin-left: 130px;
+   color: #f00;
+}
