@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AdminGroups;
+use App\Models\PageList;
 use App\Models\PageList as Model;
 use App\Models\PageModule;
 use Illuminate\Http\Request;
@@ -80,8 +81,12 @@ class PageListController extends Controller
     }
 
     public function save(Request $request){
-        //图片根据需求 逗号链接
         $data = $request->all();
+
+        //url 唯一 且 统一格式( 添加https:// 去除最后的/)
+        $data['url'] = rtrim(strpos($data['url'],'http') !== false ? $data['url'] : ('https://'.$data['url']),'/');
+        if (PageList::query()->where('url',$data['url'])->exists()) return $this->json(1,[],'Page Url Already exists');
+        //图片根据需求 逗号链接
         $screenshots = [];
         foreach ($data['screenshots'] as $screenshot){
             $screenshots[] = $screenshot['url'];
