@@ -4,6 +4,8 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="keywords" content="123" />
+  <meta name="description" content="456" />
   <title>Account Information — WordCube</title>
   <link type="text/css" rel="stylesheet" href="./Account Information_files/vendor.css">
   <link type="text/css" rel="stylesheet" href="./Account Information_files/base.css">
@@ -347,7 +349,7 @@ var is_pc = 1;</script>
             type:'post',
             async:false,
             data:{
-                url:'https://wordcube.com/your-account',
+                name:'Your Account',
                 model:'Seo|PageContent|Image',
                 locale:getQueryString('locale'),
             },
@@ -359,7 +361,7 @@ var is_pc = 1;</script>
                 //Seo
                 let seo = response.data.Seo ? response.data.Seo : {}
                 for (var i in seo) {
-                    $("head").append('<meta name="'+i+'" content="'+seo[i]+'">')
+                    $("meta[name='"+i+"']").attr('content',seo[i])
                 }
                 //Page Content
                 let content = response.data.PageContent ? response.data.PageContent : {}

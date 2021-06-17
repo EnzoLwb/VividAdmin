@@ -37,9 +37,9 @@ class SeoController extends Controller
     /*1、model:Seo|PageContent|Image|Constant|Video|DBTerms|NewLetter*/
     public function allData(Request $request)
     {
-        $page_url = \request('url');
+        $page_name = \request('name');
         $locale = \request('locale');
-        $page = PageList::query()->where('url',$page_url)->first();//唯一
+        $page = PageList::query()->where('name',$page_name)->first();//唯一
         if (!$page) return $this->json(1,[],'Page Name Not Found');
         $models = explode('|',$request->model);
         $result = [];
