@@ -38,4 +38,11 @@ Route::group([
 
     });
 
+    //移动端接口
+    Route::group([
+        'prefix'=>'coach',
+    ],function (){
+        Route::post('/settled', 'CoachController@settled');
+
+    });
 });

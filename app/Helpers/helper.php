@@ -13,6 +13,20 @@ if (!function_exists('cdn')) {
         return asset($path);
     }
 }
+if (!function_exists('mobile_asset')) {
+
+    /**
+     * 统一处理资源文件路径，方面以后切换cdn
+     *
+     * @author lwb
+     * @param $path
+     * @return string
+     */
+    function mobile_asset($path)
+    {
+        return asset('/mobile/gzh/'.$path);
+    }
+}
 if (!function_exists('filter_excel_str')) {
 
     function filter_excel_str($name, $str) //name 企业名称 str工会名称

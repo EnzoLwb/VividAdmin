@@ -109,4 +109,14 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
 
 });
 
+//移动端
+Route::group(['namespace' => 'Mobile',], function () {
+    Route::group([
+        'prefix'=>'coach',
+    ],function (){
+        Route::get('/recruit', 'CoachController@Recruit')->name('coach_recruit');
+        Route::get('/exercise-settled', 'CoachController@exerciseSettled')->name('exercise_settled');
+        Route::get('/private-settled', 'CoachController@privateSettled')->name('private_settled');
+    });
 
+});

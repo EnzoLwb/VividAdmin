@@ -101,7 +101,7 @@ return [
             "submenus"=>[],
         ],
         /*系统设置*/
-/*        [
+        [
             "uri"=>"#",
             "name"=>"其他",
             "icon"=>"el-icon-setting",
@@ -113,7 +113,7 @@ return [
                     "submenus" => [],
                 ],
             ],
-        ],*/
+        ],
 
     ],
 ];
