@@ -15,6 +15,7 @@ class CoachController extends Controller
             ->orWhere('phone',$req['phone'])
             ->exists()) return $this->json(1,[],'您已经申请过了~');
         $req['qualification'] = json_encode($req['screenshots']);
+        $req['created_at'] = date("Y-m-d H:i:s");
         unset($req['screenshots']);
         $data = CoachSettled::query()->insert($req);
         if ($data) return $this->json(0);

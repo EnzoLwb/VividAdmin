@@ -19,6 +19,31 @@ return [
         ],
         [
             "uri"=>"#",
+            "name"=>"公众号相关",
+            "icon"=>"el-icon-s-custom",
+            "submenus"=>[
+                [
+                    "uri" => "/admin/wechat/coach-recruit",
+                    "name" => "教练招募记录",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+                [
+                    "uri" => "/admin/wechat/redeem-code",
+                    "name" => "兑换码核销记录",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+                [
+                    "uri" => "/admin/wechat/config",
+                    "name" => "相关配置",
+                    "icon" => "",
+                    "submenus" => [],
+                ],
+            ]
+        ],
+        [
+            "uri"=>"#",
             "name"=>"会员管理",
             "icon"=>"el-icon-s-custom",
             "submenus"=>[

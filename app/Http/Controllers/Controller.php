@@ -53,12 +53,6 @@ class Controller extends BaseController
         return response()->json(compact('code','message','data'));
     }
 
-    //0 表示成功  其他看message返回
-    public function list_json($code,$list=[],$message='',$total=0)
-    {
-        return response()->json(compact('code','message','list','total'));
-    }
-
     //  get请求
     public static function curl_get($url,$cookie=null){
         $ch = curl_init();

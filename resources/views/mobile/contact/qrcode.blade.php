@@ -18,7 +18,7 @@
             <p data-v-3e28e7c1="">添加门店店长微信</p>
             <p data-v-3e28e7c1="">进群享福利</p>
         </div>
-        <img data-v-3e28e7c1="" src="{{mobile_asset('images/qrcode.jpg')}}" alt="" class="qrcode-img" />
+        <img data-v-3e28e7c1="" src="{{$qr_code}}" alt="" class="qrcode-img" />
         <div data-v-3e28e7c1="" class="tip">
             长按图片识别
         </div>

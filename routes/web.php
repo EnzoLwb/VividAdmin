@@ -18,7 +18,16 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
             Route::get('/home', 'IndexController@index');
             Route::post('/user_post', 'IndexController@userPost');
 
-            //会员管理
+            //公众号相关
+            Route::group([
+                'prefix'=>'wechat',
+            ],function (){
+                Route::any('/coach-recruit', 'OfficialController@coachRecruit');
+                Route::any('/redeem-code', 'OfficialController@redeemCode');
+                Route::any('/config', 'OfficialController@setting');
+            });
+
+            //入场管理
             Route::group([
                 'prefix'=>'enter',
             ],function (){
@@ -26,6 +35,7 @@ Route::group(['middleware' => ['needlogin','menunorm']], function () {
                 Route::post('/normal', 'EnterController@normal');//普通入场
                 Route::post('/record', 'EnterController@record');//入场记录
             });
+
             //会员管理
             Route::group([
                 'prefix'=>'membership',

@@ -70,7 +70,13 @@ const app = new Vue({
         'card-deposit':()=>import('./components/card/Deposit'),
         'card-consume':()=>import('./components/card/Consume'),
         'record-list':()=>import('./components/card/Record'),
+
         //首页
         'consume-index':()=>import('./components/service/Consume'),
+
+        //公众号上的网页相关管理
+        'coach-recruit':()=>import('./components/gzh/CoachRecruit'),
+        'gzh-setting':()=>import('./components/gzh/Setting'),
+        // 'redeem-code':()=>import('./components/gzh/RedeemCode'),
     }
 });
