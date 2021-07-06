@@ -119,4 +119,13 @@ Route::group(['namespace' => 'Mobile',], function () {
         Route::get('/private-settled', 'CoachController@privateSettled')->name('private_settled');
     });
 
+    Route::group([
+        'prefix'=>'contact',
+    ],function (){
+        //联系我们
+        Route::get('/us', 'MainController@contactUs');
+        //加入门店群
+        Route::get('/qrcode', 'MainController@qrcode');
+    });
+
 });
