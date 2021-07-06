@@ -21,4 +21,12 @@ class MainController extends Controller
     {
         return view('mobile.contact.contact_us');
     }
+
+    //兑换码页面
+    public function exchange(Request $request)
+    {
+        if ($request->isMethod('GET')){
+            return view('mobile.redeem_code.exchange');
+        }
+    }
 }

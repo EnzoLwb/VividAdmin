@@ -39,6 +39,7 @@ Route::group([
     });
 
     //移动端接口
+    Route::post('/redeem-code/exchange', 'CoachController@exchange');//兑换码
     Route::group([
         'prefix'=>'coach',
     ],function (){

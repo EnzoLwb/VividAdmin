@@ -20,7 +20,7 @@ Vue.filter('TimeSubstr', function (value) {
 const app = new Vue({
     el: '#app',
     components: {
-        'coach-exercise-settled':()=>import('./components/mobile/coach/exerciseForm'),
-        'coach-private-settled':()=>import('./components/mobile/coach/privateForm'),
+        'coach-exercise-settled':()=>import('./components/mobile/coach/ExerciseForm'),
+        'redeem-code-exchange':()=>import('./components/mobile/redeem_code/Exchange'),
     },
 });

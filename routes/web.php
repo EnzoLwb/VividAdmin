@@ -138,4 +138,5 @@ Route::group(['namespace' => 'Mobile',], function () {
         Route::get('/qrcode', 'MainController@qrcode');
     });
 
+    Route::any('/redeem-code/exchange', 'MainController@exchange');
 });
