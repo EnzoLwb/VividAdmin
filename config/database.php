@@ -65,7 +65,7 @@ return [
         'mysql_language' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),
-            'host' => 'mysql.server239.com',
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => '3306',
             'database' => 'newtac_one_beta',
             'username' => 'betauser',
