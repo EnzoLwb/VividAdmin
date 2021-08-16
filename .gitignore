@@ -21,3 +21,4 @@ public/*.js
 .idea/*
 /public/.well-known/*
 /public/acme-challenge/*
+/public/mix-manifest.json
