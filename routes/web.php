@@ -4,6 +4,12 @@ Route::get('/login', 'UserController@login')->name('login');
 Route::post('/login', 'UserController@loginPost');
 Route::any('/logout', 'UserController@logout');
 
+Route::get('/testing', function () {
+    $user = \App\Models\TestUser::where('name', 'Wyman Becker')->first();
+    return view('welcome', ['user' => $user]);
+});
+Route::get('/blog', 'PostController@index');
+
 /*PC端*/
 Route::group(['middleware' => ['needlogin','menunorm']], function () {
     Route::get('/', 'Admin\IndexController@home');
